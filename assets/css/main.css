@@ -1,0 +1,12 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+:root {
+  --ui-bg: #edf2f4;
+}
+
+#__nuxt {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
