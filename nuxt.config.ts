@@ -7,8 +7,13 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@nuxt/ui',
     '@nuxt/fonts',
-    '@nuxt/image'
+    '@nuxt/image',
+    '@nuxtjs/supabase'
   ],
+
+  supabase: {
+
+  },
 
   devServer: {
     port: 3002,
