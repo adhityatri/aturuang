@@ -12,7 +12,7 @@ export default defineNuxtConfig({
   ],
 
   supabase: {
-
+    redirect: true,
   },
 
   devServer: {

@@ -7,8 +7,8 @@ import type { NavigationMenuItem } from '@nuxt/ui';
 
 const menuItems = ref<NavigationMenuItem[]>([
   {
-    label: 'Dashboard',
-    to: '/dashboard'
+    label: 'Overview',
+    to: '/'
   },
   {
     label: 'Transactions',

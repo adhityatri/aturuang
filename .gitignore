@@ -18,6 +18,7 @@ logs
 .fleet
 .idea
 bun.lockb
+bun.lock
 package-lock.json
 
 # Local env files

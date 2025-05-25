@@ -1,10 +1,9 @@
 <template>
   <UApp class="p-0">
     <NuxtRouteAnnouncer />
-    <app-topbar />
-    <UContainer as="main" class="flex flex-col flex-1">
+    <NuxtLayout>
       <NuxtPage />
-    </UContainer>
+    </NuxtLayout>
   </UApp>
 </template>
 

@@ -7,9 +7,9 @@
       class="space-y-4 w-[100%]"
       @submit="onSubmit"
     >
-      <UFormField name="price" class="w-[100%]">
+      <UFormField label="amount" name="amount" class="w-[100%]">
         <UInputNumber
-          v-model="state.price"
+          v-model="state.amount"
           variant="soft"
           :format-options="{
             style: 'currency',
@@ -50,14 +50,14 @@ const itemsCategory = ref<RadioGroupItem[]>(["in", "out"]);
 
 const schema = z.object({
   category: z.string(),
-  price: z.number(),
+  amount: z.number(),
   notes: z.string().min(8, "Must be at least 8 characters"),
 });
 
 type Schema = z.output<typeof schema>;
 const state = reactive<Partial<Schema>>({
   category: undefined,
-  price: undefined,
+  amount: 0,
   notes: undefined,
 });
 

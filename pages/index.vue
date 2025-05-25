@@ -1,5 +1,5 @@
 <template>
-  <div class="flex gap-4">
+  <div class="flex gap-4 py-4">
     <money-tracker-form class="w-[300px]" />
 
     <UCard class="flex-1 ring-1 bg-white">
