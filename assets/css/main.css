@@ -2,7 +2,8 @@
 @import "@nuxt/ui";
 
 :root {
-  --ui-bg: #edf2f4;
+  --ui-bg: #f8f9fa;
+  --ui-container: 1366px;
 }
 
 #__nuxt {
