@@ -2,11 +2,20 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-05-15',
   devtools: { enabled: true },
-
+  css: ['~/assets/css/main.css'],
   modules: [
     '@nuxt/eslint',
     '@nuxt/ui',
     '@nuxt/fonts',
-    '@nuxt/image'
-  ]
+    '@nuxt/image',
+    '@nuxtjs/supabase'
+  ],
+
+  supabase: {
+    redirect: true,
+  },
+
+  devServer: {
+    port: 3002,
+  }
 })
