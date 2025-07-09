@@ -1,5 +1,10 @@
 <template>
-    <div class="font-bold text-md">
-        Kitacatat
-    </div>
+  <div
+    class="cursor-pointer"
+    @click="async () => navigateTo({ path: '/', replace: true })"
+  >
+    <b class="text-md">Kitacatat.com</b>
+    |
+    <span class="text-sm">Kelola Keuanganmu</span>
+  </div>
 </template>
