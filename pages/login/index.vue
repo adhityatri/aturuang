@@ -1,12 +1,16 @@
 <template>
   <div class="bg-gray-100 flex px-8 flex-col flex-1 items-center justify-center">
-    <div class="flex flex-col items-center justify-center">
+    <div class="relative overflow-hidden w-[72px] h-[72px] mb-8 rounded-2xl">
+      <div class="bg-primary h-full z-0"> </div>
+      <div class="bg-secondary h-full w-full z-2 top-0 left-0 absolute rounded-br-[120px] rounded-xl"> </div>
+    </div>
+    <div class="flex flex-col items-center justify-center z-1">
       <h1 class="text-2xl font-bold">Kelola Uangmu</h1>
       <h2 class="text-xl font-medium">Raih Mimpimu!</h2>
     </div>
 
     <UForm
-      class="bg-white rounded-xl w-full max-w-sm mt-8 p-4 shadow-lg"
+      class="bg-white rounded-xl w-full max-w-sm mt-8 p-4 shadow-lg z-1"
       :schema="loginSchema"
       :state="state"
       @submit="onSubmit"
