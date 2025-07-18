@@ -8,12 +8,13 @@ export default defineNuxtRouteMiddleware(async (to, _from) => {
   }
 
   if (isMobileOrTablet) {
+    
     if (to.name === "desktop-home") {
       return await navigateTo({ name: "login-page", replace: true });
     }
-    if (to.name === "homepage") {
-      return await navigateTo({ name: "login-page", replace: true });
-    }
+    // if (to.name === "homepage") {
+    //   return await navigateTo({ name: "login-page", replace: true });
+    // }
   }
   // if (isMobileOrTablet && to.name !== "desktop-home") {
   // console.log('user value', user.value)

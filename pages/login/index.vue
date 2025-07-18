@@ -61,7 +61,7 @@ const state = reactive({
 })
 
 const onSubmit = async (event: FormSubmitEvent<LoginSchema>) => {
-  await navigateTo({ name: 'homepage', replace: true })
   console.log(event.data)
+  await navigateTo({ name: 'homepage', replace: true })
 };
 </script>
