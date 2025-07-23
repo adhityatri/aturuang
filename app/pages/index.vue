@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-1 flex-col gap-4 py-4">
-    <summary-card />
-    <transactions-list />
+    <summary-card class="mb-6" />
+    <transactions-list title="Riwayat Transaksi"/>
   </div>
 </template>
 
