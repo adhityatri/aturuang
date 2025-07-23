@@ -8,14 +8,19 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     '@nuxt/fonts',
     '@nuxt/image',
-    '@nuxtjs/supabase'
+    // '@nuxtjs/supabase',
+    '@nuxtjs/device'
   ],
 
   supabase: {
-    redirect: true,
+    redirect: false,
   },
 
   devServer: {
     port: 3002,
+  },
+
+  image:{
+    quality: 75
   }
 })
