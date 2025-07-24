@@ -6,6 +6,21 @@
   --ui-container: 1366px;
 }
 
+@theme {
+  --color-primary : #0353A4;
+  --color-primary-50: #f0f3ff;
+  --color-primary-100: #e0e8ff;
+  --color-primary-200: #c0d1ff;
+  --color-primary-300: #9ebbff;
+  --color-primary-400: #78a5fe;
+  --color-primary-500: #458ffe;
+  --color-primary-600: #077aec;
+  --color-primary-700: #0567c8;
+  --color-primary-800: #0353a4;
+  --color-primary-900: #012b5b;
+  --color-primary-950: #00193a;
+}
+
 #__nuxt {
     display: flex;
     flex-direction: column;

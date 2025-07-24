@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev --dotenv .env.local",
+    "dev": "nuxt dev --dotenv .env.local --host",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
@@ -16,6 +16,7 @@
     "@nuxt/ui": "3.1.2",
     "@nuxtjs/device": "3.2.4",
     "@nuxtjs/supabase": "^1.5.1",
+    "@vueuse/nuxt": "13.5.0",
     "eslint": "^9.0.0",
     "nuxt": "^4.0.1",
     "typescript": "^5.6.3",
