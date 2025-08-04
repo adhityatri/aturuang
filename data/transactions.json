@@ -1,0 +1,37 @@
+[
+    {
+        "id": 1,
+        "type": "income",
+        "category": "salary",
+        "amount": 5000000,
+        "date": "2023-03-01"
+    },
+    {
+        "id": 2,
+        "type": "expense",
+        "category": "food",
+        "amount": 150000,
+        "date": "2023-03-02"
+    },
+    {
+        "id": 3,
+        "type": "expense",
+        "category": "transportation",
+        "amount": 100000,
+        "date": "2023-03-03"
+    },
+    {
+        "id": 4,
+        "type": "income",
+        "category": "investment",
+        "amount": 2000000,
+        "date": "2023-03-04"
+    },
+    {
+        "id": 5,
+        "type": "expense",
+        "category": "entertainment",
+        "amount": 300000,
+        "date": "2023-03-05"
+    }
+]

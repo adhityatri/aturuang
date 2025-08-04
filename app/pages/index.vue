@@ -11,6 +11,8 @@ definePageMeta({
   name: 'homepage'
 });
 
+const user = useSupabaseClient();
+
 // const data = ref([
 //   {
 //     id: '4600',

@@ -22,12 +22,12 @@
         <UInput v-model="state.password" size="xl" type="password" class="w-[100%]" />
       </UFormField>
       
-      <UCheckbox
+      <!-- <UCheckbox
         v-model="state.rememberMe"
         class="mt-4"
         label="Ingat saya"
         size="xl"
-      />
+      /> -->
 
       <UButton block class="mt-8" size="xl" color="secondary" type="submit">
         Masuk
@@ -49,7 +49,7 @@ definePageMeta({
 
 const loginSchema = v.object({
   email: v.pipe(v.string(), v.email('Invalid email')),
-  password: v.pipe(v.string(), v.minLength(8, 'Must be at least 8 characters'))
+  password: v.pipe(v.string(), v.minLength(4, 'Must be at least 4 characters'))
 })
 
 type LoginSchema = v.InferOutput<typeof loginSchema>;
@@ -60,8 +60,16 @@ const state = reactive({
   rememberMe: false as boolean,
 })
 
+const supabase = useSupabaseClient();
 const onSubmit = async (event: FormSubmitEvent<LoginSchema>) => {
-  console.log(event.data)
+  const { email, password } = event.data;
+  const { error } = await supabase.auth.signInWithPassword({ email, password });
+  // if (error) {
+  //   useToast().add({ title: 'Login Error', description: error.message});
+  //   return;
+  // }
+
+  console.log('Login successful');
   await navigateTo({ name: 'homepage', replace: true })
 };
 </script>

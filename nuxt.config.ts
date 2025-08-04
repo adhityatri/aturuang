@@ -8,14 +8,21 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     '@nuxt/fonts',
     '@nuxt/image',
-    // '@nuxtjs/supabase',
+    '@nuxtjs/supabase',
     '@nuxtjs/device',
     '@vueuse/nuxt'
   ],
 
-  // supabase: {
-  //   redirect: false,
-  // },
+  supabase: {
+    // cookiePrefix: 'aturuang',
+    redirect: true,
+    // cookieOptions:{
+    //   expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+    //   httpOnly: true,
+    //   secure: process.env.NODE_ENV === 'production',
+    //   sameSite: 'lax'
+    // }
+  },
 
   devServer: {
     port: 3002,
