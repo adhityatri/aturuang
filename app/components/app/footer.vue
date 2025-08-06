@@ -5,8 +5,11 @@
   >
     <nuxt-link v-for="item in navigation" :key="item.name" :to="item.href" class="flex flex-col flex-1 items-center justify-center mx-2 text-gray-700 cursor-pointer hover:text-orange-500">
       <UIcon :name="item.icon" class="size-6" />
-      <!-- <p class="text-sm">{{ item.name }}</p> -->
     </nuxt-link>
+    <UButton class="w-[100px] flex items-center justify-center rounded-full">
+      <UIcon name="solar:add-square-broken" class="size-6 mr-2" />
+      New
+    </UButton>
   </UContainer>
 </template>
 

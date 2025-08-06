@@ -6,12 +6,14 @@
         Lihat Semua
       </nuxt-link>
     </div>
-    <div>
+    <div v-if="source.length === 0" class="text-center text-neutral-400 py-4">
+      Tidak ada transaksi hari ini
+    </div>
+    <div v-else>
       <small class="uppercase text-neutral-400">Hari Ini</small>
       <transactions-item v-for="value in source" :key="value.id" :transaction="value" />
     </div>
   </UCard>
-  <!-- {{ dataList }} -->
 </template>
 
 <script setup lang="ts">
