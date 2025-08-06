@@ -8,19 +8,23 @@
     </div>
     <div>
       <small class="uppercase text-neutral-400">Hari Ini</small>
-      <transactions-item />
+      <transactions-item v-for="value in source" :key="value.id" :transaction="value" />
     </div>
   </UCard>
   <!-- {{ dataList }} -->
 </template>
 
 <script setup lang="ts">
+import type { iTransaction } from '~/types/transactions';
+
 interface Props {
   title?: string;
+  source?: iTransaction[];
 }
 
 const props = withDefaults(defineProps<Props>(), {
   title: "Riwayat Transaksi",
+  source: () => [] as iTransaction[]
 });
 
 // const dataList = ref(data);
