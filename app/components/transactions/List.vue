@@ -2,7 +2,7 @@
   <UCard class="bg-white shadow-lg ring-0 flex flex-col gap-2">
     <div class="flex items-center justify-between mb-2">
       <transactions-title>{{ props.title }}</transactions-title>
-      <nuxt-link to="/transactions" class="text-sm text-neutral-400 hover:text-neutral-600">
+      <nuxt-link v-if="!isAll" to="/transactions" class="text-sm text-neutral-400 hover:text-neutral-600">
         Lihat Semua
       </nuxt-link>
     </div>
@@ -22,11 +22,13 @@ import type { iTransaction } from '~/types/transactions';
 interface Props {
   title?: string;
   source?: iTransaction[];
+  isAll?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   title: "Riwayat Transaksi",
-  source: () => [] as iTransaction[]
+  source: () => [] as iTransaction[],
+  isAll: false
 });
 
 // const dataList = ref(data);

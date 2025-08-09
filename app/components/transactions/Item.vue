@@ -3,12 +3,12 @@
         <div class="h-[42px] w-[42px] bg-secondary rounded-md" />
         <div class="flex justify-between items-start gap-4 w-full">
             <div class="flex flex-col">
-                <h4 class="font-medium capitalize">{{ props.transaction?.categories.name }}</h4>
+                <h3 class="capitalize font-medium">{{ props.transaction?.notes || props.transaction?.categories?.name }}</h3>
                 <small>{{ useDateFormat(props.transaction?.created_at, 'DD MMMM YYYY | HH:mm', {
                     locales: 'id-ID'
                 }) }}</small>
             </div>
-            <transactions-amount>{{ useFormatPriceIntl(props.transaction?.amount) }}</transactions-amount>
+            <transactions-amount :is-expenses="props.transaction?.categories?.type === 'expenses'">{{ useFormatPriceIntl(props.transaction?.amount) }}</transactions-amount>
         </div>
     </div>
 </template>

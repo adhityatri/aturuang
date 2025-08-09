@@ -30,9 +30,7 @@
 import type { FormSubmitEvent } from "@nuxt/ui";
 import * as valibot from "valibot";
 
-const emits = defineEmits<{
-  (e: "close-on-submit"): void;
-}>();
+const emits = defineEmits(["close-on-submit"]);
 
 interface Category {
   id: number;
@@ -86,7 +84,7 @@ const onSubmit = async (event: FormSubmitEvent<TrackerSchema>) => {
   toast.add({
     title: error ? "Error" : "Success",
     description: error ? error.message : "Transaction saved successfully!",
-    color: error ? "red" : "green",
+    color: error ? "error" : "success",
   });
 
   if (!error) {
