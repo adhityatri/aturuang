@@ -14,14 +14,14 @@ export default defineNuxtConfig({
   ],
 
   supabase: {
-    // cookiePrefix: 'aturuang',
     redirect: true,
-    // cookieOptions:{
-    //   expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-    //   httpOnly: true,
-    //   secure: process.env.NODE_ENV === 'production',
-    //   sameSite: 'lax'
-    // }
+    clientOptions: {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: true, // Enable session detection in the URL
+      },
+    }
   },
 
   devServer: {
