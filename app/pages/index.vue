@@ -70,6 +70,8 @@ const todayTransactions = computed(() => {
   );
 });
 
+
+
 const income = computed(() => calculateTotals('income'));
 const expenses = computed(() => calculateTotals('expenses'));
 const incomeThisMonth = computed(() => {

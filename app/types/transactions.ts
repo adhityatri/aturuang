@@ -10,3 +10,8 @@ export interface iTransaction {
   notes: string;
   categories: categories;
 }
+
+export interface iGroupedTransaction {
+  title: string;
+  value: iTransaction[]; 
+}
