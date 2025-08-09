@@ -1,7 +1,7 @@
 <template>
   <UContainer
     as="footer"
-    class="bg-gray-200 h-[60px] flex items-center justify-evenly"
+    class="fixed bottom-0 bg-gray-200 h-[60px] flex items-center justify-evenly"
   >
     <nuxt-link
       v-for="item in navigation"
