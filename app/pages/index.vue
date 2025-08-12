@@ -1,94 +1,117 @@
 <template>
-  <div class="flex flex-1 flex-col gap-4 py-4">
+  <div class="flex flex-1 flex-col py-4">
     <app-greeting />
-    <summary-card :current-balance="currentBalance" :income="incomeThisMonth" :expenses="expenses.total" class="mb-6" />
-    <transactions-list :source="todayTransactions" title="Riwayat Transaksi"/>
+    <summary-card
+      :current-balance="currentBalance"
+      :income="incomeThisMonth"
+      :expenses="expenses.total"
+      class="my-6"
+    />
+    <transactions-list
+      :source="todayTransactions.length > 0 ? todayTransactions : transactionList"
+      class="rounded-3xl"
+      title="Riwayat Transaksi"
+    />
+    <!-- <transactions-list :source="transactionList" title="Riwayat Transaksi"/> -->
   </div>
 </template>
 
 <script setup lang="ts">
-import type { iTransaction } from '~/types/transactions';
-import type { RealtimeChannel } from '@supabase/supabase-js'
+import type { RealtimeChannel } from "@supabase/supabase-js";
 
 definePageMeta({
-  name: 'homepage',
+  name: "homepage",
 });
 
 const supabase = useSupabaseClient();
-let realtimeChannel: RealtimeChannel
+let realtimeChannel: RealtimeChannel;
 
-const {data: transactions, refresh: refreshTransactions } = await useAsyncData('transactions', async () => {
-  const { data, error } = await supabase.from('transactions')
-    .select(`id,
-          created_at,
-          amount,
-          notes,
-          categories!inner(name, type)`)
-    .order('created_at', { ascending: false });
-
-  if (error) {
-    console.error('Error fetching transactions:', error);
-    return [];
+const { data: transactions, refresh: refreshTransactions } = await useAsyncData(
+  "transactions",
+  async () => {
+    return useTransactions().getTransactions();
   }
-  return data as iTransaction[];
-});
+);
 
 onMounted(() => {
   // Real time listener for new workouts
-  realtimeChannel = supabase.channel('public:transactions').on(
-    'postgres_changes',
-    { event: '*', schema: 'public', table: 'transactions' },
-    () => refreshTransactions()
-  )
+  realtimeChannel = supabase
+    .channel("public:transactions")
+    .on(
+      "postgres_changes",
+      { event: "*", schema: "public", table: "transactions" },
+      () => refreshTransactions()
+    );
 
-  realtimeChannel.subscribe()
-})
+  realtimeChannel.subscribe();
+});
 
 onUnmounted(() => {
-  supabase.removeChannel(realtimeChannel)
-})
+  supabase.removeChannel(realtimeChannel);
+});
 
-const calculateTotals = (type: 'income' | 'expenses') => {
-  const filtered = transactions.value?.filter(item => item?.categories.type === type) || [];
-  const total = filtered.reduce((sum, transaction) => sum + (transaction.amount || 0), 0);
+const calculateTotals = (type: "income" | "expenses") => {
+  const filtered =
+    transactions.value?.filter((item) => item?.categories.type === type) || [];
+  const total = filtered.reduce(
+    (sum, transaction) => sum + (transaction.amount || 0),
+    0
+  );
   return { transactions: filtered, total };
 };
 
+const limit = 5;
+// const copyTransactions = ref(transactions.value || []);
+const transactionList = computed(() => {
+  return transactions.value?.slice(0, limit);
+});
 const todayTransactions = computed(() => {
   const today = new Date();
-  return (
-    transactions.value
-      ?.filter(item => {
-        const transactionDate = new Date(item.created_at);
-        return (
-          transactionDate.getFullYear() === today.getFullYear() &&
-          transactionDate.getMonth() === today.getMonth() &&
-          transactionDate.getDate() === today.getDate()
-        );
-      })
-      .slice(0, 5) || []
-  );
+  const currentYear = today.getFullYear();
+  const currentMonth = today.getMonth();
+  const currentDay = today.getDate();
+
+  const transactionsToday = [];
+  const allTransactions = transactions.value || [];
+
+  for (const item of allTransactions) {
+    if (transactionsToday.length >= limit) {
+      break;
+    }
+
+    const transactionDate = new Date(item.created_at);
+    if (
+      transactionDate.getFullYear() === currentYear &&
+      transactionDate.getMonth() === currentMonth &&
+      transactionDate.getDate() === currentDay
+    ) {
+      transactionsToday.push(item);
+    }
+  }
+
+  return transactionsToday;
 });
 
-
-
-const income = computed(() => calculateTotals('income'));
-const expenses = computed(() => calculateTotals('expenses'));
+const income = computed(() => calculateTotals("income"));
+const expenses = computed(() => calculateTotals("expenses"));
 const incomeThisMonth = computed(() => {
   const today = new Date();
   const currentMonth = today.getMonth();
   const currentYear = today.getFullYear();
   return (
-    transactions.value
-      ?.filter(item => {
-        const date = new Date(item.created_at);
-        return (
-          item?.categories.type === 'income' &&
+    transactions.value?.reduce((sum, transaction) => {
+      const { created_at, categories, amount } = transaction;
+      if (categories?.type === "income" && amount) {
+        const date = new Date(created_at);
+        if (
           date.getMonth() === currentMonth &&
           date.getFullYear() === currentYear
-        );
-      })
-      .reduce((sum, transaction) => sum + (transaction.amount || 0), 0) || 0
+        ) {
+          return sum + amount;
+        }
+      }
+      return sum;
+    }, 0) || 0
   );
 });
 
@@ -96,4 +119,3 @@ const currentBalance = computed(() => {
   return income.value.total - expenses.value.total;
 });
 </script>
-

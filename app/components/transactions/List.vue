@@ -30,7 +30,7 @@ const props = withDefaults(defineProps<Props>(), {
   title: "Riwayat Transaksi",
   source: () => [] as iTransaction[],
   isAll: false,
-  groupTitle: "Hari Ini"
+  groupTitle: ""
 });
 
 // const dataList = ref(data);

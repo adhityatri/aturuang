@@ -21,7 +21,13 @@ export default defineNuxtConfig({
         autoRefreshToken: true,
         detectSessionInUrl: true, // Enable session detection in the URL
       },
-    }
+    },
+    cookieOptions: {
+      // Cookies akan tersedia di seluruh domain dan hanya bisa diakses oleh server
+      maxAge: 60 * 60 * 24 * 7, // Waktu kedaluwarsa cookies (7 hari)
+      sameSite: 'lax', // Mencegah serangan CSRF
+      secure: process.env.NODE_ENV === 'production', // Hanya berlaku pada HTTPS di produksi
+    },
   },
 
   devServer: {

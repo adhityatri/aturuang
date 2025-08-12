@@ -1,8 +1,9 @@
 <template>
-    <div class="flex" 
-         :class="{
-            'text-red-500': isExpenses,
-            'text-green-500': !isExpenses
+    <div 
+        class="flex" 
+        :class="{
+            'text-red-800': isExpenses,
+            'text-green-800': !isExpenses
         }">
         <slot />
     </div>
