@@ -1,5 +1,8 @@
 <template>
-  <div>
+  <div class="flex flex-col gap-4 pt-8">
+    <transactions-filter />
+    <transactions-diagram />
+      
     <transactions-grouped-list
       :source="groupedTransactions"
       title="Riwayat Transaksi"
