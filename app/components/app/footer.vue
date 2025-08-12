@@ -38,12 +38,12 @@ const navigation = [
     href: "/Transactions",
     current: false,
   },
-  {
-    name: "Budget",
-    icon: "solar:money-bag-linear",
-    href: "/budget",
-    current: false,
-  },
+  // {
+  //   name: "Budget",
+  //   icon: "solar:money-bag-linear",
+  //   href: "/budget",
+  //   current: false,
+  // },
   {
     name: "Profile",
     icon: "solar:user-linear",

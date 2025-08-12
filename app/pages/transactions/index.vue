@@ -4,6 +4,7 @@
       :source="groupedTransactions"
       title="Riwayat Transaksi"
       is-all
+      class="ring-0 shadow-none bg-unset"
     />
   </div>
 </template>
