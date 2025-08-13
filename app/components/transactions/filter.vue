@@ -20,9 +20,16 @@
         </template>
       </UPopover>
     </div>
-    <UButton class="cursor-pointer flex items-center justify-center p-2 rounded-lg bg-gray-800">
+    <UButton
+      @click="onSort()"
+      class="cursor-pointer flex items-center justify-center p-2 rounded-lg bg-gray-800"
+    >
       <UIcon
-        name="solar:sort-from-top-to-bottom-broken"
+        :name="
+          sortOptions
+            ? 'solar:sort-from-bottom-to-top-broken'
+            : 'solar:sort-from-top-to-bottom-broken'
+        "
         class="text-white text-[1.2rem]"
       />
     </UButton>
@@ -30,10 +37,20 @@
 </template>
 
 <script setup lang="ts">
-import { CalendarDate, DateFormatter, getLocalTimeZone } from '@internationalized/date'
-const df = new DateFormatter('en-US', {
-  dateStyle: 'medium'
-})
-const modelValue = shallowRef(new CalendarDate(2022, 1, 10))
+import {
+  CalendarDate,
+  DateFormatter,
+  getLocalTimeZone,
+} from "@internationalized/date";
+const df = new DateFormatter("en-US", {
+  dateStyle: "medium",
+});
+const modelValue = shallowRef(new CalendarDate(2022, 1, 10));
+const sortOptions = shallowRef(false);
 
+const onSort = () => {
+  sortOptions.value = !sortOptions.value;
+
+  useTransactions().getTransactions({ sort: sortOptions.value });
+};
 </script>

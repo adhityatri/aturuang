@@ -10,7 +10,9 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxtjs/supabase',
     '@nuxtjs/device',
-    '@vueuse/nuxt'
+    '@vueuse/nuxt',
+    'nuxt-echarts',
+    '@pinia/nuxt'
   ],
 
   supabase: {

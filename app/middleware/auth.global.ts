@@ -1,23 +1,38 @@
-export default defineNuxtRouteMiddleware(async (to, _from) => {
+export default defineNuxtRouteMiddleware(async (to) => {
   const user = useSupabaseUser();
   const { isDesktop, isMobileOrTablet } = useDevice();
-
-  // redirect to desktop home if user access on desktop
-  if (isDesktop && to.name !== "desktop-home") {
-    return await navigateTo({ name: "desktop-home", replace: true });
+  
+  // Early return for desktop users
+  if (isDesktop) {
+    return to.name !== "desktop-home" 
+      ? navigateTo({ name: "desktop-home", replace: true })
+      : undefined;
   }
 
-  if (isMobileOrTablet) {
-    if (user.value && to.name === 'login-page') {
-      return await navigateTo({ name: "homepage", replace: true });
-    }
+  // Handle mobile/tablet users only
+  if (!isMobileOrTablet) return;
 
-    if (!user.value && to.name !== "login-page") {
-      return await navigateTo({ name: "login-page", replace: true });
-    }
+  const routeName = to.name as string;
+  const isAuthenticated = !!user.value;
+  
+  // Route mapping for cleaner logic
+  const routes = {
+    LOGIN: "login-page",
+    HOME: "homepage",
+    DESKTOP_HOME: "desktop-home"
+  } as const;
 
-    if (to.name === "desktop-home") {
-      return await navigateTo({ name: "login-page", replace: true });
-    }
+  // Authentication-based redirects
+  if (isAuthenticated && routeName === routes.LOGIN) {
+    return navigateTo({ name: routes.HOME, replace: true });
+  }
+
+  if (!isAuthenticated && routeName !== routes.LOGIN) {
+    return navigateTo({ name: routes.LOGIN, replace: true });
+  }
+
+  // Prevent mobile users from accessing desktop-only routes
+  if (routeName === routes.DESKTOP_HOME) {
+    return navigateTo({ name: routes.LOGIN, replace: true });
   }
 });

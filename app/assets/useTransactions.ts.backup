@@ -3,7 +3,11 @@ import type { iTransaction } from "~/types/transactions";
 export const useTransactions = () => {
   const supabaseClient = useSupabaseClient();
 
-  const getTransactions = async () => {
+  interface iFilter {
+    sort?: boolean;
+  }
+
+  const getTransactions = async (filter: iFilter = { sort: false }) => {
     const { data, error } = await supabaseClient
       .from("transactions")
       .select(
@@ -13,7 +17,7 @@ export const useTransactions = () => {
           notes,
           categories!inner(name, type)`
       )
-      .order("created_at", { ascending: false });
+      .order("created_at", { ascending: filter.sort });
 
     if (error) {
       console.error("Error fetching transactions:", error);
@@ -23,6 +27,6 @@ export const useTransactions = () => {
   };
 
   return {
-    getTransactions
-  }
+    getTransactions,
+  };
 };

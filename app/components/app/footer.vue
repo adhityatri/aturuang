@@ -7,7 +7,8 @@
       v-for="item in navigation"
       :key="item.name"
       :to="item.href"
-      class="flex flex-col flex-1 items-center justify-center mx-2 text-gray-700 cursor-pointer hover:text-orange-500"
+      class="flex flex-col flex-1 items-center justify-center mx-2 text-neutral-700 cursor-pointer hover:text-primary"
+      :class="{ 'text-primary': currentRouter === item.href }"
     >
       <UIcon :name="item.icon" class="size-6" />
     </nuxt-link>
@@ -51,6 +52,11 @@ const navigation = [
     current: false,
   },
 ];
+
+const router = useRouter();
+const currentRouter = computed(() => {
+  return router.currentRoute.value.path;
+});
 
 const open = ref(false)
 const onClose = () => {
