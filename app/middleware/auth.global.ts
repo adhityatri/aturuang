@@ -1,10 +1,10 @@
 export default defineNuxtRouteMiddleware(async (to) => {
   const user = useSupabaseUser();
   const { isDesktop, isMobileOrTablet } = useDevice();
-  
+
   // Early return for desktop users
   if (isDesktop) {
-    return to.name !== "desktop-home" 
+    return to.name !== "desktop-home"
       ? navigateTo({ name: "desktop-home", replace: true })
       : undefined;
   }
@@ -14,7 +14,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
 
   const routeName = to.name as string;
   const isAuthenticated = !!user.value;
-  
+
   // Route mapping for cleaner logic
   const routes = {
     LOGIN: "login-page",
