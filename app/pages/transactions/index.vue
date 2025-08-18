@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-1 flex-col gap-4 pt-8">
-    <transactions-filter/>
+<!--    <transactions-filter/>-->
 <!--    <transactions-diagram/>-->
 
 <!--    <pre>{{ transactionStore.transactionByCategory}}</pre>-->
@@ -19,11 +19,11 @@
 <script setup lang="ts">
 
 const transactionStore = useTransactionsStore();
-// await callOnce('transactions-data', () => transactionStore.getTransactions(), {
-//   mode: 'navigation'
-// })
-
-await callOnce('sub-transactions-data', () => transactionStore.getSumTransactionCategory(), {
+await callOnce('transactions-data', () => transactionStore.getTransactions(), {
   mode: 'navigation'
 })
+
+// await callOnce('sub-transactions-data', () => transactionStore.getSumTransactionCategory(), {
+//   mode: 'navigation'
+// })
 </script>
