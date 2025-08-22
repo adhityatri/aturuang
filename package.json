@@ -37,8 +37,5 @@
   ],
   "devDependencies": {
     "@iconify-json/solar": "^1.2.2"
-  },
-  "overrides": {
-    "vue": "latest"
   }
 }

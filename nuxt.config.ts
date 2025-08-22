@@ -56,6 +56,10 @@ export default defineNuxtConfig({
         quality: 75
     },
 
+    nitro: {
+        preset: 'vercel'
+    },
+
     build: {
         transpile: ['echarts'],
     }
