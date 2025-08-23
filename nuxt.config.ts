@@ -11,7 +11,7 @@ export default defineNuxtConfig({
         '@nuxtjs/supabase',
         '@nuxtjs/device',
         '@vueuse/nuxt',
-        'nuxt-echarts',
+        // 'nuxt-echarts',
         '@pinia/nuxt'
     ],
 
@@ -32,20 +32,20 @@ export default defineNuxtConfig({
         },
     },
 
-    echarts: {
-        renderer: ['canvas', 'svg'],
-        charts: ['BarChart', 'LineChart', 'PieChart'],
-        features: ['LabelLayout', 'UniversalTransition'],
-        components: [
-            'DatasetComponent',
-            'GridComponent',
-            'TooltipComponent',
-            'ToolboxComponent',
-            'LegendComponent',
-            'GeoComponent',
-            'VisualMapComponent'
-        ]
-    },
+    // echarts: {
+    //     renderer: ['canvas', 'svg'],
+    //     charts: ['BarChart', 'LineChart', 'PieChart'],
+    //     features: ['LabelLayout', 'UniversalTransition'],
+    //     components: [
+    //         'DatasetComponent',
+    //         'GridComponent',
+    //         'TooltipComponent',
+    //         'ToolboxComponent',
+    //         'LegendComponent',
+    //         'GeoComponent',
+    //         'VisualMapComponent'
+    //     ]
+    // },
 
     // devServer: {
     //     port: 3002,
@@ -60,7 +60,7 @@ export default defineNuxtConfig({
         preset: 'vercel'
     },
 
-    build: {
-        transpile: ['echarts'],
-    }
+    // build: {
+    //     transpile: ['echarts'],
+    // }
 })
