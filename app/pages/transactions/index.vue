@@ -17,9 +17,6 @@
       <transactions-grouped-list :source="transactionStore.groupedTransactions" title="Riwayat Transaksi" is-all
         class="ring-0 shadow-none bg-unset" />
     </div>
-
-    <pre>{{ incomeCategory }} }}</pre>
-    <pre>{{ expensesCategory }} }}</pre>
   </div>
 </template>
 
