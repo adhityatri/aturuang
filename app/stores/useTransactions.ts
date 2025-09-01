@@ -45,6 +45,19 @@ const useTransactionsStore = defineStore("transactions-store", () => {
         }, 0);
     });
 
+    const expensesThisMonth = computed(() => {
+        return transactionsList.value.reduce((sum, transaction) => {
+            const {created_at, categories, amount} = transaction;
+            if (categories?.type === "expenses" && amount) {
+                const date = new Date(created_at);
+                if (useIsThisMonth(date)) {
+                    return sum + amount;
+                }
+            }
+            return sum;
+        }, 0);
+    });
+
     const income = computed(() => {
         const incomeTransactions = filterTransactionsByType("income");
         const total = incomeTransactions.reduce(
@@ -136,18 +149,35 @@ const useTransactionsStore = defineStore("transactions-store", () => {
                 console.log(error)
                 return error
             }
-
-            // const result = data.map((item:any) => {
-            //     return {
-            //         name: item.category_name,
-            //         type: item.category_type,
-            //         total: item.total_amount
-            //     }
-            // })
-            //
-            // console.log('result : ', result)
-
+            
             transactionByCategory.value = data || []
+            return data
+        } catch (err) {
+            return err
+        }
+    }
+
+    const transactionByMonth = ref<[]>([]);
+    const get_transactions_by_month = async () => {
+        if (!user.value) return;
+
+        try {
+            const {data, error} = await supabaseClient.rpc('monthly_transaction_sums')
+
+            if (error){
+                console.log(error)
+                return error
+            }
+
+            transactionByMonth.value = data.map((item: any) => {
+                return {
+                    ...item,
+                    amountFormatted: useFormatPriceIntl(item.total_amount),
+                }
+            })
+
+            console.log(transactionByMonth.value)
+
             return data
         } catch (err) {
             return err
@@ -158,6 +188,7 @@ const useTransactionsStore = defineStore("transactions-store", () => {
         transactions: transactionsList,
         loading: readonly(loading),
         incomeThisMonth,
+        expensesThisMonth,
         expenses,
         balance,
         todayTransactions,
@@ -165,8 +196,10 @@ const useTransactionsStore = defineStore("transactions-store", () => {
         recentTransactions,
         groupedTransactions,
         transactionByCategory,
+        transactionByMonth,
         getTransactions,
-        getSumTransactionCategory
+        getSumTransactionCategory,
+        get_transactions_by_month
     };
 });
 

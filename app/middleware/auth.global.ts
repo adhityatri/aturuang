@@ -2,16 +2,6 @@ export default defineNuxtRouteMiddleware(async (to) => {
   const user = useSupabaseUser();
   const { isDesktop, isMobileOrTablet } = useDevice();
 
-  // Early return for desktop users
-  if (isDesktop) {
-    return to.name !== "desktop-home"
-      ? navigateTo({ name: "desktop-home", replace: true })
-      : undefined;
-  }
-
-  // Handle mobile/tablet users only
-  if (!isMobileOrTablet) return;
-
   const routeName = to.name as string;
   const isAuthenticated = !!user.value;
 
@@ -19,8 +9,16 @@ export default defineNuxtRouteMiddleware(async (to) => {
   const routes = {
     LOGIN: "login-page",
     HOME: "homepage",
-    DESKTOP_HOME: "desktop-home"
+    DESKTOP_HOME: "desktop-home",
   } as const;
+
+  // Early return for desktop users
+  if (isDesktop && routeName !== routes.DESKTOP_HOME) {
+    return navigateTo({ name: "desktop-home" });
+  }
+
+  // Handle mobile/tablet users only
+  if (!isMobileOrTablet) return;
 
   // Authentication-based redirects
   if (isAuthenticated && routeName === routes.LOGIN) {

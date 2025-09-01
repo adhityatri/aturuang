@@ -14,9 +14,16 @@ export default defineNuxtConfig({
         // 'nuxt-echarts',
         '@pinia/nuxt'
     ],
+    
+    plugins: [
+        {
+            src: '~/plugins/apexcharts.client.ts',
+            mode: 'client'
+        }
+    ],
 
     supabase: {
-        redirect: true,
+        redirect: false,
         clientOptions: {
             auth: {
                 persistSession: true,
@@ -32,26 +39,6 @@ export default defineNuxtConfig({
         },
     },
 
-    // echarts: {
-    //     renderer: ['canvas', 'svg'],
-    //     charts: ['BarChart', 'LineChart', 'PieChart'],
-    //     features: ['LabelLayout', 'UniversalTransition'],
-    //     components: [
-    //         'DatasetComponent',
-    //         'GridComponent',
-    //         'TooltipComponent',
-    //         'ToolboxComponent',
-    //         'LegendComponent',
-    //         'GeoComponent',
-    //         'VisualMapComponent'
-    //     ]
-    // },
-
-    // devServer: {
-    //     port: 3002,
-    //     host: '127.0.0.1',
-    // },
-
     image: {
         quality: 75
     },
@@ -59,8 +46,4 @@ export default defineNuxtConfig({
     nitro: {
         preset: 'vercel'
     },
-
-    // build: {
-    //     transpile: ['echarts'],
-    // }
 })
