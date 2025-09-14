@@ -18,3 +18,9 @@ export interface iGroupedTransaction {
   title: string;
   value: iTransaction[];
 }
+
+export interface iSumTransactionByMonth {
+  month: string;
+  total_amount: number;
+  amountFormatted?: string;
+}

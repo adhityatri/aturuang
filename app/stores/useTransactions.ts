@@ -1,16 +1,19 @@
-import type { iTransaction } from "~/types/transactions";
+import type {
+  iSumTransactionByMonth,
+  iTransaction,
+} from "~/types/transactions";
 
-interface iFilter {
-  sortDate?: boolean;
-  sortAmount?: boolean;
-}
+// interface iFilter {
+//   sortDate?: boolean;
+//   sortAmount?: boolean;
+// }
 
 const useTransactionsStore = defineStore("transactions-store", () => {
   const supabaseClient = useSupabaseClient();
   const transactionsList = ref<iTransaction[]>([]);
   const user = useSupabaseUser();
   const loading = ref<boolean>(false);
-  const error = ref<string | null>(null);
+  // const error = ref<string | null>(null);
   const transaction_limit = ref(5);
 
   const balance = computed(() => income.value.total - expenses.value.total);
@@ -60,7 +63,6 @@ const useTransactionsStore = defineStore("transactions-store", () => {
 
   const income = computed(() => {
     const incomeTransactions = filterTransactionsByType("income");
-    console.log(incomeTransactions)
     const total = incomeTransactions.reduce(
       (sum, t) => sum + (t.amount || 0),
       0
@@ -161,9 +163,7 @@ const useTransactionsStore = defineStore("transactions-store", () => {
     return result;
   };
 
-  const groupedTransactions = computed(() =>
-    groupTransactionsByDate(transactionsList.value || [])
-  );
+  const groupedTransactions = computed(() => groupTransactionsByDate());
 
   const transactionByCategory = ref<[]>([]);
   const getSumTransactionCategory = async () => {
@@ -183,7 +183,7 @@ const useTransactionsStore = defineStore("transactions-store", () => {
     }
   };
 
-  const transactionByMonth = ref<[]>([]);
+  const transactionByMonth = ref<iSumTransactionByMonth[]>([]);
   const get_transactions_by_month = async () => {
     if (!user.value) return;
 
@@ -196,12 +196,16 @@ const useTransactionsStore = defineStore("transactions-store", () => {
         return error;
       }
 
-      transactionByMonth.value = data.map((item: any) => {
-        return {
-          ...item,
-          amountFormatted: useFormatPriceIntl(item.total_amount),
-        };
-      });
+      const transactions = (data as iSumTransactionByMonth[]) || [];
+
+      transactionByMonth.value = transactions.map(
+        (item: iSumTransactionByMonth) => {
+          return {
+            ...item,
+            amountFormatted: useFormatPriceIntl(item.total_amount),
+          };
+        }
+      );
 
       return data;
     } catch (err) {
@@ -212,7 +216,7 @@ const useTransactionsStore = defineStore("transactions-store", () => {
   return {
     transactions: transactionsList,
     loading: readonly(loading),
-    income, 
+    income,
     expenses,
     incomeThisMonth,
     expensesThisMonth,
@@ -226,7 +230,7 @@ const useTransactionsStore = defineStore("transactions-store", () => {
     // getTransactions,
     getSumTransactionCategory,
     get_transactions_by_month,
-    getTransactionsWithCategory
+    getTransactionsWithCategory,
   };
 });
 

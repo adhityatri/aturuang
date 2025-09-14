@@ -5,16 +5,21 @@
       <transactions-charts :sources="transactionStore.transactionByMonth" />
     </div>
 
-    <div class="rounded-tl-2xl rounded-tr-2xl bg-white flex-1">
-      <transactions-tab :source="transactionStore.groupedTransactions"
-        :incomes="{ categories: transactionStore.income.transactions, total: transactionStore.income.total }"
-        :expenses="{ categories: transactionStore.expenses.transactions, total: transactionStore.expenses.total }"
+    <div class="rounded-tl-2xl rounded-tr-2xl bg-white flex flex-1 overflow-auto">
+      <transactions-tab :source="transactionStore.groupedTransactions" :incomes="income" :expenses="expenses"
         class="pt-4" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+
+useHead({
+  bodyAttrs: {
+    class: ''
+  },
+  title: 'Transaksi'
+})
 
 const transactionStore = useTransactionsStore();
 await callOnce('transactions-data', () => transactionStore.getTransactionsWithCategory({
@@ -23,22 +28,11 @@ await callOnce('transactions-data', () => transactionStore.getTransactionsWithCa
   mode: 'navigation'
 })
 
-await callOnce('sub-transactions-data', () => transactionStore.getSumTransactionCategory(), {
-  mode: 'navigation'
-})
 
 await callOnce('transactions-by-month', () => transactionStore.get_transactions_by_month(), {
   mode: 'navigation'
 })
 
-const incomeCategory = computed(() => {
-  const filteredIncome = transactionStore.transactionByCategory.filter((item: { category_type: string }) => item.category_type === 'income')
-  const totalIncome = filteredIncome.reduce((sum: number, item: { total_amount: number }) => sum + (item.total_amount || 0), 0)
-  return { categories: filteredIncome, total: totalIncome }
-})
-const expensesCategory = computed(() => {
-  const filteredExpenses = transactionStore.transactionByCategory.filter((item: { category_type: string }) => item.category_type === 'expenses')
-  const totalExpenses = filteredExpenses.reduce((sum: number, item: { total_amount: number }) => sum + (item.total_amount || 0), 0)
-  return { categories: filteredExpenses, total: totalExpenses }
-})
+const income = useFilterByCategory(transactionStore.groupedTransactions, 'income');
+const expenses = useFilterByCategory(transactionStore.groupedTransactions, 'expenses');
 </script>

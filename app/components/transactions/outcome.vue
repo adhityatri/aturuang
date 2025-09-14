@@ -1,6 +1,14 @@
 <template>
     <div class="px-4">
-        <div v-for="item in props.expenses.categories" :key="item.id"
+        <div class="px-4">
+            <div v-for="value in props.expenses" :key="value.title">
+                <small class="uppercase text-neutral-400">{{ value.title }}</small>
+
+                <transactions-item v-for="transaction in value.value" :key="transaction.id"
+                    :transaction="transaction" />
+            </div>
+        </div>
+        <!-- <div v-for="item in props.expenses.categories" :key="item.id"
             class="flex justify-between items-start gap-2 w-full py-2">
             <template v-if="item?.total_amount && item.total_amount > 0">
                 <div class="flex items-center justify-center w-[42px] h-[38px] rounded-md">
@@ -23,14 +31,17 @@
                         useFormatPriceIntl(item?.total_amount ?? item?.amount) }}</transactions-amount>
                 </div>
             </template>
-        </div>
+</div> -->
     </div>
 </template>
 
 <script setup lang="ts">
-import type { iTransaction } from '~/types/transactions';
+import type { iGroupedTransaction } from '~/types/transactions';
+interface Props {
+    expenses?: iGroupedTransaction[];
+}
 
-const props = defineProps<{
-    expenses: { categories: iTransaction[], total: number };
-}>()
+const props = withDefaults(defineProps<Props>(), {
+    expenses: () => [] as iGroupedTransaction[],
+});
 </script>

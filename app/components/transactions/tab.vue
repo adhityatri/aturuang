@@ -9,13 +9,13 @@
 
 <script lang="ts" setup>
 import type { TabsItem } from '@nuxt/ui'
-import type { iGroupedTransaction, iTransaction } from "~/types/transactions";
+import type { iGroupedTransaction } from "~/types/transactions";
 
 const props = defineProps<{
     source: iGroupedTransaction[];
     isAll?: boolean;
-    incomes?: { categories: iTransaction[], total: number };
-    expenses?: { categories: iTransaction[], total: number };
+    incomes?: iGroupedTransaction[];
+    expenses?: iGroupedTransaction[];
 }>()
 
 const all = resolveComponent('transactions-all')
