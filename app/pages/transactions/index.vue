@@ -8,7 +8,8 @@
     <div class="rounded-tl-2xl rounded-tr-2xl bg-white flex-1">
       <transactions-tab :source="transactionStore.groupedTransactions"
         :incomes="{ categories: transactionStore.income.transactions, total: transactionStore.income.total }"
-        :expenses="expensesCategory" class="pt-4" />
+        :expenses="{ categories: transactionStore.expenses.transactions, total: transactionStore.expenses.total }"
+        class="pt-4" />
     </div>
   </div>
 </template>
