@@ -11,7 +11,6 @@ export default defineNuxtConfig({
         '@nuxtjs/supabase',
         '@nuxtjs/device',
         '@vueuse/nuxt',
-        // 'nuxt-echarts',
         '@pinia/nuxt'
     ],
     
@@ -43,7 +42,16 @@ export default defineNuxtConfig({
         quality: 75
     },
 
+    devServer: {
+        port: 3002
+    },
+
     nitro: {
-        preset: 'vercel'
+        preset: 'vercel',
+        compressPublicAssets: true,
+        prerender: {
+            crawlLinks: true,
+            routes: ['/']
+        }
     },
 })

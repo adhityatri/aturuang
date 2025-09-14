@@ -68,6 +68,5 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     description: "The form has been submitted.",
     color: "success",
   });
-  console.log(event.data);
 }
 </script>

@@ -68,8 +68,6 @@ const onSubmit = async (event: FormSubmitEvent<LoginSchema>) => {
   //   useToast().add({ title: 'Login Error', description: error.message});
   //   return;
   // }
-
-  console.log('Login successful');
   await navigateTo({ name: 'homepage', replace: true })
 };
 </script>

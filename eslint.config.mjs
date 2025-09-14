@@ -10,7 +10,8 @@ export default withNuxt(
       'vue/no-unused-components': 'warn',
       'vue/multi-word-component-names': 'off',
       "prefer-const": "error",
-      "@typescript-eslint/no-explicit-any": "warn"
+      "@typescript-eslint/no-explicit-any": "warn",
+      "vue/first-attribute-linebreak" : 'off'
     },
   }
 )
