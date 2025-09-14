@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col flex-1">
-    <UContainer as="main" class="flex flex-col flex-1 bg-neutral-50 pb-[80px]">
+    <UContainer as="main" class="flex flex-col flex-1 bg-neutral-50 pb-[80px] px-0">
       <slot />
     </UContainer>
     <app-footer v-if="!isDesktop" />

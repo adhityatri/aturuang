@@ -2,12 +2,13 @@
   <div v-if="isDesktop" class="bg-white flex-1 flex flex-col items-center justify-center">
     <mobile-only />
   </div>
-  <div v-else class="flex flex-1 flex-col py-4">
-    <app-greeting />
+  <div v-else class="flex flex-1 flex-col p-4">
+    <app-greeting hydrate-on-visible />
     <summary-card 
       :current-balance="transactionStore.balance" 
       :income="transactionStore.incomeThisMonth"
-      :expenses="transactionStore.expensesThisMonth" class="my-6" />
+      :expenses="transactionStore.expensesThisMonth" 
+      class="my-6" />
 
     <transactions-list
       :source="transactionStore.todayTransactions.length > 0 ? transactionStore.todayTransactions : transactionStore.recentTransactions"
@@ -29,7 +30,9 @@ let realtimeChannel: RealtimeChannel;
 
 const { refresh: refreshTransactions } = await useAsyncData('transactions-data', async () => {
   try {
-    const result = await transactionStore.getTransactions();
+    const result = await transactionStore.getTransactionsWithCategory({
+      category_type_filter: 'all'
+    });
     return Array.isArray(result) ? result : [];
   } catch (error) {
     console.error('Error fetching transactions:', error);
