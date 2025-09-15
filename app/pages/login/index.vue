@@ -1,10 +1,8 @@
 <template>
   <div class="bg-primary-900 flex px-8 flex-col flex-1 items-center justify-center text-white">
     <div class="absolute inset-0 z-0 custom-bg" />
-    <div class="relative bg-white overflow-hidden w-[72px] h-[72px] mb-8 rounded-2xl shadow-2xl ring-2 ring-neutral-100">
-      <nuxt-img src="/images/brand.svg" alt="brand-icon" />
-      <!-- <div class="bg-primary h-full z-0"> </div>
-      <div class="bg-secondary h-full w-full z-2 top-0 left-0 absolute rounded-br-[120px] rounded-xl"> </div> -->
+    <div class="relative overflow-hidden w-[72px] h-[72px] mb-8">
+      <nuxt-img src="/images/Brand-fix.svg" alt="brand-icon" />
     </div>
     <div class="flex flex-col items-center justify-center z-1">
       <h1 class="text-xl font-bold uppercase tracking-widest">Kelola Uangmu</h1>

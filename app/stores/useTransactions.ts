@@ -37,8 +37,8 @@ const useTransactionsStore = defineStore("transactions-store", () => {
 
   const incomeThisMonth = computed(() => {
     return transactionsList.value.reduce((sum, transaction) => {
-      const { created_at, categories, amount } = transaction;
-      if (categories?.type === "income" && amount) {
+      const { created_at, notes, category_type, amount } = transaction;
+      if (category_type === "income" && amount) {
         const date = new Date(created_at);
         if (useIsThisMonth(date)) {
           return sum + amount;
@@ -50,8 +50,8 @@ const useTransactionsStore = defineStore("transactions-store", () => {
 
   const expensesThisMonth = computed(() => {
     return transactionsList.value.reduce((sum, transaction) => {
-      const { created_at, categories, amount } = transaction;
-      if (categories?.type === "expenses" && amount) {
+      const { created_at, category_type, amount } = transaction;
+      if (category_type === "expenses" && amount) {
         const date = new Date(created_at);
         if (useIsThisMonth(date)) {
           return sum + amount;

@@ -4,11 +4,8 @@
   </div>
   <div v-else class="flex flex-1 flex-col p-4">
     <app-greeting />
-    <summary-card 
-      :current-balance="transactionStore.balance" 
-      :income="transactionStore.incomeThisMonth"
-      :expenses="transactionStore.expensesThisMonth" 
-      class="my-6" />
+    <summary-card :current-balance="transactionStore.balance" :income="transactionStore.incomeThisMonth"
+      :expenses="transactionStore.expensesThisMonth" class="my-6" />
 
     <transactions-list
       :source="transactionStore.todayTransactions.length > 0 ? transactionStore.todayTransactions : transactionStore.recentTransactions"
@@ -35,7 +32,11 @@ const { refresh: refreshTransactions } = await useAsyncData('transactions-data',
     });
     return Array.isArray(result) ? result : [];
   } catch (error) {
-    console.error('Error fetching transactions:', error);
+    useToast().add({
+      title: 'Error',
+      description: 'Gagal mengambil data transaksi : ' + error,
+      color: 'error'
+    })
     return []; // Always return a consistent type
   }
 }, {
@@ -46,7 +47,6 @@ const { refresh: refreshTransactions } = await useAsyncData('transactions-data',
 }
 );
 
-// // Lifecycle hooks
 onMounted(() => {
   if (!isDesktop) {
     realtimeChannel = supabaseClient
