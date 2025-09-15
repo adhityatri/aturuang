@@ -1,8 +1,5 @@
 <template>
-  <UContainer
-    as="main"
-    class="flex flex-1 max-w-sm ring-1 ring-orange-500 bg-white"
-  >
+  <UContainer as="main" class="flex px-0 flex-1 max-w-sm bg-white">
     <slot />
   </UContainer>
 </template>

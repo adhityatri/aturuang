@@ -13,6 +13,10 @@ export default defineNuxtConfig({
         '@vueuse/nuxt',
         '@pinia/nuxt'
     ],
+
+    experimental: {
+        watcher: 'chokidar'
+    },
     
     plugins: [
         {
@@ -43,7 +47,8 @@ export default defineNuxtConfig({
     },
 
     devServer: {
-        port: 3002
+        port: 3002,
+        host: '127.0.0.1'
     },
 
     nitro: {
@@ -54,4 +59,8 @@ export default defineNuxtConfig({
             routes: ['/']
         }
     },
+
+    vite: {
+        cacheDir: '.vite-cache'
+    }
 })

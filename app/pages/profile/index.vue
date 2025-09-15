@@ -41,7 +41,7 @@ const supabase = useSupabaseClient();
 //   return user?.user_metadata?.full_name || "Guest";
 // }
 
-const user = useSupabaseUser();
+// const user = useSupabaseUser();
 
 // const handleUpdateUser = await supabase.auth.updateUser({
 //   data:{
@@ -50,7 +50,7 @@ const user = useSupabaseUser();
 // })
 
 const handleLogout = async () => {
-  const { error } = await supabase.auth.signOut();
+  await supabase.auth.signOut();
   await navigateTo({ name: 'login-page', replace: true });
 }
 

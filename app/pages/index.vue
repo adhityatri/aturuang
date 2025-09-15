@@ -3,7 +3,7 @@
     <mobile-only />
   </div>
   <div v-else class="flex flex-1 flex-col p-4">
-    <app-greeting hydrate-on-visible />
+    <app-greeting />
     <summary-card 
       :current-balance="transactionStore.balance" 
       :income="transactionStore.incomeThisMonth"

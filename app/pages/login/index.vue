@@ -1,27 +1,25 @@
 <template>
-  <div class="bg-gray-100 flex px-8 flex-col flex-1 items-center justify-center">
-    <div class="relative overflow-hidden w-[72px] h-[72px] mb-8 rounded-2xl">
-      <div class="bg-primary h-full z-0"> </div>
-      <div class="bg-secondary h-full w-full z-2 top-0 left-0 absolute rounded-br-[120px] rounded-xl"> </div>
+  <div class="bg-primary-900 flex px-8 flex-col flex-1 items-center justify-center text-white">
+    <div class="absolute inset-0 z-0 custom-bg" />
+    <div class="relative bg-white overflow-hidden w-[72px] h-[72px] mb-8 rounded-2xl shadow-2xl ring-2 ring-neutral-100">
+      <nuxt-img src="/images/brand.svg" alt="brand-icon" />
+      <!-- <div class="bg-primary h-full z-0"> </div>
+      <div class="bg-secondary h-full w-full z-2 top-0 left-0 absolute rounded-br-[120px] rounded-xl"> </div> -->
     </div>
     <div class="flex flex-col items-center justify-center z-1">
-      <h1 class="text-2xl font-bold">Kelola Uangmu</h1>
-      <h2 class="text-xl font-medium">Raih Mimpimu!</h2>
+      <h1 class="text-xl font-bold uppercase tracking-widest">Kelola Uangmu</h1>
+      <h2 class="text-md font-normal">Raih Mimpimu!</h2>
     </div>
 
-    <UForm
-      class="bg-white rounded-xl w-full max-w-sm mt-8 p-4 shadow-lg z-1"
-      :schema="loginSchema"
-      :state="state"
-      @submit="onSubmit"
-    >
+    <UForm class="bg-white rounded-xl w-full max-w-sm mt-8 p-4 shadow-lg shadow-neutral-900 ring-2 ring-neutral-800 z-1" :schema="loginSchema" :state="state"
+      @submit="onSubmit">
       <UFormField label="Email" name="email" class="w-[100%] mb-4">
-        <UInput v-model="state.email" size="xl" type="email"  class="w-[100%]" />
+        <UInput v-model="state.email" variant="outline" placeholder="Masukkan email"  size="xl" type="email" class="w-[100%]" />
       </UFormField>
       <UFormField label="Kata Sandi" name="password" class="w-[100%]">
-        <UInput v-model="state.password" size="xl" type="password" class="w-[100%]" />
+        <UInput v-model="state.password" variant="outline" placeholder="Masukkan kata sandi ..." size="xl" type="password" class="w-[100%]" />
       </UFormField>
-      
+
       <!-- <UCheckbox
         v-model="state.rememberMe"
         class="mt-4"
@@ -29,7 +27,7 @@
         size="xl"
       /> -->
 
-      <UButton block class="mt-8" size="xl" color="secondary" type="submit">
+      <UButton block class="mt-8 h-[50px] text-sm uppercase tracking-wider" icon="solar:login-3-line-duotone" color="primary" type="submit">
         Masuk
       </UButton>
     </UForm>
@@ -43,7 +41,7 @@ import * as v from 'valibot';
 definePageMeta({
   name: "login-page",
   title: "Kitacatat.com | Login",
-  layout: false,
+  layout: 'auth',
 });
 
 
@@ -64,10 +62,12 @@ const supabase = useSupabaseClient();
 const onSubmit = async (event: FormSubmitEvent<LoginSchema>) => {
   const { email, password } = event.data;
   const { error } = await supabase.auth.signInWithPassword({ email, password });
-  // if (error) {
-  //   useToast().add({ title: 'Login Error', description: error.message});
-  //   return;
-  // }
+
+  if (error) {
+    useToast().add({ title: 'Login Error', description: error.message });
+    return;
+  }
+
   await navigateTo({ name: 'homepage', replace: true })
 };
 </script>
