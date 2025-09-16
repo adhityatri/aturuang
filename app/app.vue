@@ -2,6 +2,7 @@
   <UApp class="p-0">
     <NuxtRouteAnnouncer />
     <NuxtLayout>
+      <NuxtPwaManifest />
       <NuxtLoadingIndicator color="#0353A4" />
       <NuxtPage />
     </NuxtLayout>
