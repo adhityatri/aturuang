@@ -13,8 +13,10 @@ export default defineNuxtRouteMiddleware(async (to) => {
   } as const;
 
   // Early return for desktop users
-  if (isDesktop && routeName !== routes.DESKTOP_HOME) {
-    return navigateTo({ name: "desktop-home" });
+  if (isDesktop) {
+    if (routeName !== routes.DESKTOP_HOME) {
+      return navigateTo({ name: "desktop-home" });
+    }
   }
 
   // Handle mobile/tablet users only
