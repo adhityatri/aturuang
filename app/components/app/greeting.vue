@@ -1,5 +1,5 @@
 <template>
-    <UContainer as="div" class="flex flex-col px-0 pt-[2em] items-start justify-end">
+    <UContainer as="div" class="flex flex-col px-0 items-start justify-end">
         <h2 class="font-light text-sm">{{ formatted }}</h2>
         <h1 class="font-bold text-[1.2rem] capitalize">Halo {{ getFirstWord(getIdentities()?.full_name ||'User') }}</h1>
     </UContainer>

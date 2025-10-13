@@ -5,6 +5,39 @@
     :state="state"
     @submit="onSubmit"
   >
+    <UFormField label="Pilih Wallet" name="wallet_id" class="w-[100%] mb-4">
+      <USelect
+        v-model="state.wallet_id"
+        :items="walletList"
+        size="xl"
+        class="w-[100%]"
+      />
+    </UFormField>
+    <UFormField label="Keterangan" name="notes" class="w-[100%] mb-4">
+      <UInput v-model="state.notes" size="xl" type="text" class="w-[100%]" />
+    </UFormField>
+    <UFormField label="Jumlah" name="amount" class="w-[100%] mb-4">
+      <UInputNumber
+        orientation="vertical"
+        hide-buttons
+        v-model="state.amount"
+        size="xl"
+        :format-options="{
+          style: 'currency',
+          currency: 'IDR',
+          currencyDisplay: 'narrowSymbol',
+          compactDisplay: 'short',
+          maximumFractionDigits: 0,
+          currencySign: 'standard',
+        }"
+        class="w-[100%]"
+        :ui="{
+          base: 'px-6 py-4 rounded-full',
+          increment: 'hidden',
+          decrement: 'hidden',
+        }"
+      />
+    </UFormField>
     <UFormField label="Kategori" name="category" class="w-[100%] mb-4">
       <USelect
         v-model="state.category"
@@ -13,14 +46,17 @@
         class="w-[100%]"
       />
     </UFormField>
-    <UFormField label="Jumlah" name="amount" class="w-[100%] mb-4">
-      <UInput v-model="state.amount" size="xl" type="number" class="w-[100%]" />
-    </UFormField>
-    <UFormField label="Catatan" name="notes" class="w-[100%] mb-4">
-      <UInput v-model="state.notes" size="xl" type="text" class="w-[100%]" />
-    </UFormField>
 
-    <UButton block class="mt-8" size="xl" color="primary" type="submit">
+    <UButton
+      block
+      class="mt-8"
+      size="xl"
+      color="primary"
+      type="submit"
+      :ui="{
+        base: 'px-6 py-4 rounded-full',
+      }"
+    >
       Simpan
     </UButton>
   </UForm>
@@ -29,6 +65,7 @@
 <script setup lang="ts">
 import type { FormSubmitEvent } from "@nuxt/ui";
 import * as valibot from "valibot";
+import type { iWallets } from "~/types/wallets";
 
 const emits = defineEmits(["close-on-submit"]);
 
@@ -38,6 +75,8 @@ interface Category {
 }
 
 const category = useCategory();
+const walletStore = useWallets();
+
 const categoryList = computed(() =>
   Array.isArray(category.value)
     ? category.value.map((cat: Category) => ({
@@ -46,6 +85,15 @@ const categoryList = computed(() =>
       }))
     : []
 );
+
+const walletList = computed(() => {
+  return Array.isArray(walletStore.wallets)
+    ? walletStore.wallets.map((wallet: iWallets) => ({
+        label: useCapitalize(wallet.name),
+        value: wallet.id,
+      }))
+    : [];
+});
 
 const trackerSchema = valibot.required(
   valibot.object({
@@ -59,6 +107,7 @@ const trackerSchema = valibot.required(
       valibot.minValue(100, "Amount must be positive")
     ),
     notes: valibot.optional(valibot.string()),
+    wallet_id: valibot.pipe(valibot.string()),
   })
 );
 
@@ -69,25 +118,22 @@ const state = reactive({
   user: useSupabaseUser()?.value?.id || "",
   amount: 0,
   notes: "",
+  wallet_id: "",
 });
-
-const supabase = useSupabaseClient();
-const toast = useToast();
 
 const onSubmit = async (event: FormSubmitEvent<TrackerSchema>) => {
   const { category, user, amount, notes } = event.data;
 
-  const { error } = await supabase
-    .from("transactions")
-    .insert({ category_id: category, user_id: user, amount, notes });
+  const transactionStore = useTransactionsStore();
 
-  toast.add({
-    title: error ? "Error" : "Success",
-    description: error ? error.message : "Transaction saved successfully!",
-    color: error ? "error" : "success",
+  const response = await transactionStore.addTransactions({
+    wallet_id: state.wallet_id,
+    category_id: category,
+    amount,
+    notes,
   });
 
-  if (!error) {
+  if (response.success) {
     emits("close-on-submit");
   }
 };

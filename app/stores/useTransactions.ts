@@ -213,6 +213,44 @@ const useTransactionsStore = defineStore("transactions-store", () => {
     }
   };
 
+  const addTransactions = async (transactionData: {
+    wallet_id: string;
+    category_id: number;
+    amount: number;
+    notes?: string;
+  }) => {
+    if (!user.value) {
+      throw new Error("User must be logged in");
+    }
+
+    try {
+      const { data, error } = await supabaseClient.rpc(
+        "insert_transaction_and_update_wallet",
+        {
+          p_user_id: user.value.id,
+          p_wallet_id: transactionData.wallet_id,
+          p_category_id: transactionData.category_id,
+          p_amount: transactionData.amount,
+          p_notes: transactionData.notes || null,
+        }
+      );
+
+      if (error) throw error;
+
+      return {
+        success: true,
+        transactionId: data,
+        message: "Transaction added successfully",
+      };
+    } catch (err: any) {
+      return {
+        success: false,
+        error: err.message,
+        message: "Failed to add transaction",
+      };
+    }
+  };
+
   return {
     transactions: transactionsList,
     loading: readonly(loading),
@@ -231,6 +269,7 @@ const useTransactionsStore = defineStore("transactions-store", () => {
     getSumTransactionCategory,
     get_transactions_by_month,
     getTransactionsWithCategory,
+    addTransactions
   };
 });
 

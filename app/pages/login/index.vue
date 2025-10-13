@@ -12,7 +12,7 @@
     </div>
 
     <UForm
-      class="bg-white rounded-xl w-full max-w-sm mt-8 p-4 shadow-lg shadow-neutral-900 ring-2 ring-neutral-800 z-1"
+      class="bg-white rounded-xl w-full max-w-sm mt-8 p-6 ring-2 ring-neutral-200 z-1 shadow-lg shadow-neutral-900"
       :schema="loginSchema"
       :state="state"
       @submit.prevent="onSubmit"
@@ -40,10 +40,11 @@
 
       <UButton
         block
-        class="mt-8 h-[50px] text-sm uppercase tracking-wider"
+        class="mt-8 h-[60px] text-sm uppercase tracking-wider rounded-[2.2em]"
         icon="solar:login-3-line-duotone"
         color="primary"
         type="submit"
+        :loading="isLoading"
       >
         Masuk
       </UButton>
@@ -75,15 +76,29 @@ const state = reactive({
 });
 
 const supabase = useSupabaseClient();
+const isLoading = shallowRef<boolean>(false);
 const onSubmit = async (event: FormSubmitEvent<LoginSchema>) => {
   const { email, password } = event.data;
-  const { error } = await supabase.auth.signInWithPassword({ email, password });
+  try {
+    isLoading.value = true;
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
 
-  if (error) {
-    useToast().add({ title: "Login Error", description: error.message });
-    return;
+    if (error) {
+      useToast().add({ title: "Login Error", description: error.message });
+      return;
+    }
+    await navigateTo({ name: "homepage", replace: true });
+  } catch (error) {
+    useToast().add({
+      title: "Login Error",
+      description:
+        error instanceof Error ? error.message : "An unexpected error occurred",
+    });
+  } finally {
+    isLoading.value = false;
   }
-
-  await navigateTo({ name: "homepage", replace: true });
 };
 </script>

@@ -22,7 +22,7 @@ const all = resolveComponent('transactions-all')
 const income = resolveComponent('transactions-income')
 const outcome = resolveComponent('transactions-outcome')
 
-const items = ref<TabsItem[]>([
+const items = shallowRef<TabsItem[]>([
     {
         label: 'All Transactions',
         value: 'all',

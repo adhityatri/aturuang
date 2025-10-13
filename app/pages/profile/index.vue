@@ -14,7 +14,7 @@
       </div>
     </div>
 
-    <div class="p-4 flex-1 bg-white rounded-tl-2xl rounded-tr-2xl">
+    <div class="p-4 flex-1 bg-neutral-200 rounded-tl-2xl rounded-tr-2xl">
       <!-- <div class="grid grid-cols-2 gap-4">
         <div v-for="value in 2" :key="value"
           class="h-[50px] w-full rounded-lg bg-neutral-400 text-white flex items-center justify-center">Hello</div>
@@ -25,10 +25,10 @@
         <p class="text-sm">Share your referral link with friends and earn rewards!</p>
       </div>
 
-      <div class="flex flex-col gap-2">
-        <UButton size="xl" class="text-sm" variant="outline" color="neutral">General Setting</UButton>
-        <UButton size="xl" class="text-sm" variant="outline" color="neutral">History Transactions</UButton>
-        <UButton size="xl" class="text-sm" variant="subtle" color="error" @click="handleLogout">Logout</UButton>
+      <div class="flex flex-col gap-4">
+        <UButton size="xl" class="text-sm px-6 py-6 rounded-[2em]" variant="outline" color="neutral">General Setting</UButton>
+        <UButton size="xl" class="text-sm px-6 py-6 rounded-[2em]" variant="outline" color="neutral">History Transactions</UButton>
+        <UButton size="xl" class="text-sm px-6 py-6 rounded-[2em]" variant="subtle" color="error" @click="handleLogout">Logout</UButton>
       </div>
     </div>
   </div>

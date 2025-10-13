@@ -1,0 +1,99 @@
+<template>
+  <div class="px-4 py-12 flex flex-col gap-4">
+    <div
+      class="place-self-center w-[250px] h-[150px] bg-primary-700 ring-4 rounded-xl shadow-neutral-400 shadow-lg text-white flex flex-col items-start justify-center p-4 leading-7"
+    >
+      <UIcon name="solar:wallet-2-bold" class="text-[2.5rem] mb-2" />
+      <span class="text-[1.1rem] line-clamp-1 font-medium">
+        {{ state?.name || "No Wallet" }}
+      </span>
+      <span class="text-[1rem] font-medium">
+        {{ useFormatPriceIntl(state?.amount || 0) }}
+      </span>
+    </div>
+
+    <UForm
+      class="w-full z-1 mt-10"
+      :schema="schema"
+      :state="state"
+      @submit="onSubmit"
+    >
+      <UFormField label="Nama Kantong" name="name" class="w-[100%] mb-4">
+        <UInput
+          v-model="state.name"
+          placeholder="Nama Kantong"
+          size="xl"
+          type="text"
+          class="w-[100%]"
+        />
+      </UFormField>
+      <UFormField label="Jumlah" name="amount" class="w-[100%] mb-4">
+        <UInputNumber
+          v-model="state.amount"
+          hide-button
+          orientation="vertical"
+          size="xl"
+          :format-options="{
+            style: 'currency',
+            currency: 'IDR',
+            currencyDisplay: 'narrowSymbol',
+            compactDisplay: 'short',
+            maximumFractionDigits: 0,
+            currencySign: 'standard',
+          }"
+          class="w-[100%]"
+          :ui="{
+            base: 'px-6 py-4 rounded-full',
+            increment: 'hidden',
+            decrement: 'hidden',
+          }"
+        />
+      </UFormField>
+      <UFormField class="mt-12">
+        <UButton type="submit" block class="rounded-full py-4">{{
+          props.name ? "Update" : "Simpan"
+        }}</UButton>
+      </UFormField>
+    </UForm>
+  </div>
+</template>
+
+<script setup lang="ts">
+import type { FormSubmitEvent } from "@nuxt/ui";
+import * as valibot from "valibot";
+
+const props = withDefaults(
+  defineProps<{
+    name?: string;
+    amount?: number;
+  }>(),
+  {
+    name: "",
+    amount: 0,
+  }
+);
+
+const schema = valibot.required(
+  valibot.object({
+    name: valibot.pipe(
+      valibot.string(),
+      valibot.minLength(4, "Must be at least 4 characters")
+    ),
+    amount: valibot.pipe(
+      valibot.number(),
+      valibot.minValue(0, "Amount must be positive")
+    ),
+  })
+);
+
+const state = reactive({
+  name: props.name || "",
+  amount: props.amount || 0,
+});
+
+const emit = defineEmits(["submit"]);
+
+const onSubmit = (event: FormSubmitEvent<typeof state>) => {
+  emit("submit", state);
+};
+</script>
