@@ -5,6 +5,14 @@
     :state="state"
     @submit="onSubmit"
   >
+    <UBanner
+      v-if="!isReady"
+      color="neutral"
+      icon="i-lucide-info"
+      title="Kamu belum punya kantong. Buat sekarang!"
+      class="mb-4"
+    />
+
     <UFormField label="Pilih Wallet" name="wallet_id" class="w-[100%] mb-4">
       <USelect
         v-model="state.wallet_id"
@@ -50,6 +58,7 @@
     <UButton
       block
       class="mt-8"
+      :disabled="!isReady"
       size="xl"
       color="primary"
       type="submit"
@@ -76,6 +85,7 @@ interface Category {
 
 const category = useCategory();
 const walletStore = useWallets();
+const isReady = computed(() => walletStore.wallets.length > 0);
 
 const categoryList = computed(() =>
   Array.isArray(category.value)

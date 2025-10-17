@@ -3,13 +3,22 @@
     <div class="text-white p-4 relative">
       <div class="absolute inset-0 z-0 custom-bg" />
       <app-title-page>Profile</app-title-page>
-      <div class="h-[200px] w-full flex flex-col gap-2 items-center justify-center">
+      <div
+        class="h-[200px] w-full flex flex-col gap-2 items-center justify-center"
+      >
         <app-avatar>
-          <img src="https://avatars.githubusercontent.com/u/5179223?v=4&size=96" alt="">
+          <img
+            src="https://avatars.githubusercontent.com/u/5179223?v=4&size=96"
+            alt=""
+          />
         </app-avatar>
         <div class="flex flex-col text-center mt-4">
-          <span class="font-bold text-sm uppercase tracking-widest">{{ getIdentities()?.full_name }}</span>
-          <small class="font-normal text-xs color-neutral">{{ getIdentities()?.email }}</small>
+          <span class="font-bold text-sm uppercase tracking-widest">{{
+            getIdentities()?.full_name
+          }}</span>
+          <small class="font-normal text-xs color-neutral">{{
+            getIdentities()?.email
+          }}</small>
         </div>
       </div>
     </div>
@@ -20,15 +29,32 @@
           class="h-[50px] w-full rounded-lg bg-neutral-400 text-white flex items-center justify-center">Hello</div>
       </div> -->
 
-      <div class="my-6 flex flex-col p-4 items-start justify-center w-full rounded-lg bg-neutral-300">
+      <div
+        class="my-6 flex flex-col p-4 items-start justify-center w-full rounded-lg bg-neutral-300"
+      >
         <h4 class="font-medium text-lg">Invite Friends</h4>
-        <p class="text-sm">Share your referral link with friends and earn rewards!</p>
+        <p class="text-sm">
+          Share your referral link with friends and earn rewards!
+        </p>
       </div>
 
       <div class="flex flex-col gap-4">
-        <UButton size="xl" class="text-sm px-6 py-6 rounded-[2em]" variant="outline" color="neutral">General Setting</UButton>
-        <UButton size="xl" class="text-sm px-6 py-6 rounded-[2em]" variant="outline" color="neutral">History Transactions</UButton>
-        <UButton size="xl" class="text-sm px-6 py-6 rounded-[2em]" variant="subtle" color="error" @click="handleLogout">Logout</UButton>
+        <profile-form />
+        <nuxt-link
+          :to="{ name: 'transactions-page' }"
+          class="text-sm px-6 py-6 rounded-[2em] ring-2 ring-neutral-200 font-medium bg-white hover:bg-neutral-300 active:bg-neutral-300 transition-all"
+        >
+          History Transactions
+        </nuxt-link>
+        <UButton
+          size="xl"
+          class="text-sm px-6 py-6 rounded-[2em]"
+          variant="subtle"
+          color="error"
+          @click="handleLogout"
+        >
+          Logout
+        </UButton>
       </div>
     </div>
   </div>
@@ -51,7 +77,6 @@ const supabase = useSupabaseClient();
 
 const handleLogout = async () => {
   await supabase.auth.signOut();
-  await navigateTo({ name: 'login-page', replace: true });
-}
-
+  await navigateTo({ name: "login-page", replace: true });
+};
 </script>

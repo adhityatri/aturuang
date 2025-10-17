@@ -5,34 +5,56 @@
       <transactions-charts :sources="transactionStore.transactionByMonth" />
     </div>
 
-    <div class="rounded-tl-2xl rounded-tr-2xl bg-white flex flex-1 overflow-auto">
-      <transactions-tab :source="transactionStore.groupedTransactions" :incomes="income" :expenses="expenses"
-        class="pt-4" />
+    <div
+      class="rounded-tl-2xl rounded-tr-2xl bg-white flex flex-1 overflow-auto"
+    >
+      <transactions-tab
+        :source="transactionStore.groupedTransactions"
+        :incomes="income"
+        :expenses="expenses"
+        class="pt-4"
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-
+definePageMeta({
+  name: "transactions-page",
+});
 useHead({
   bodyAttrs: {
-    class: ''
+    class: "",
   },
-  title: 'Transaksi'
-})
+  title: "Transaksi",
+});
 
 const transactionStore = useTransactionsStore();
-await callOnce('transactions-data', () => transactionStore.getTransactionsWithCategory({
-  category_type_filter: 'all'
-}), {
-  mode: 'navigation'
-})
+await callOnce(
+  "transactions-data",
+  () =>
+    transactionStore.getTransactionsWithCategory({
+      category_type_filter: "all",
+    }),
+  {
+    mode: "navigation",
+  }
+);
 
+await callOnce(
+  "transactions-by-month",
+  () => transactionStore.get_transactions_by_month(),
+  {
+    mode: "navigation",
+  }
+);
 
-await callOnce('transactions-by-month', () => transactionStore.get_transactions_by_month(), {
-  mode: 'navigation'
-})
-
-const income = useFilterByCategory(transactionStore.groupedTransactions, 'income');
-const expenses = useFilterByCategory(transactionStore.groupedTransactions, 'expenses');
+const income = useFilterByCategory(
+  transactionStore.groupedTransactions,
+  "income"
+);
+const expenses = useFilterByCategory(
+  transactionStore.groupedTransactions,
+  "expenses"
+);
 </script>

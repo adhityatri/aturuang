@@ -26,6 +26,10 @@ export default defineNuxtConfig({
     },
   ],
 
+  ui: {
+    colorMode: false,
+  },
+
   supabase: {
     redirect: false,
     clientOptions: {
