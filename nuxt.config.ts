@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: "2025-05-15",
-  devtools: { enabled: true },
+  devtools: { enabled: false },
   css: ["~/assets/css/main.css"],
   modules: [
     "@nuxt/eslint",
@@ -50,7 +50,7 @@ export default defineNuxtConfig({
 
   image: {
     quality: 80,
-    format: ['webp'],
+    format: ["webp"],
     screens: {
       xs: 320,
       sm: 640,
@@ -58,7 +58,7 @@ export default defineNuxtConfig({
       lg: 1024,
       xl: 1280,
       xxl: 1536,
-      '2xl': 1536
+      "2xl": 1536,
     },
   },
 
@@ -71,7 +71,7 @@ export default defineNuxtConfig({
     compressPublicAssets: true,
     prerender: {
       crawlLinks: true,
-      routes: ['/', '/login', '/transactions'],
+      routes: ["/", "/login", "/transactions"],
     },
   },
 
@@ -106,8 +106,20 @@ export default defineNuxtConfig({
       ],
     },
     workbox: {
-      globPatterns: ["**/*.{js,css,html,png,svg,ico}"],
+      globPatterns: ["**/*.{js,css,png,svg,ico}"],
+      navigateFallback: null,
       runtimeCaching: [
+        {
+          urlPattern: /\.(?:png|jpg|jpeg|svg|gif)$/,
+          handler: "CacheFirst", // Cache images first
+          options: {
+            cacheName: "images",
+            expiration: {
+              maxEntries: 10,
+              maxAgeSeconds: 30 * 24 * 60 * 60, // 30 Days
+            },
+          },
+        },
         {
           urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/,
           handler: "CacheFirst",
