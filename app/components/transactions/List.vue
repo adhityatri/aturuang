@@ -32,6 +32,4 @@ const props = withDefaults(defineProps<Props>(), {
   isAll: false,
   groupTitle: ""
 });
-
-// const dataList = ref(data);
 </script>

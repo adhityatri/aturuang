@@ -17,6 +17,7 @@ export default defineNuxtConfig({
 
   experimental: {
     watcher: "chokidar",
+    payloadExtraction: true,
   },
 
   plugins: [
@@ -48,7 +49,17 @@ export default defineNuxtConfig({
   },
 
   image: {
-    quality: 75,
+    quality: 80,
+    format: ['webp'],
+    screens: {
+      xs: 320,
+      sm: 640,
+      md: 768,
+      lg: 1024,
+      xl: 1280,
+      xxl: 1536,
+      '2xl': 1536
+    },
   },
 
   devServer: {
@@ -57,11 +68,10 @@ export default defineNuxtConfig({
   },
 
   nitro: {
-    preset: "vercel",
     compressPublicAssets: true,
     prerender: {
       crawlLinks: true,
-      routes: ["/"],
+      routes: ['/', '/login', '/transactions'],
     },
   },
 
@@ -96,17 +106,33 @@ export default defineNuxtConfig({
       ],
     },
     workbox: {
-      globPatterns: ["**/*.{js,css,png,svg,ico}"],
-      navigateFallback: null,
+      globPatterns: ["**/*.{js,css,html,png,svg,ico}"],
       runtimeCaching: [
         {
-          urlPattern: /\.(?:png|jpg|jpeg|svg|gif)$/,
-          handler: "CacheFirst", // Cache images first
+          urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/,
+          handler: "CacheFirst",
           options: {
-            cacheName: "images",
+            cacheName: "google-fonts-cache",
             expiration: {
               maxEntries: 10,
-              maxAgeSeconds: 30 * 24 * 60 * 60, // 30 Days
+              maxAgeSeconds: 60 * 60 * 24 * 365, // <== 365 days
+            },
+            cacheableResponse: {
+              statuses: [0, 200],
+            },
+          },
+        },
+        {
+          urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/,
+          handler: "CacheFirst",
+          options: {
+            cacheName: "gstatic-fonts-cache",
+            expiration: {
+              maxEntries: 10,
+              maxAgeSeconds: 60 * 60 * 24 * 365, // <== 365 days
+            },
+            cacheableResponse: {
+              statuses: [0, 200],
             },
           },
         },

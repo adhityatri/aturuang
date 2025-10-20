@@ -26,9 +26,9 @@
     </UFormField>
     <UFormField label="Jumlah" name="amount" class="w-[100%] mb-4">
       <UInputNumber
+        v-model="state.amount"
         orientation="vertical"
         hide-buttons
-        v-model="state.amount"
         size="xl"
         :format-options="{
           style: 'currency',
@@ -132,7 +132,7 @@ const state = reactive({
 });
 
 const onSubmit = async (event: FormSubmitEvent<TrackerSchema>) => {
-  const { category, user, amount, notes } = event.data;
+  const { category, amount, notes } = event.data;
 
   const transactionStore = useTransactionsStore();
 

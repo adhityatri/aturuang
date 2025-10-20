@@ -57,7 +57,7 @@ const handleSelected = (wallet: iWallets) => {
 
 const handleSubmit = async (value: { name: string; amount: number }) => {
   const payload = {
-    ...(selectedWallet.value ?? { id: selectedWallet.value?.id }),
+...(selectedWallet.value ? { id: selectedWallet.value.id } : {}),
     name: value.name,
     amount: value.amount,
   };
@@ -91,6 +91,5 @@ const handleSubmit = async (value: { name: string; amount: number }) => {
 const closeForm = () => {
   selectedWallet.value = null;
   openForm.value = false;
-  console.log("masuk sini");
 };
 </script>

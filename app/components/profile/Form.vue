@@ -2,7 +2,7 @@
   <USlideover
     v-model:open="isOpen"
     :dismissible="false"
-    title="Transaksi Baru"
+    title="General Setting"
     side="bottom"
   >
     <UButton
@@ -17,8 +17,27 @@
     </UButton>
 
     <template #body>
+      <div class="grid grid-cols-4 gap-4">
+        <div
+          v-for="icon in profileIcons"
+          :key="icon"
+          class="cursor-pointer p-2 ring-2 ring-neutral-200 shadow-xl shadow-neutral-300 rounded-xl"
+          :class="{
+            'ring-primary-500': state.profile_picture === icon,
+            'ring-neutral-200': state.profile_picture !== icon,
+            'transition-all duration-300': state.profile_picture === icon,
+          }"
+          @click="state.profile_picture = icon"
+        >
+          <img
+            :src="`/images/profile_icon/${icon}`"
+            :alt="icon"
+            class="w-full h-auto object-cover"
+          />
+        </div>
+      </div>
       <UForm
-        class="w-full z-1"
+        class="w-full z-1 mt-6"
         :schema="schema"
         :state="state"
         @submit="onSubmit"
@@ -67,14 +86,26 @@ const schema = valibot.object({
   ),
 });
 
+const profileIcons = [
+  "girl-happy-curly-hair.png",
+  "girl-happy-long-hair-without-masker.png",
+  "girl-happy-long-hair.png",
+  "girl-long-hair-happy-butterfly.png",
+  "girl-sad-masker.png",
+  "man-long-hair-happy.png",
+  "man-short-hair.png",
+  "man-tie-short-hair-happy.png",
+];
+
 const state = reactive({
+  profile_picture: "",
   full_name: getIdentities()?.full_name || "",
 });
 
 const isOpen = ref<boolean>(false);
 const profileStore = useProfile();
 const onSubmit = async () => {
-  await profileStore.updateProfile(state.full_name);
-  isOpen.value = false
+  await profileStore.updateProfile(state.full_name, state.profile_picture);
+  isOpen.value = false;
 };
 </script>

@@ -18,23 +18,41 @@ export const useProfile = defineStore("profile-store", () => {
     }
   };
 
-  const updateProfile = async (payload: string) => {
+  const updateProfile = async (
+    full_name: string,
+    profile_picture?: string | null
+  ) => {
     try {
       const { data, error } = await client.auth.updateUser({
         data: {
-          full_name: payload,
+          full_name: full_name,
+          avatar: profile_picture,
         },
       });
 
-      if (error) throw error;
+      if (error) {
+        console.error("Error updating profile:", error);
+        useToast().add({
+          title: "Update Profile",
+          description: "Failed to update profile.",
+          color: "error",
+        });
+        throw error;
+      }
 
       useToast().add({
-        title: "Update Kantong",
-        description: "Kantong berhasil diupdate",
+        title: "Update Profile",
+        description: "Profile updated successfully.",
       });
 
       return data;
     } catch (err) {
+      console.error("Error in updateProfile:", err);
+      useToast().add({
+        title: "Update Profile",
+        description: "An unexpected error occurred.",
+        color: "error",
+      });
       return err;
     }
   };

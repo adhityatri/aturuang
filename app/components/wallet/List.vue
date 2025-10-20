@@ -95,6 +95,5 @@ const handleSubmit = async (value: { name: string; amount: number }) => {
 const closeForm = () => {
   selectedWallet.value = null;
   openForm.value = false;
-  console.log("masuk sini");
 };
 </script>

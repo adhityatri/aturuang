@@ -37,7 +37,7 @@ const useTransactionsStore = defineStore("transactions-store", () => {
 
   const incomeThisMonth = computed(() => {
     return transactionsList.value.reduce((sum, transaction) => {
-      const { created_at, notes, category_type, amount } = transaction;
+      const { created_at, category_type, amount } = transaction;
       if (category_type === "income" && amount) {
         const date = new Date(created_at);
         if (useIsThisMonth(date)) {
@@ -79,36 +79,6 @@ const useTransactionsStore = defineStore("transactions-store", () => {
     return { transactions: expenseTransactions, total };
   });
 
-  // const getTransactions = async (
-  //   filter: iFilter = { sortDate: false, sortAmount: false }
-  // ) => {
-  //   if (!user.value) return;
-
-  //   loading.value = true;
-  //   try {
-  //     const { data, error } = await supabaseClient
-  //       .from("transactions")
-  //       .select(
-  //         `id,
-  //             created_at,
-  //             amount,
-  //             notes,
-  //             categories!inner(name, type)`
-  //       )
-  //       .order("created_at", { ascending: filter.sortDate });
-  //     // .order("amount", {ascending: filter.sortAmount});
-
-  //     if (error) throw error;
-
-  //     transactionsList.value = data || [];
-  //   } catch (err) {
-  //     error.value =
-  //       err instanceof Error ? err.message : "Failed to fetch transactions";
-  //   } finally {
-  //     loading.value = false;
-  //   }
-  // };
-
   const getTransactionsWithCategory = async (params: {
     category_type_filter: string;
   }) => {
@@ -123,7 +93,8 @@ const useTransactionsStore = defineStore("transactions-store", () => {
       );
 
       if (error) {
-        return error;
+        console.error('Error fetching transactions with categories:', error);
+        throw error;
       }
 
       transactionsList.value = data || [];

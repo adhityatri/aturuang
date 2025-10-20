@@ -8,8 +8,8 @@
       >
         <app-avatar>
           <img
-            src="https://avatars.githubusercontent.com/u/5179223?v=4&size=96"
-            alt=""
+            :src="`/images/profile_icon/${getIdentities()?.avatar}`"
+            :alt="`${getIdentities()?.full_name}-${getIdentities()?.avatar}`"
           />
         </app-avatar>
         <div class="flex flex-col text-center mt-4">
@@ -24,11 +24,6 @@
     </div>
 
     <div class="p-4 flex-1 bg-neutral-200 rounded-tl-2xl rounded-tr-2xl">
-      <!-- <div class="grid grid-cols-2 gap-4">
-        <div v-for="value in 2" :key="value"
-          class="h-[50px] w-full rounded-lg bg-neutral-400 text-white flex items-center justify-center">Hello</div>
-      </div> -->
-
       <div
         class="my-6 flex flex-col p-4 items-start justify-center w-full rounded-lg bg-neutral-300"
       >
@@ -62,18 +57,6 @@
 
 <script setup lang="ts">
 const supabase = useSupabaseClient();
-// async function getLoggedInUserName() {
-//   const { data: { user } } = await supabase.auth.getUser();
-//   return user?.user_metadata?.full_name || "Guest";
-// }
-
-// const user = useSupabaseUser();
-
-// const handleUpdateUser = await supabase.auth.updateUser({
-//   data:{
-//     full_name: 'admin aturuang'
-//   }
-// })
 
 const handleLogout = async () => {
   await supabase.auth.signOut();

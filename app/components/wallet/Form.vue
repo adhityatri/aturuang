@@ -59,7 +59,6 @@
 </template>
 
 <script setup lang="ts">
-import type { FormSubmitEvent } from "@nuxt/ui";
 import * as valibot from "valibot";
 
 const props = withDefaults(
@@ -93,7 +92,7 @@ const state = reactive({
 
 const emit = defineEmits(["submit"]);
 
-const onSubmit = (event: FormSubmitEvent<typeof state>) => {
+const onSubmit = () => {
   emit("submit", state);
 };
 </script>
