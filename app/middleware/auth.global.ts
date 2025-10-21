@@ -8,9 +8,13 @@ export default defineNuxtRouteMiddleware(async (to) => {
   } as const;
 
   const event = useRequestEvent();
-  const userAgent = event?.node.req.headers['user-agent'] || '';
+  const userAgent = event?.node.req.headers["user-agent"] || "";
 
   const isDesktop = /(Windows|Macintosh|Linux|X11)/i.test(userAgent);
+  const isMobile =
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      userAgent
+    );
 
   const routeName = (to.name ?? "") as string;
   const isAuthenticated = !!user.value;
@@ -19,13 +23,12 @@ export default defineNuxtRouteMiddleware(async (to) => {
   let target: string | null = null;
   let replace = true; // keep history clean for auth redirects
 
-  if (isDesktop) {
-    // Desktop users should always land on desktop-home
-    if (routeName !== routes.DESKTOP_HOME) {
-      target = routes.DESKTOP_HOME;
-      replace = false; // preserve original behavior (no replace) for desktop redirect
-    }
-  } else {
+  if (isDesktop && routeName !== routes.DESKTOP_HOME) {
+    target = routes.DESKTOP_HOME;
+    replace = false;
+  }
+
+  if (isMobile) {
     // Mobile / tablet logic
     if (isAuthenticated && routeName === routes.LOGIN) {
       target = routes.HOME;
