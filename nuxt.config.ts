@@ -16,7 +16,7 @@ export default defineNuxtConfig({
   ],
 
   experimental: {
-    watcher: "chokidar"
+    watcher: "chokidar",
   },
 
   plugins: [
@@ -77,6 +77,10 @@ export default defineNuxtConfig({
 
   vite: {
     cacheDir: ".vite-cache",
+    build: {
+      sourcemap: false,
+      chunkSizeWarningLimit: 1000,
+    },
   },
 
   pwa: {

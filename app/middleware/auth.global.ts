@@ -23,23 +23,22 @@ export default defineNuxtRouteMiddleware(async (to) => {
   let target: string | null = null;
   let replace = true; // keep history clean for auth redirects
 
-  if (isDesktop) {
-    // Desktop users should always land on desktop-home
-    if (routeName !== routes.DESKTOP_HOME) {
+  if (!isAuthenticated) {
+    if (isDesktop && routeName !== routes.DESKTOP_HOME) {
       target = routes.DESKTOP_HOME;
       replace = false; // preserve original behavior (no replace) for desktop redirect
     }
+
+    if (isMobile) {
+      if (routeName !== routes.LOGIN) {
+        target = routes.LOGIN;
+      }
+    }
   }
 
-  if (isMobile) {
-    // Mobile / tablet logic
-    if (isAuthenticated && routeName === routes.LOGIN) {
+  if (isAuthenticated) {
+    if (isMobile && routeName === routes.LOGIN) {
       target = routes.HOME;
-    } else if (!isAuthenticated && routeName !== routes.LOGIN) {
-      target = routes.LOGIN;
-    } else if (routeName === routes.DESKTOP_HOME) {
-      // Prevent mobile users from accessing desktop-only route
-      target = routes.LOGIN;
     }
   }
 
