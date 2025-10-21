@@ -1,12 +1,16 @@
 export default defineNuxtRouteMiddleware(async (to) => {
   const user = useSupabaseUser();
-  const { isDesktop } = useDevice();
 
   const routes = {
     LOGIN: "login-page",
     HOME: "homepage",
     DESKTOP_HOME: "desktop-home",
   } as const;
+
+  const event = useRequestEvent();
+  const userAgent = event?.node.req.headers['user-agent'] || '';
+
+  const isDesktop = /(Windows|Macintosh|Linux|X11)/i.test(userAgent);
 
   const routeName = (to.name ?? "") as string;
   const isAuthenticated = !!user.value;
