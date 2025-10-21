@@ -16,8 +16,7 @@ export default defineNuxtConfig({
   ],
 
   experimental: {
-    watcher: "chokidar",
-    payloadExtraction: true,
+    watcher: "chokidar"
   },
 
   plugins: [
@@ -50,16 +49,16 @@ export default defineNuxtConfig({
 
   image: {
     quality: 80,
-    format: ["webp"],
-    screens: {
-      xs: 320,
-      sm: 640,
-      md: 768,
-      lg: 1024,
-      xl: 1280,
-      xxl: 1536,
-      "2xl": 1536,
-    },
+    // format: ["webp"],
+    // screens: {
+    //   xs: 320,
+    //   sm: 640,
+    //   md: 768,
+    //   lg: 1024,
+    //   xl: 1280,
+    //   xxl: 1536,
+    //   "2xl": 1536,
+    // },
   },
 
   devServer: {
@@ -71,7 +70,8 @@ export default defineNuxtConfig({
     compressPublicAssets: true,
     prerender: {
       crawlLinks: true,
-      routes: ["/", "/login", "/transactions"],
+      routes: ["/"],
+      // routes: ["/", "/login", "/transactions"],
     },
   },
 
