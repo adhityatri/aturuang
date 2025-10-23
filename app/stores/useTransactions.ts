@@ -93,11 +93,35 @@ const useTransactionsStore = defineStore("transactions-store", () => {
       );
 
       if (error) {
-        console.error('Error fetching transactions with categories:', error);
+        console.error("Error fetching transactions with categories:", error);
         throw error;
       }
 
       transactionsList.value = data || [];
+      return data;
+    } catch (err) {
+      return err;
+    }
+  };
+
+  const transactionDetail = ref<iTransaction>();
+  const getTransactionsWithCategoryById = async (id: string) => {
+    if (!user.value) return;
+
+    try {
+      const { data, error } = await supabaseClient.rpc(
+        "get_transactions_by_id",
+        {
+          transactionsid: id,
+        }
+      );
+
+      if (error) {
+        console.error("Error fetching transactions with categories:", error);
+        throw error;
+      }
+
+      transactionDetail.value = data[0] || null;
       return data;
     } catch (err) {
       return err;
@@ -236,11 +260,12 @@ const useTransactionsStore = defineStore("transactions-store", () => {
     groupedTransactions,
     transactionByCategory,
     transactionByMonth,
-    // getTransactions,
+    transactionDetail,
     getSumTransactionCategory,
     get_transactions_by_month,
     getTransactionsWithCategory,
-    addTransactions
+    addTransactions,
+    getTransactionsWithCategoryById,
   };
 });
 
