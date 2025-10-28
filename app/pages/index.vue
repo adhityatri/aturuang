@@ -12,7 +12,7 @@
       class="my-6"
     />
 
-    <wallet-list />
+    <wallet-list :is-loading="isLoading"/>
 
     <transactions-list
       :source="
@@ -20,6 +20,7 @@
           ? transactionStore.todayTransactions
           : transactionStore.recentTransactions
       "
+      :is-loading="isLoading"
       class="rounded-lg"
       title="Riwayat Transaksi"
     />

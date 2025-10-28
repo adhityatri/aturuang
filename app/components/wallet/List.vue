@@ -1,52 +1,67 @@
 <template>
   <div class="w-[100%] flex flex-col gap-4 mb-4 overflow-hidden">
-    <div
-      class="flex justify-between items-center mb-2"
-      :class="{ 'mb-0': isPages }"
-    >
-      <app-title-page v-if="!isPages">Kantong Saya</app-title-page>
-      <USlideover
-        v-model:open="openForm"
-        :dismissible="true"
-        :title="selectedWallet?.name || 'Kantong Baru'"
-        side="bottom"
-        :close="{ onClick: () => closeForm() }"
+    <template v-if="isLoading">
+      <div class="flex justify-between items-center">
+        <USkeleton class="h-4 w-[150px] bg-neutral-500 rounded-2xl" />
+        <USkeleton class="h-6 w-[150px] bg-neutral-500 rounded-2xl" />
+      </div>
+
+      <div class="grid grid-cols-2 gap-4 mt-4">
+        <USkeleton class="h-[70px] bg-neutral-500 rounded-2xl" />
+        <USkeleton class="h-[70px] bg-neutral-500 rounded-2xl" />
+        <USkeleton class="h-[70px] bg-neutral-500 rounded-2xl" />
+        <USkeleton class="h-[70px] bg-neutral-500 rounded-2xl" />
+      </div>
+    </template>
+    <template v-else>
+      <div
+        class="flex justify-between items-center mb-2"
+        :class="{ 'mb-0': isPages }"
       >
+        <app-title-page v-if="!isPages">Kantong Saya</app-title-page>
+        <USlideover
+          v-model:open="openForm"
+          :dismissible="true"
+          :title="selectedWallet?.name || 'Kantong Baru'"
+          side="bottom"
+          :close="{ onClick: () => closeForm() }"
+        >
+          <UButton
+            v-if="!isPages"
+            variant="subtle"
+            :ui="{
+              base: 'bg-neutral-200 py-4 px-6 rounded-2xl ring-2 ring-white shadow-xl',
+            }"
+            icon="solar:add-square-linear"
+          >
+            Kantong
+          </UButton>
+          <template #body>
+            <wallet-form
+              :name="selectedWallet?.name"
+              :amount="selectedWallet?.amount"
+              @close="closeForm"
+              @submit="handleSubmit"
+            />
+          </template>
+        </USlideover>
+      </div>
+      <div
+        class="grid grid-cols-2 gap-4 max-h-[270px] pb-4 overflow-x-hidden overflow-y-auto"
+        :class="{ 'max-h-screen': isPages }"
+      >
+        <wallet-item :list="list" @selected="handleSelected" />
         <UButton
           v-if="!isPages"
-          variant="subtle"
-          :ui="{
-            base: 'bg-neutral-200 py-4 px-6 rounded-2xl ring-2 ring-white shadow-xl',
-          }"
-          icon="solar:add-square-linear"
+          class="bg-primary px-4 py-3 rounded-xl shadow-lg shadow-neutral-300 flex flex-col items-center justify-center"
+          @click="handleWallet()"
         >
-          Kantong
+          <div class="text-neutral-200 tracking-wide font-medium">
+            Lihat Semua
+          </div>
         </UButton>
-        <template #body>
-          <wallet-form
-            :name="selectedWallet?.name"
-            :amount="selectedWallet?.amount"
-            @close="closeForm"
-            @submit="handleSubmit"
-          />
-        </template>
-      </USlideover>
-    </div>
-    <div
-      class="grid grid-cols-2 gap-4 max-h-[270px] pb-4 overflow-x-hidden overflow-y-auto"
-      :class="{ 'max-h-screen': isPages }"
-    >
-      <wallet-item :list="list" @selected="handleSelected" />
-      <UButton
-        v-if="!isPages"
-        class="bg-primary px-4 py-3 rounded-xl shadow-lg shadow-neutral-300 flex flex-col items-center justify-center"
-        @click="handleWallet()"
-      >
-        <div class="text-neutral-200 tracking-wide font-medium">
-          Lihat Semua
-        </div>
-      </UButton>
-    </div>
+      </div>
+    </template>
   </div>
 </template>
 
@@ -55,6 +70,11 @@ import type { iWallets } from "~/types/wallets";
 
 const props = defineProps({
   isPages: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
+  isLoading: {
     type: Boolean,
     required: false,
     default: false,

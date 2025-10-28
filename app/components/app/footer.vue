@@ -7,16 +7,17 @@
       v-for="item in navigation"
       :key="item.name"
       :to="item.href"
-      class="flex flex-col flex-1 items-center justify-center mx-2 text-neutral-700 cursor-pointer hover:text-primary"
-      :class="{ 'text-primary': currentRouter === item.href }"
+      class="transition-alltext-sm font-medium flex flex-col flex-1 items-center justify-center mx-2 text-neutral-700 cursor-pointer hover:text-primary"
+      :class="{ 'text-primary text-[1.1rem]': currentRouter === item.href }"
     >
-      <UIcon :name="item.icon" class="size-6" />
-      <div
-        class="text-xs opacity-0"
-        :class="{ 'opacity-100': currentRouter === item.href }"
-      >
+      <span>
         {{ item.name }}
-      </div>
+      </span>
+      <UIcon
+        name="solar:balloon-bold"
+        class="transition-all size-3 opacity-0 rotate-180"
+        :class="{ 'opacity-100': currentRouter === item.href }"
+      />
     </nuxt-link>
   </UContainer>
   <USlideover

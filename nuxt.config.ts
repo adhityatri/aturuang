@@ -86,10 +86,12 @@ export default defineNuxtConfig({
   pwa: {
     registerType: "autoUpdate",
     manifest: {
-      name: "Aturuang - Aplikasi Pencatatan Uang",
+      name: "Aturuang",
       short_name: "Aturuang",
       description: "Aplikasi Pencatatan Uang",
       theme_color: "#0353a4",
+      background_color: "#0353a4",
+      categories: ["finance", "productivity"],
       icons: [
         {
           src: "/android-chrome-192x192.png",
