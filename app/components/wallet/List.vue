@@ -1,7 +1,10 @@
 <template>
-  <div class="w-[100%] p-2 flex flex-col gap-4 mb-4 overflow-hidden">
-    <div class="flex justify-between items-center mb-2">
-      <app-title-page>Kantong Saya</app-title-page>
+  <div class="w-[100%] flex flex-col gap-4 mb-4 overflow-hidden">
+    <div
+      class="flex justify-between items-center mb-2"
+      :class="{ 'mb-0': isPages }"
+    >
+      <app-title-page v-if="!isPages">Kantong Saya</app-title-page>
       <USlideover
         v-model:open="openForm"
         :dismissible="true"
@@ -10,13 +13,14 @@
         :close="{ onClick: () => closeForm() }"
       >
         <UButton
+          v-if="!isPages"
           variant="subtle"
           :ui="{
-            base: 'flex justify-center ring-2! ring-white shadow-lg leading-3 py-4 px-8 rounded-full min-w-[150px]',
+            base: 'bg-neutral-200 py-4 px-6 rounded-2xl ring-2 ring-white shadow-xl',
           }"
           icon="solar:add-square-linear"
         >
-          Buat Kantong
+          Kantong
         </UButton>
         <template #body>
           <wallet-form
@@ -28,27 +32,20 @@
         </template>
       </USlideover>
     </div>
-    <div class="grid grid-cols-2 gap-4 max-h-[270px] pb-4 overflow-auto">
-      <div
-        v-for="wallet in list"
-        :key="wallet.id"
-        class="bg-neutral-200 px-4 py-3 rounded-xl ring-2 ring-white shadow-lg shadow-neutral-300 min-w-[170px] snap-x"
-        @click="handleSelected(wallet)"
-      >
-        <div class="flex flex-col h-full gap-1 justify-between items-end">
-          <div class="text-[.87rem] line-clamp-2 font-medium text-neutral-800">
-            {{ wallet.name }}
-          </div>
-          <div class="text-primary font-bold tracking-wide">
-            {{ useFormatPriceIntl(wallet.amount) }}
-          </div>
-        </div>
-      </div>
-      <div
+    <div
+      class="grid grid-cols-2 gap-4 max-h-[270px] pb-4 overflow-x-hidden overflow-y-auto"
+      :class="{ 'max-h-screen': isPages }"
+    >
+      <wallet-item :list="list" @selected="handleSelected" />
+      <UButton
+        v-if="!isPages"
         class="bg-primary px-4 py-3 rounded-xl shadow-lg shadow-neutral-300 flex flex-col items-center justify-center"
+        @click="handleWallet()"
       >
-        <div class="text-neutral-200 tracking-wide font-medium">Lihat Semua</div>
-      </div>
+        <div class="text-neutral-200 tracking-wide font-medium">
+          Lihat Semua
+        </div>
+      </UButton>
     </div>
   </div>
 </template>
@@ -56,10 +53,20 @@
 <script setup lang="ts">
 import type { iWallets } from "~/types/wallets";
 
+const props = defineProps({
+  isPages: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
+});
+
 const walletStore = useWallets();
 const openForm = shallowRef<boolean>(false);
 
-const list = computed(() => walletStore.wallets.slice(0, 5));
+const list = computed(() =>
+  props.isPages ? walletStore.wallets : walletStore.wallets.slice(0, 5)
+);
 
 const selectedWallet = shallowRef<iWallets | null>(null);
 const handleSelected = (wallet: iWallets) => {
@@ -103,5 +110,10 @@ const handleSubmit = async (value: { name: string; amount: number }) => {
 const closeForm = () => {
   selectedWallet.value = null;
   openForm.value = false;
+};
+
+const router = useRouter();
+const handleWallet = () => {
+  router.push({ name: "wallets" });
 };
 </script>

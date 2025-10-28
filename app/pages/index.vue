@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-1 flex-col p-4">
+  <div class="flex flex-1 flex-col p-4 pb-14">
     <div class="flex justify-between items-center pt-[2em]">
       <app-greeting :is-loading="isLoading" />
     </div>

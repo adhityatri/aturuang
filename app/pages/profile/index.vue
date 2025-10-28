@@ -6,7 +6,7 @@
         <div
           class="bg-primary-900 ring-2 ring-primary-500 text-white rounded-full shadow-xl p-4 px-6 font-medium"
         >
-          <h3>Rincian Transaksi</h3>
+          <h3>Profil Saya</h3>
         </div>
       </div>
       <div

@@ -1,7 +1,7 @@
 <template>
   <UContainer
     as="footer"
-    class="fixed bottom-0 bg-neutral-300 border-t-2 border-t-white h-[70px] flex items-center justify-evenly overflow-hidden"
+    class="fixed bottom-0 bg-neutral-200 border-t-2 border-t-white h-[70px] flex items-center justify-evenly overflow-hidden"
   >
     <nuxt-link
       v-for="item in navigation"
@@ -11,16 +11,23 @@
       :class="{ 'text-primary': currentRouter === item.href }"
     >
       <UIcon :name="item.icon" class="size-6" />
+      <div
+        class="text-xs opacity-0"
+        :class="{ 'opacity-100': currentRouter === item.href }"
+      >
+        {{ item.name }}
+      </div>
     </nuxt-link>
   </UContainer>
   <USlideover
+    v-if="canCreate"
     v-model:open="open"
     :dismissible="false"
     title="Transaksi Baru"
     side="bottom"
   >
     <UButton
-      class="w-[120px] h-[50px] bottom-[4.5rem] right-4 fixed flex items-center justify-center rounded-full px-2"
+      class="w-[120px] h-[50px] bottom-[5rem] right-4 fixed flex items-center justify-center rounded-full px-2"
       :ui="{
         base: 'bg-primary text-white ring-2 ring-white',
       }"
@@ -49,12 +56,6 @@ const navigation = [
     href: "/Transactions",
     current: false,
   },
-  // {
-  //   name: "Budget",
-  //   icon: "solar:money-bag-linear",
-  //   href: "/budget",
-  //   current: false,
-  // },
   {
     name: "Profile",
     icon: "solar:user-linear",
@@ -70,7 +71,10 @@ const currentRouter = computed(() => {
 
 const open = ref(false);
 const onClose = () => {
-  // Logic to close the slideover
   open.value = false;
 };
+
+const canCreate = computed(() => {
+  return currentRouter.value === "/";
+});
 </script>

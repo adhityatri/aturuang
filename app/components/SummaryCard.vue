@@ -32,7 +32,7 @@
       <div
         class="bg-primary-900/80 gap-2 ring-1 ring-primary-950 rounded-2xl p-2 h-auto text-white w-full flex justify-between z-1"
       >
-        <div class="flex flex-1/2 items-center gap-2 px-4 py-2">
+        <div class="flex flex-1/2 items-center justify-start gap-2 px-2 py-2">
           <div class="bg-white/90 rounded-lg place-items-center flex">
             <UIcon
               name="solar:arrow-left-down-linear"
@@ -41,13 +41,13 @@
           </div>
           <div class="flex flex-col items-start leading-[1.2rem]">
             <small class="font-medium tracking-wide">Pemasukan</small>
-            <h2 class="text-[1.1rem]">
+            <h2 class="text-[0.85rem]">
               {{ useFormatPriceIntl(props.income) }}
             </h2>
           </div>
         </div>
         <div
-          class="flex flex-1/2 flex-row-reverse items-center gap-2 rounded-xl px-4 py-2"
+          class="flex flex-1/2 flex-row-reverse items-center justify-end gap-2 rounded-xl px-2 py-2"
         >
           <div class="bg-white/90 rounded-lg place-items-center flex">
             <UIcon
@@ -57,7 +57,7 @@
           </div>
           <div class="flex flex-col w-full items-end leading-[1.2rem]">
             <small class="font-medium tracking-wide">Pengeluaran</small>
-            <h2 class="text-[1.1rem]">
+            <h2 class="text-[0.85rem]">
               {{ useFormatPriceIntl(props.expenses) }}
             </h2>
           </div>
