@@ -1,7 +1,7 @@
 <template>
   <UContainer
     as="footer"
-    class="fixed bottom-0 bg-gray-200 h-[60px] flex items-center justify-evenly"
+    class="fixed bottom-0 bg-neutral-300 border-t-2 border-t-white h-[70px] flex items-center justify-evenly overflow-hidden"
   >
     <nuxt-link
       v-for="item in navigation"
@@ -12,17 +12,27 @@
     >
       <UIcon :name="item.icon" class="size-6" />
     </nuxt-link>
-    <USlideover  v-model:open="open"  :dismissible="false" title="Transaksi Baru" side="bottom">
-      <UButton class="w-[100px] flex items-center justify-center">
-        <UIcon name="solar:add-square-broken" class="size-6 mr-2" />
-        Baru
-      </UButton>
-
-      <template #body>
-        <money-tracker-form @close-on-submit="onClose" />
-      </template>
-    </USlideover>
   </UContainer>
+  <USlideover
+    v-model:open="open"
+    :dismissible="false"
+    title="Transaksi Baru"
+    side="bottom"
+  >
+    <UButton
+      class="w-[120px] h-[50px] bottom-[4.5rem] right-4 fixed flex items-center justify-center rounded-full px-2"
+      :ui="{
+        base: 'bg-primary text-white ring-2 ring-white',
+      }"
+    >
+      <UIcon name="solar:add-square-broken" class="size-6 mr-2" />
+      Baru
+    </UButton>
+
+    <template #body>
+      <money-tracker-form @close-on-submit="onClose" />
+    </template>
+  </USlideover>
 </template>
 
 <script setup lang="ts">
@@ -58,7 +68,7 @@ const currentRouter = computed(() => {
   return router.currentRoute.value.path;
 });
 
-const open = ref(false)
+const open = ref(false);
 const onClose = () => {
   // Logic to close the slideover
   open.value = false;

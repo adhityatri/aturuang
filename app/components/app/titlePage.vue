@@ -1,5 +1,5 @@
 <template>
-    <div class="font-bold py-2 text-center">
+    <div class="text-[1.2rem] font-bold text-neutral-700">
       <slot />
     </div>
 </template>

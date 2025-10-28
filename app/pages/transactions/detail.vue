@@ -1,9 +1,9 @@
 <template>
   <div class="bg-neutral-50 flex flex-col flex-1 gap-4">
     <div class="p-4 flex justify-between">
-      <nuxt-link class="text-primary ring-2 ring-white bg-neutral-100 rounded-full shadow-xl w-[56px] flex items-center justify-center">
+      <UButton @click="$router.back()" class="all:unset text-primary ring-2 ring-white bg-neutral-100 rounded-full shadow-xl w-[56px] flex items-center justify-center">
         <UIcon name="solar:alt-arrow-left-line-duotone" size="1.5rem" /> 
-      </nuxt-link>
+      </UButton>
       <div class="bg-white rounded-full shadow-xl p-4 px-6 font-medium">
         <h3>Rincian Transaksi</h3>
       </div>
@@ -83,13 +83,13 @@
             class="text-[1.5rem] text-green-800"
             :class="{
               'text-red-800':
-                transactionsStore.transactionDetail.category_type ===
+                transactionsStore.transactionDetail?.category_type ===
                 'expenses',
             }"
           />
           <div>
             {{
-              transactionsStore.transactionDetail.category_type === "expenses"
+              transactionsStore.transactionDetail?.category_type === "expenses"
                 ? "Uang Keluar"
                 : "Uang Masuk"
             }}

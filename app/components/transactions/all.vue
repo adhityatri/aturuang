@@ -13,7 +13,7 @@
       <div v-for="value in props.source" :key="value.title">
         <small class="uppercase text-neutral-400">{{ value.title }}</small>
 
-        <transactions-item v-for="transaction in value.value" :key="transaction.id" :transaction="transaction" />
+        <transactions-item v-for="transaction in value.value" :key="transaction.id" :transaction="transaction" @click="navigateToTransactionDetail(transaction)" />
       </div>
     </template>
   </UCard>
@@ -33,4 +33,6 @@ const props = withDefaults(defineProps<Props>(), {
   source: () => [] as iGroupedTransaction[],
   isAll: false,
 });
+
+const { navigateToTransactionDetail } = useTransactionNavigation();
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center ring-1 ring-neutral-200 relative overflow-hidden rounded-full h-[96px] w-[96px] justify-center bg-white shadow-md">
+  <div class="flex items-center ring-2 ring-white relative overflow-hidden rounded-full h-[96px] w-[96px] justify-center bg-neutral-300 shadow-md">
     <slot />
   </div>
 </template>

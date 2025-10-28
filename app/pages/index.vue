@@ -1,16 +1,11 @@
 <template>
-  <div
-    v-if="isDesktop"
-    class="bg-white flex-1 flex flex-col items-center justify-center"
-  >
-    <mobile-only />
-  </div>
-  <div v-else class="flex flex-1 flex-col p-4">
+  <div class="flex flex-1 flex-col p-4">
     <div class="flex justify-between items-center pt-[2em]">
-      <app-greeting />
+      <app-greeting :is-loading="isLoading" />
     </div>
 
     <summary-card
+      :is-loading="isLoading"
       :current-balance="walletBalance"
       :income="transactionStore.incomeThisMonth"
       :expenses="transactionStore.expensesThisMonth"
@@ -46,32 +41,33 @@ const walletStore = useWallets();
 let realtimeChannel: RealtimeChannel;
 let walletRealtimeChannel: RealtimeChannel;
 
-const { refresh: refreshTransactions } = await useAsyncData(
-  "transactions-data",
-  async () => {
-    try {
-      const result = await transactionStore.getTransactionsWithCategory({
-        category_type_filter: "all",
-      });
-      return Array.isArray(result) ? result : [];
-    } catch (error) {
-      useToast().add({
-        title: "Error",
-        description: "Gagal mengambil data transaksi : " + error,
-        color: "error",
-      });
-      return []; // Always return a consistent type
+const { refresh: refreshTransactions, status: statusTransactions } =
+  await useAsyncData(
+    "transactions-data",
+    async () => {
+      try {
+        const result = await transactionStore.getTransactionsWithCategory({
+          category_type_filter: "all",
+        });
+        return Array.isArray(result) ? result : [];
+      } catch (error) {
+        useToast().add({
+          title: "Error",
+          description: "Gagal mengambil data transaksi : " + error,
+          color: "error",
+        });
+        return []; // Always return a consistent type
+      }
+    },
+    {
+      default: () => [],
+      lazy: true,
+      dedupe: "defer",
+      server: true,
     }
-  },
-  {
-    default: () => [],
-    lazy: true,
-    dedupe: "defer",
-    server: true,
-  }
-);
+  );
 
-const { refresh: refreshWallets } = await useAsyncData(
+const { refresh: refreshWallets, status: statusWallet } = await useAsyncData(
   "wallets-data",
   () => walletStore.getWallets(),
   {
@@ -86,6 +82,11 @@ const walletBalance = computed(() => {
     walletStore.wallets.reduce((acc, wallet) => acc + wallet.amount, 0) ?? 0
   );
 });
+
+const isLoading = computed(
+  () =>
+    statusTransactions.value !== "success" && statusWallet.value !== "success"
+);
 
 onMounted(() => {
   if (!isDesktop) {

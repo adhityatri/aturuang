@@ -19,7 +19,7 @@
         v-for="value in source"
         :key="value.id"
         :transaction="value"
-        @click="handleClick(value)"
+        @click="navigateToTransactionDetail(value)"
       />
     </div>
   </UCard>
@@ -42,13 +42,5 @@ const props = withDefaults(defineProps<Props>(), {
   groupTitle: "",
 });
 
-const router = useRouter();
-const handleClick = (transaction: iTransaction) => {
-  router.push({
-    name: "transaction-detail",
-    query: {
-      id: transaction.id,
-    },
-  });
-};
+const { navigateToTransactionDetail } = useTransactionNavigation();
 </script>

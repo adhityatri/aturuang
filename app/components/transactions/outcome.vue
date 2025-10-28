@@ -7,6 +7,7 @@
         v-for="transaction in value.value"
         :key="transaction.id"
         :transaction="transaction"
+        @click="navigateToTransactionDetail(transaction)"
       />
     </div>
   </div>
@@ -14,10 +15,12 @@
 
 <script setup lang="ts">
 import type { iGroupedTransaction } from "~/types/transactions";
+
 interface Props {
   expenses?: iGroupedTransaction[];
 }
 
+const { navigateToTransactionDetail } = useTransactionNavigation();
 const props = withDefaults(defineProps<Props>(), {
   expenses: () => [] as iGroupedTransaction[],
 });

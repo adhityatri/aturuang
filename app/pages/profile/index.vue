@@ -2,7 +2,13 @@
   <div class="flex flex-1 flex-col gap-4 bg-primary">
     <div class="text-white p-4 relative">
       <div class="absolute inset-0 z-0 custom-bg" />
-      <app-title-page>Profile</app-title-page>
+      <div class="flex justify-end mb-4">
+        <div
+          class="bg-primary-900 ring-2 ring-primary-500 text-white rounded-full shadow-xl p-4 px-6 font-medium"
+        >
+          <h3>Rincian Transaksi</h3>
+        </div>
+      </div>
       <div
         class="h-[200px] w-full flex flex-col gap-2 items-center justify-center"
       >
@@ -23,7 +29,7 @@
       </div>
     </div>
 
-    <div class="p-4 flex-1 bg-neutral-200 rounded-tl-2xl rounded-tr-2xl">
+    <div class="p-4 flex-1 bg-neutral-200 rounded-tl-[2rem] rounded-tr-[2rem] ring-2 ring-white">
       <div
         class="my-6 flex flex-col p-4 items-start justify-center w-full rounded-lg bg-neutral-300"
       >
