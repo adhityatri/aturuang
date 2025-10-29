@@ -13,6 +13,7 @@ export interface iTransaction {
   category_name?: string;
   category_type?: string;
   wallet_id?: string;
+  wallet_name?: string;
 }
 
 export interface iGroupedTransaction {

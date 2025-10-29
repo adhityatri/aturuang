@@ -1,39 +1,26 @@
-export default defineNuxtRouteMiddleware(async (to) => {
+export default defineNuxtRouteMiddleware((to) => {
   const user = useSupabaseUser();
-  // const { isDesktop } = useDevice();
-
   const routes = {
     LOGIN: "login-page",
     HOME: "homepage",
     DESKTOP_HOME: "desktop-home",
   } as const;
 
-  const routeName = (to.name ?? "") as string;
-  const isAuthenticated = !!user.value;
+  const routeName = String(to.name ?? "");
+  const isAuthenticated = Boolean(user.value);
 
-  // Decide a single redirection target to avoid multiple navigateTo calls
-  let target: string | null = null;
-  // let replace = true; // keep history clean for auth redirects
-
-  // if (isDesktop) {
-  //   // Desktop users should always land on desktop-home
-  //   if (routeName !== routes.DESKTOP_HOME) {
-  //     target = routes.DESKTOP_HOME;
-  //     replace = false; // preserve original behavior (no replace) for desktop redirect
-  //   }
-  // } else {
-  // Mobile / tablet logic
-  if (isAuthenticated && routeName === routes.LOGIN) {
-    target = routes.HOME;
-  } else if (!isAuthenticated && routeName !== routes.LOGIN) {
-    target = routes.LOGIN;
-  } else if (routeName === routes.DESKTOP_HOME) {
-    // Prevent mobile users from accessing desktop-only route
-    target = routes.LOGIN;
-  }
+  // Always redirect desktop-only route to login (adjust as needed)
+  // if (routeName === routes.DESKTOP_HOME) {
+  //   return navigateTo({ name: routes.LOGIN });
   // }
 
-  if (target) {
-    return navigateTo({ name: target });
+  // Redirect unauthenticated users to login when accessing protected routes
+  if (!isAuthenticated && routeName !== routes.LOGIN && routeName !== routes.DESKTOP_HOME) {
+    return navigateTo({ name: routes.LOGIN });
+  }
+
+  // Redirect authenticated users away from login page to home
+  if (isAuthenticated && routeName === routes.LOGIN) {
+    return navigateTo({ name: routes.HOME });
   }
 });

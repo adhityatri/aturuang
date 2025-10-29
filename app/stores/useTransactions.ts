@@ -112,7 +112,7 @@ const useTransactionsStore = defineStore("transactions-store", () => {
       const { data, error } = await supabaseClient.rpc(
         "get_transactions_by_id",
         {
-          transactionsid: id,
+          p_transactions_id: id,
         }
       );
 

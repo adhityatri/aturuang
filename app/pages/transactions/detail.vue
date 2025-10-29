@@ -38,7 +38,7 @@
             >Dari</label
           >
           <div class="text-neutral-800">
-            {{ transactionsStore.transactionDetail?.wallet_id }}
+            {{ transactionsStore.transactionDetail?.wallet_name }}
           </div>
         </div>
         <div class="flex flex-col">
