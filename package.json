@@ -4,8 +4,8 @@
   "type": "module",
   "version": "1.0.0",
   "scripts": {
-    "build": "bun --run run nuxt build",
-    "dev": "bun --run run nuxt dev",
+    "build": "nuxt build",
+    "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
