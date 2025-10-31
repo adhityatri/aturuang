@@ -9,9 +9,10 @@
       <div class="text-[.87rem] line-clamp-2 font-medium text-neutral-800">
         {{ wallet.name }}
       </div>
-      <div class="text-primary font-bold tracking-wide">
+      <div v-if="privacyStore.isPrivacyAccepted" class="text-primary font-bold tracking-wide">
         {{ useFormatPriceIntl(wallet.amount) }}
       </div>
+      <app-privacy v-else size="md" color="primary" />
     </div>
   </div>
 </template>
@@ -23,5 +24,6 @@ const props = defineProps<{
   list: iWallets[];
 }>();
 
+const privacyStore = usePrivacy();
 const emit = defineEmits(["selected"]);
 </script>

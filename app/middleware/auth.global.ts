@@ -15,7 +15,7 @@ export default defineNuxtRouteMiddleware((to) => {
   // }
 
   // Redirect unauthenticated users to login when accessing protected routes
-  if (!isAuthenticated && routeName !== routes.LOGIN && routeName !== routes.DESKTOP_HOME) {
+  if (!isAuthenticated && routeName !== routes.LOGIN) {
     return navigateTo({ name: routes.LOGIN });
   }
 

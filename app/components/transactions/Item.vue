@@ -31,11 +31,12 @@
         }}</small>
       </div>
       <transactions-amount
+        v-if="usePrivacyStore.isPrivacyAccepted"
         :is-expenses="props.transaction?.categories?.type === 'expenses'"
-        >{{
-          useFormatPriceIntl(props.transaction?.amount)
-        }}</transactions-amount
       >
+        {{ useFormatPriceIntl(props.transaction?.amount) }}
+      </transactions-amount>
+      <app-privacy v-else size="sm" color="primary" />
     </div>
   </div>
 </template>
@@ -46,6 +47,8 @@ import type { iTransaction } from "~/types/transactions";
 interface Props {
   transaction?: iTransaction;
 }
+
+const usePrivacyStore = usePrivacy();
 
 const props = withDefaults(defineProps<Props>(), {
   transaction: () =>

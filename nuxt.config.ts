@@ -32,6 +32,7 @@ export default defineNuxtConfig({
 
   supabase: {
     redirect: false,
+    types: false,
     clientOptions: {
       auth: {
         persistSession: true,
@@ -67,6 +68,7 @@ export default defineNuxtConfig({
   },
 
   nitro: {
+    preset: "bun",
     compressPublicAssets: true,
     prerender: {
       crawlLinks: true,

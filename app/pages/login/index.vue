@@ -15,26 +15,26 @@
       class="bg-white rounded-xl w-full max-w-sm mt-8 p-6 ring-2 ring-neutral-200 z-1 shadow-lg shadow-neutral-900"
       :schema="loginSchema"
       :state="state"
-      @submit.prevent="onSubmit"
+      @submit="onSubmit"
     >
-      <UFormField label="Email" name="email" class="w-[100%] mb-4">
+      <UFormField label="Email" name="email" class="w-full mb-4">
         <UInput
           v-model="state.email"
           variant="outline"
           placeholder="Masukkan email"
           size="xl"
           type="email"
-          class="w-[100%]"
+          class="w-full"
         />
       </UFormField>
-      <UFormField label="Kata Sandi" name="password" class="w-[100%]">
+      <UFormField label="Kata Sandi" name="password" class="w-full">
         <UInput
           v-model="state.password"
           variant="outline"
           placeholder="Masukkan kata sandi ..."
           size="xl"
           type="password"
-          class="w-[100%]"
+          class="w-full"
         />
       </UFormField>
 
@@ -58,9 +58,13 @@ import * as v from "valibot";
 
 definePageMeta({
   name: "login-page",
-  title: "Kitacatat.com | Login",
+  title: "Aturuang.com | Login",
   layout: "auth",
 });
+
+useHead({
+  title: "Aturuang.com | Login",
+})
 
 const loginSchema = v.object({
   email: v.pipe(v.string(), v.email("Invalid email")),

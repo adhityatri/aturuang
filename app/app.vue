@@ -15,10 +15,4 @@ useHead({
     class: "flex flex-col h-[100dvh] bg-gray-300",
   },
 });
-
-const { isDesktop } = useDevice();
-const route = useRoute();
-if (isDesktop && route.path !== "/desktop") {
-  await navigateTo("/desktop");
-}
 </script>
