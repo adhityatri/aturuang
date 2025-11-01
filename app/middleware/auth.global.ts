@@ -9,13 +9,12 @@ export default defineNuxtRouteMiddleware((to) => {
   const routeName = String(to.name ?? "");
   const isAuthenticated = Boolean(user.value);
 
-  // Always redirect desktop-only route to login (adjust as needed)
-  // if (routeName === routes.DESKTOP_HOME) {
-  //   return navigateTo({ name: routes.LOGIN });
-  // }
-
   // Redirect unauthenticated users to login when accessing protected routes
-  if (!isAuthenticated && routeName !== routes.LOGIN) {
+  if (
+    !isAuthenticated &&
+    routeName !== routes.LOGIN &&
+    routeName !== routes.DESKTOP_HOME
+  ) {
     return navigateTo({ name: routes.LOGIN });
   }
 

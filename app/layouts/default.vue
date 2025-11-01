@@ -3,10 +3,5 @@
     <UContainer as="main" class="flex flex-col flex-1 bg-neutral-50 pb-[70px] px-0">
       <slot />
     </UContainer>
-    <app-footer v-if="!isDesktop" />
   </div>
 </template>
-
-<script setup lang="ts">
-const {isDesktop} = useDevice();
-</script>
