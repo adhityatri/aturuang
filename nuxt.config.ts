@@ -61,20 +61,43 @@ export default defineNuxtConfig({
     host: "127.0.0.1",
   },
 
-  nitro: {
-    compressPublicAssets: true,
-    prerender: {
-      crawlLinks: true,
-      routes: ["/"],
-      // routes: ["/", "/login", "/transactions"],
+  router: {
+    options: {
+      sensitive: true,
+      scrollBehaviorType: "smooth",
     },
   },
+
+  // nitro: {
+  //   compressPublicAssets: true,
+  //   // minify: true,
+  //   prerender: {
+  //     crawlLinks: true,
+  //     routes: ["/login", "/confirm", "/register", "/desktop"],
+  //     // routes: ["/", "/login", "/transactions"],
+  //   },
+  // },
 
   vite: {
     cacheDir: ".vite-cache",
     build: {
       sourcemap: false,
       chunkSizeWarningLimit: 1000,
+      cssMinify: "lightningcss",
+      minify: "terser",
+      terserOptions: {
+        compress: {
+          drop_console: true,
+          drop_debugger: true,
+          pure_funcs: [
+            "console.log",
+            "console.error",
+            "console.warn",
+            "console.info",
+            "console.time",
+          ],
+        },
+      },
     },
   },
 
