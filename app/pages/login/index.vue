@@ -33,9 +33,22 @@
           variant="outline"
           placeholder="Masukkan kata sandi ..."
           size="xl"
-          type="password"
+          :type="viewPassword ? 'text' : 'password'"
           class="w-full"
-        />
+        >
+          <template #trailing>
+            <UButton
+              color="neutral"
+              variant="link"
+              size="sm"
+              :icon="viewPassword ? 'i-lucide-eye-off' : 'i-lucide-eye'"
+              :aria-label="viewPassword ? 'Hide password' : 'Show password'"
+              :aria-pressed="viewPassword"
+              aria-controls="password"
+              @click="viewPassword = !viewPassword"
+            />
+          </template>
+        </UInput>
       </UFormField>
 
       <UButton
@@ -48,7 +61,29 @@
       >
         Masuk
       </UButton>
+
+      <USeparator
+        orientation="horizontal"
+        class="my-4 border-neutral-300 *:text-primary"
+        label="Atau"
+      />
+      <UButton
+        block
+        class="h-[60px] text-sm uppercase tracking-wider rounded-[2.2em]"
+        icon="streamline-logos:google-logo-solid"
+        variant="soft"
+        @click="onGoogleLogin"
+      >
+        Masuk dengan google
+      </UButton>
     </UForm>
+
+    <!-- <div class="text-sm text-white pt-4 z-1">
+      Belum punya akun?
+      <nuxt-link to="/register" class="text-primary-500">
+        Daftar disini
+      </nuxt-link>
+    </div> -->
   </div>
 </template>
 
@@ -64,7 +99,9 @@ definePageMeta({
 
 useHead({
   title: "Aturuang.com | Login",
-})
+});
+
+const viewPassword = ref<boolean>(false);
 
 const loginSchema = v.object({
   email: v.pipe(v.string(), v.email("Invalid email")),
@@ -103,6 +140,21 @@ const onSubmit = async (event: FormSubmitEvent<LoginSchema>) => {
     });
   } finally {
     isLoading.value = false;
+  }
+};
+
+const onGoogleLogin = async () => {
+  try {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: window.location.origin + "/confirm",
+      },
+    });
+
+    if (error) throw error;
+  } catch (error: any) {
+    console.error("Google login error:", error?.message);
   }
 };
 </script>

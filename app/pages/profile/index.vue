@@ -29,7 +29,9 @@
       </div>
     </div>
 
-    <div class="p-4 flex-1 bg-neutral-200 rounded-tl-[2rem] rounded-tr-[2rem] ring-2 ring-white">
+    <div
+      class="p-4 flex-1 bg-neutral-200 rounded-tl-[2rem] rounded-tr-[2rem] ring-2 ring-white"
+    >
       <div
         class="my-6 flex flex-col p-4 items-start justify-center w-full rounded-lg bg-neutral-300"
       >
@@ -43,13 +45,13 @@
         <profile-form />
         <nuxt-link
           :to="{ name: 'transactions-page' }"
-          class="text-sm px-6 py-6 rounded-[2em] ring-2 ring-neutral-200 font-medium bg-white hover:bg-neutral-300 active:bg-neutral-300 transition-all"
+          class="text-sm px-6 py-6 shadow-sm rounded-[2em] ring-0 font-medium bg-white hover:bg-neutral-300 active:bg-neutral-300 hover:shadow-lg transition-all"
         >
           History Transactions
         </nuxt-link>
         <UButton
           size="xl"
-          class="text-sm px-6 py-6 rounded-[2em]"
+          class="text-sm px-6 py-6 shadow-sm rounded-[2em] hover:shadow-lg transition-all"
           variant="subtle"
           color="error"
           @click="handleLogout"

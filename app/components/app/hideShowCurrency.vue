@@ -4,8 +4,8 @@
     class="rounded-lg py-3 px-4 shadow-xl ring-2 ring-white transition-all"
     :trailing-icon="
       privacyStore.isPrivacyAccepted
-        ? 'solar:eye-bold'
-        : 'solar:eye-closed-bold'
+        ? 'solar:eye-closed-bold'
+        : 'solar:eye-bold'
     "
     @click="handleEye"
   />

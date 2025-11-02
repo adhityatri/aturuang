@@ -97,7 +97,10 @@ const useTransactionsStore = defineStore("transactions-store", () => {
         throw error;
       }
 
-      transactionsList.value = data || [];
+      transactionsList.value = ((data || []) as iTransaction[]).sort(
+        (a, b) =>
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      );
       return data;
     } catch (err) {
       return err;
@@ -137,25 +140,49 @@ const useTransactionsStore = defineStore("transactions-store", () => {
   const groupTransactionsByDate = () => {
     const groups: Record<string, iTransaction[]> = {};
 
-    transactionsList.value.forEach((tx) => {
+    for (const tx of transactionsList.value) {
       const txDate = new Date(tx.created_at);
-      const isToday = useIsToday(txDate);
-      const isYesterday = useIsYesterday(txDate);
 
-      let key = txDate.toLocaleDateString();
-      if (isToday) key = "today";
-      else if (isYesterday) key = "yesterday";
+      // Early return for invalid dates
+      if (isNaN(txDate.getTime())) {
+        console.error(`Invalid date for transaction: ${tx.created_at}`);
+        continue;
+      }
 
-      if (!groups[key]) groups[key] = [];
-      groups[key]?.push(tx);
-    });
+      // Determine the group key
+      let key: string;
+      if (useIsToday(txDate)) {
+        key = "today";
+      } else if (useIsYesterday(txDate)) {
+        key = "yesterday";
+      } else {
+        key = txDate.toLocaleDateString();
+      }
 
-    const result = Object.keys(groups).map((key) => ({
-      title: key,
-      value: groups[key] ?? [],
-    }));
+      // Initialize group if it doesn't exist and push transaction
+      if (!groups[key]) {
+        groups[key] = [];
+      }
+      (groups[key] ||= []).push(tx);
+    }
 
-    return result;
+    // Convert to array and sort in one operation
+    return Object.entries(groups)
+      .map(([title, value]) => ({ title, value }))
+      .sort((a, b) => {
+        // Handle special cases first
+        if (a.title === "today") return -1;
+        if (b.title === "today") return 1;
+        if (a.title === "yesterday") return -1;
+        if (b.title === "yesterday") return 1;
+
+        // Compare dates for other cases
+        const dateA = new Date(a.title).getTime();
+        const dateB = new Date(b.title).getTime();
+
+        // Sort descending (newest first)
+        return dateB - dateA;
+      });
   };
 
   const groupedTransactions = computed(() => groupTransactionsByDate());

@@ -1,12 +1,21 @@
 <script setup lang="ts">
-const user = useSupabaseUser()
+const user = useSupabaseUser();
 
-watch(user, () => {
-  if (user.value) {
+definePageMeta({
+  name: "confirm",
+});
+
+watch(
+  user,
+  (currentUser) => {
+    console.log("currentUser : ", currentUser);
+    if (currentUser) {
       // Redirect to protected page
-      return navigateTo('/')
-  }
-}, { immediate: true })
+      return navigateTo("/");
+    }
+  },
+  { immediate: true }
+);
 </script>
 
 <template>

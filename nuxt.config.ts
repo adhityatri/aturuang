@@ -31,8 +31,13 @@ export default defineNuxtConfig({
   },
 
   supabase: {
-    redirect: false,
+    redirect: true,
+    redirectOptions: {
+      login: "/login",
+      callback: "/confirm",
+    },
     types: false,
+
     clientOptions: {
       auth: {
         persistSession: true,
@@ -41,7 +46,6 @@ export default defineNuxtConfig({
       },
     },
     cookieOptions: {
-      // Cookies akan tersedia di seluruh domain dan hanya bisa diakses oleh server
       maxAge: 60 * 60 * 24 * 7, // Waktu kedaluwarsa cookies (7 hari)
       sameSite: "lax", // Mencegah serangan CSRF
       secure: process.env.NODE_ENV === "production", // Hanya berlaku pada HTTPS di produksi
@@ -50,16 +54,16 @@ export default defineNuxtConfig({
 
   image: {
     quality: 80,
-    // format: ["webp"],
-    // screens: {
-    //   xs: 320,
-    //   sm: 640,
-    //   md: 768,
-    //   lg: 1024,
-    //   xl: 1280,
-    //   xxl: 1536,
-    //   "2xl": 1536,
-    // },
+    format: ["webp"],
+    screens: {
+      xs: 320,
+      sm: 640,
+      md: 768,
+      lg: 1024,
+      xl: 1280,
+      xxl: 1536,
+      "2xl": 1536,
+    },
   },
 
   devServer: {

@@ -23,13 +23,10 @@
       </div>
       <div class="leading-8 flex-1 flex flex-col justify-center text-white z-1">
         <p>Saldo Saat Ini</p>
-        <h1
-          v-if="usePrivacyStore.isPrivacyAccepted"
-          class="text-[2rem] font-bold"
-        >
+        <app-privacy v-if="usePrivacyStore.isPrivacyAccepted" size="lg" />
+        <h1 v-else class="text-[2rem] font-bold">
           {{ useFormatPriceIntl(props.currentBalance) }}
         </h1>
-        <app-privacy v-else size="lg" />
       </div>
       <div
         class="bg-primary-900/80 gap-2 ring-1 ring-primary-950 rounded-2xl p-2 h-auto text-white w-full flex justify-between z-1"
@@ -43,10 +40,10 @@
           </div>
           <div class="flex flex-col items-start leading-[1.2rem]">
             <small class="font-medium tracking-wide">Pemasukan</small>
-            <h2 v-if="usePrivacyStore.isPrivacyAccepted" class="text-[0.85rem]">
+            <app-privacy v-if="usePrivacyStore.isPrivacyAccepted" size="sm" />
+            <h2 v-else class="text-[0.85rem]">
               {{ useFormatPriceIntl(props.income) }}
             </h2>
-            <app-privacy v-else size="sm" />
           </div>
         </div>
         <div
@@ -60,10 +57,10 @@
           </div>
           <div class="flex flex-col w-full items-end leading-[1.2rem]">
             <small class="font-medium tracking-wide">Pengeluaran</small>
-            <h2 v-if="usePrivacyStore.isPrivacyAccepted" class="text-[0.85rem]">
+            <app-privacy v-if="usePrivacyStore.isPrivacyAccepted" size="sm" />
+            <h2 v-else class="text-[0.85rem]">
               {{ useFormatPriceIntl(props.expenses) }}
             </h2>
-            <app-privacy v-else size="sm" />
           </div>
         </div>
       </div>

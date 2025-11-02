@@ -30,13 +30,17 @@
           })
         }}</small>
       </div>
-      <transactions-amount
+      <app-privacy
         v-if="usePrivacyStore.isPrivacyAccepted"
+        size="sm"
+        color="primary"
+      />
+      <transactions-amount
+        v-else
         :is-expenses="props.transaction?.categories?.type === 'expenses'"
       >
         {{ useFormatPriceIntl(props.transaction?.amount) }}
       </transactions-amount>
-      <app-privacy v-else size="sm" color="primary" />
     </div>
   </div>
 </template>

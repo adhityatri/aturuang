@@ -3,6 +3,8 @@ export default defineNuxtRouteMiddleware((to) => {
   const routes = {
     LOGIN: "login-page",
     HOME: "homepage",
+    REGISTER: "register",
+    CONFIRM: "confirm",
     DESKTOP_HOME: "desktop-home",
   } as const;
 
@@ -13,7 +15,9 @@ export default defineNuxtRouteMiddleware((to) => {
   if (
     !isAuthenticated &&
     routeName !== routes.LOGIN &&
-    routeName !== routes.DESKTOP_HOME
+    routeName !== routes.DESKTOP_HOME &&
+    routeName !== routes.REGISTER &&
+    routeName !== routes.CONFIRM
   ) {
     return navigateTo({ name: routes.LOGIN });
   }

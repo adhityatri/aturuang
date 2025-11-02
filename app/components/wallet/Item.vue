@@ -9,10 +9,11 @@
       <div class="text-[.87rem] line-clamp-2 font-medium text-neutral-800">
         {{ wallet.name }}
       </div>
-      <div v-if="privacyStore.isPrivacyAccepted" class="text-primary font-bold tracking-wide">
+      <app-privacy v-if="privacyStore.isPrivacyAccepted" size="md" color="primary" />
+      <div v-else class="text-primary font-bold tracking-wide">
         {{ useFormatPriceIntl(wallet.amount) }}
       </div>
-      <app-privacy v-else size="md" color="primary" />
+      
     </div>
   </div>
 </template>

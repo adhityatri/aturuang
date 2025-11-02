@@ -34,7 +34,7 @@
             }"
             icon="solar:add-square-linear"
           >
-            Kantong
+            Kantong Baru
           </UButton>
           <template #body>
             <wallet-form
@@ -47,6 +47,7 @@
         </USlideover>
       </div>
       <div
+        v-if="list.length > 0"
         class="grid grid-cols-2 gap-4 max-h-[270px] pb-4 overflow-x-hidden overflow-y-auto"
         :class="{ 'max-h-screen': isPages }"
       >
@@ -60,6 +61,12 @@
             Lihat Semua
           </div>
         </UButton>
+      </div>
+      <div v-else class="bg-neutral-200 py-8">
+        <div class="text-neutral-400 tracking-wide text-md text-center py-4">
+          <p>Kamu belum mempunyai kantong</p>
+          <p class="text-neutral-600">Buat dahulu!</p>
+        </div>
       </div>
     </template>
   </div>
