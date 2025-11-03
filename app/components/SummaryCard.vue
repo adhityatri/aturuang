@@ -12,24 +12,28 @@
     </USkeleton>
     <div
       v-else
-      class="relative overflow-hidden h-[200px] rounded-2xl shadow-xl bg-primary flex flex-col items-start justify-between ring-4 ring-white shadow-neutral-300 px-4 py-2"
+      class="relative overflow-hidden h-[200px] bg-primary rounded-2xl shadow-xl flex flex-col items-start justify-between ring-4 ring-white shadow-neutral-400"
     >
       <div class="absolute inset-0 z-0 custom-bg" />
-      <div>
-        <UIcon
-          name="solar:wallet-money-bold"
-          class="text-[10rem] opacity-20 text-white absolute right-0 bottom-[-10px]"
-        />
-      </div>
-      <div class="leading-8 flex-1 flex flex-col justify-center text-white z-1">
-        <p>Saldo Saat Ini</p>
-        <app-privacy v-if="usePrivacyStore.isPrivacyAccepted" size="lg" />
-        <h1 v-else class="text-[2rem] font-bold">
-          {{ useFormatPriceIntl(props.currentBalance) }}
-        </h1>
+      <div class="flex flex-col flex-1 px-4 py-2">
+        <div>
+          <UIcon
+            name="solar:wallet-money-bold"
+            class="text-[10rem] opacity-20 text-white absolute right-0 bottom-[-10px]"
+          />
+        </div>
+        <div
+          class="leading-8 flex-1 flex flex-col justify-center text-white z-1"
+        >
+          <p>Saldo Saat Ini</p>
+          <app-privacy v-if="usePrivacyStore.isPrivacyAccepted" size="lg" />
+          <h1 v-else class="text-[2rem] font-bold">
+            {{ useFormatPriceIntl(props.currentBalance) }}
+          </h1>
+        </div>
       </div>
       <div
-        class="bg-primary-900/80 gap-2 ring-1 ring-primary-950 rounded-2xl p-2 h-auto text-white w-full flex justify-between z-1"
+        class="bg-primary-900/80 gap-2 rounded-xl p-2 h-auto text-white w-full flex justify-between z-1"
       >
         <div class="flex flex-1/2 items-center justify-start gap-2 px-2 py-2">
           <div class="bg-white/90 rounded-lg place-items-center flex">

@@ -1,5 +1,5 @@
 <template>
-  <div class="w-[100%] flex flex-col gap-4 mb-4 overflow-hidden">
+  <div class="w-full flex flex-col gap-4 mb-4 overflow-hidden">
     <template v-if="isLoading">
       <div class="flex justify-between items-center">
         <USkeleton class="h-4 w-[150px] bg-neutral-500 rounded-2xl" />
@@ -30,7 +30,7 @@
             v-if="!isPages"
             variant="subtle"
             :ui="{
-              base: 'bg-neutral-200 py-4 px-6 rounded-2xl ring-2 ring-white shadow-xl',
+              base: 'bg-neutral-200 inset-shadow-sm inset-shadow-neutral-400 py-4 px-6 rounded-full ring-2 ring-white shadow-xl',
             }"
             icon="solar:add-square-linear"
           >
@@ -62,10 +62,13 @@
           </div>
         </UButton>
       </div>
-      <div v-else class="bg-neutral-200 py-8">
+      <div
+        v-else
+        class="bg-neutral-200 inset-shadow-sm inset-shadow-neutral-400 ring-4 ring-white rounded-xl py-8"
+      >
         <div class="text-neutral-400 tracking-wide text-md text-center py-4">
           <p>Kamu belum mempunyai kantong</p>
-          <p class="text-neutral-600">Buat dahulu!</p>
+          <p class="text-neutral-600 font-bold" @click="() => openForm = true">Buat dahulu!</p>
         </div>
       </div>
     </template>

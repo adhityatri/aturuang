@@ -1,5 +1,7 @@
 <template>
-  <UCard class="bg-white shadow-lg ring-0 flex flex-col gap-2">
+  <UCard
+    class="bg-white shadow-xl ring-0 flex flex-col gap-2"
+  >
     <template v-if="isLoading">
       <div class="flex justify-between items-center">
         <USkeleton class="h-4 w-[150px] bg-neutral-500 rounded-2xl" />
