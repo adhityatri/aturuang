@@ -137,10 +137,10 @@ const useTransactionsStore = defineStore("transactions-store", () => {
     );
   };
 
-  const groupTransactionsByDate = () => {
+  const groupTransactionsByDate = (source: iTransaction[]) => {
     const groups: Record<string, iTransaction[]> = {};
 
-    for (const tx of transactionsList.value) {
+    for (const tx of source) {
       const txDate = new Date(tx.created_at);
 
       // Early return for invalid dates
@@ -185,7 +185,9 @@ const useTransactionsStore = defineStore("transactions-store", () => {
       });
   };
 
-  const groupedTransactions = computed(() => groupTransactionsByDate());
+  const groupedTransactions = computed(() =>
+    groupTransactionsByDate(transactionsList.value)
+  );
 
   const transactionByCategory = ref<[]>([]);
   const getSumTransactionCategory = async () => {
@@ -273,6 +275,32 @@ const useTransactionsStore = defineStore("transactions-store", () => {
     }
   };
 
+  const walletTransactions = ref<ReturnType<typeof groupTransactionsByDate>>(
+    []
+  );
+  const getTransactionsByWalletId = async (walletId: string) => {
+    if (!user.value) return;
+
+    try {
+      const { data, error } = await supabaseClient
+        .from("transactions")
+        .select("*, categories(type)")
+        .eq("wallet_id", walletId)
+        .order("created_at", { ascending: false });
+
+      if (error) throw error;
+      const result = groupTransactionsByDate(data || []);
+      walletTransactions.value = result || [];
+      return result;
+    } catch (err: any) {
+      return {
+        success: false,
+        error: err.message,
+        message: "Failed to get transactions by wallet id",
+      };
+    }
+  };
+
   return {
     transactions: transactionsList,
     loading: readonly(loading),
@@ -288,11 +316,13 @@ const useTransactionsStore = defineStore("transactions-store", () => {
     transactionByCategory,
     transactionByMonth,
     transactionDetail,
+    walletTransactions,
     getSumTransactionCategory,
     get_transactions_by_month,
     getTransactionsWithCategory,
     addTransactions,
     getTransactionsWithCategoryById,
+    getTransactionsByWalletId,
   };
 });
 

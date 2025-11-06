@@ -1,17 +1,23 @@
 <template>
   <div class="bg-neutral-50 flex flex-col flex-1 gap-4">
-    <div class="p-4 flex justify-between">
-      <UButton @click="$router.back()" class="all:unset text-primary ring-2 ring-white bg-neutral-100 rounded-full shadow-xl w-[56px] flex items-center justify-center">
-        <UIcon name="solar:alt-arrow-left-line-duotone" size="1.5rem" /> 
+    <app-nav-title title="Rincian Transaksi" @close="$router.back()" />
+    <!-- <div class="p-4 flex justify-between mt-4">
+      <UButton
+        class="active:bg-neutral-300 text-primary ring-2 ring-white inset-shadow-sm inset-shadow-neutral-300 bg-neutral-200 rounded-full shadow-xl w-[40px] h-[40px] flex items-center justify-center"
+        @click="$router.back()"
+      >
+        <UIcon name="solar:alt-arrow-left-line-duotone" size="1.5rem" />
       </UButton>
-      <div class="bg-white rounded-full shadow-xl p-4 px-6 font-medium">
+      <div
+        class="bg-neutral-200 ring-2 ring-white inset-shadow-sm inset-shadow-neutral-300 rounded-full shadow-xl p-2 px-6 font-medium"
+      >
         <h3>Rincian Transaksi</h3>
       </div>
-    </div>
+    </div> -->
 
     <div class="flex flex-col gap-4 p-4">
       <div
-        class="bg-white border-t-4 border-primary shadow-lg rounded-xl p-4 flex flex-col gap-4"
+        class="bg-neutral-100 shadow-neutral-300 ring-2 ring-white inset-shadow-sm inset-shadow-neutral-300 border-primary shadow-lg rounded-xl p-4 flex flex-col gap-4"
       >
         <h1 class="font-bold text-2xl py-4">
           {{
@@ -68,19 +74,19 @@
       </div>
 
       <div
-        class="bg-neutral-100 ring-2 ring-white rounded-xl p-4 shadow-xl flex justify-between items-center"
+        class="relative overflow-hidden bg-neutral-100 inset-shadow-sm inset-shadow-neutral-300 ring-2 ring-white rounded-xl p-4 shadow-xl flex justify-between items-center"
       >
         <div class="capitalize font-bold text-[1.1rem]">
           {{ transactionsStore.transactionDetail?.category_name }}
         </div>
-        <div class="flex gap-4 items-center">
+        <div class="flex gap-2 items-center">
           <UIcon
             :name="
               transactionsStore.transactionDetail?.category_type === 'expenses'
                 ? 'solar:arrow-left-down-linear'
                 : 'solar:arrow-right-up-linear'
             "
-            class="text-[1.5rem] text-green-800"
+            class="text-[1.2rem] text-green-800"
             :class="{
               'text-red-800':
                 transactionsStore.transactionDetail?.category_type ===

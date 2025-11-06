@@ -82,7 +82,7 @@ export default defineNuxtConfig({
     cacheDir: ".vite-cache",
     build: {
       sourcemap: false,
-      chunkSizeWarningLimit: 1000,
+      chunkSizeWarningLimit: 1200,
       cssMinify: "lightningcss",
       minify: "terser",
       terserOptions: {

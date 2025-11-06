@@ -18,6 +18,22 @@ const useWallets = defineStore("wallets-store", () => {
     }
   };
 
+  const detailWallet = ref<iWallets>();
+  const getWalletById = async (id: string) => {
+    try {
+      const { data, error } = await client
+        .from("wallets")
+        .select("*")
+        .eq("id", id)
+        .single();
+      if (error) throw error;
+
+      return (detailWallet.value = data || []);
+    } catch (error) {
+      return error;
+    }
+  };
+
   const updateWallet = async ({ id, name, amount }: any) => {
     try {
       const { data, error } = await client
@@ -56,9 +72,11 @@ const useWallets = defineStore("wallets-store", () => {
 
   return {
     wallets,
+    detailWallet,
     getWallets,
     updateWallet,
     insert,
+    getWalletById,
   };
 });
 

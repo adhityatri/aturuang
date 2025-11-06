@@ -20,7 +20,7 @@
       />
     </nuxt-link>
   </UContainer>
-  <USlideover
+  <!-- <USlideover
     v-if="canCreate"
     v-model:open="open"
     :dismissible="false"
@@ -40,7 +40,7 @@
     <template #body>
       <money-tracker-form @close-on-submit="onClose" />
     </template>
-  </USlideover>
+  </USlideover> -->
 </template>
 
 <script setup lang="ts">
@@ -70,12 +70,12 @@ const currentRouter = computed(() => {
   return router.currentRoute.value.path;
 });
 
-const open = ref(false);
-const onClose = () => {
-  open.value = false;
-};
+// const open = ref(false);
+// const onClose = () => {
+//   open.value = false;
+// };
 
-const canCreate = computed(() => {
-  return currentRouter.value === "/";
-});
+// const canCreate = computed(() => {
+//   return currentRouter.value === "/";
+// });
 </script>

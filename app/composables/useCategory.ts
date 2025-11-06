@@ -1,4 +1,4 @@
-export const useCategory = () => {
+export const useCategoryComposable = () => {
     const supabase = useSupabaseClient();
 
     const { data: categories } = useAsyncData('categories', async () => {

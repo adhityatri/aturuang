@@ -5,6 +5,8 @@
     :state="state"
     @submit="onSubmit"
   >
+    <app-category-display />
+
     <UBanner
       v-if="!isReady"
       color="neutral"
@@ -13,18 +15,24 @@
       class="mb-4"
     />
 
-    <UFormField label="Pilih Wallet" name="wallet_id" class="w-[100%] mb-4">
+    <category-display
+      :selected-category="selectedCategory"
+      @select="selectCategory"
+    />
+
+    <UFormField label="Pilih Kantong" name="wallet_id" class="w-full my-4">
       <USelect
         v-model="state.wallet_id"
         :items="walletList"
         size="xl"
-        class="w-[100%]"
+        class="w-full"
+        placeholder="Pilih Kantong"
       />
     </UFormField>
-    <UFormField label="Keterangan" name="notes" class="w-[100%] mb-4">
-      <UInput v-model="state.notes" size="xl" type="text" class="w-[100%]" />
+    <UFormField label="Keterangan" name="notes" class="w-full mb-4">
+      <UInput v-model="state.notes" placeholder="ex: Membeli makanan, dll." size="xl" type="text" class="w-full" />
     </UFormField>
-    <UFormField label="Jumlah" name="amount" class="w-[100%] mb-4">
+    <UFormField label="Jumlah" name="amount" class="w-full mb-4">
       <UInputNumber
         v-model="state.amount"
         orientation="vertical"
@@ -38,20 +46,12 @@
           maximumFractionDigits: 0,
           currencySign: 'standard',
         }"
-        class="w-[100%]"
+        class="w-full"
         :ui="{
           base: 'px-6 py-4 rounded-full',
           increment: 'hidden',
           decrement: 'hidden',
         }"
-      />
-    </UFormField>
-    <UFormField label="Kategori" name="category" class="w-[100%] mb-4">
-      <USelect
-        v-model="state.category"
-        :items="categoryList"
-        size="xl"
-        class="w-[100%]"
       />
     </UFormField>
 
@@ -74,27 +74,13 @@
 <script setup lang="ts">
 import type { FormSubmitEvent } from "@nuxt/ui";
 import * as valibot from "valibot";
+import type { iCategory } from "~/types/category";
 import type { iWallets } from "~/types/wallets";
 
 const emits = defineEmits(["close-on-submit"]);
 
-interface Category {
-  id: number;
-  name: string;
-}
-
-const category = useCategory();
 const walletStore = useWallets();
 const isReady = computed(() => walletStore.wallets.length > 0);
-
-const categoryList = computed(() =>
-  Array.isArray(category.value)
-    ? category.value.map((cat: Category) => ({
-        label: useCapitalize(cat.name),
-        value: cat.id,
-      }))
-    : []
-);
 
 const walletList = computed(() => {
   return Array.isArray(walletStore.wallets)
@@ -121,6 +107,11 @@ const trackerSchema = valibot.required(
   })
 );
 
+const selectedCategory = ref<iCategory>();
+const selectCategory = (category: iCategory) => {
+  selectedCategory.value = category;
+};
+
 type TrackerSchema = valibot.InferOutput<typeof trackerSchema>;
 
 const state = reactive({
@@ -132,13 +123,21 @@ const state = reactive({
 });
 
 const onSubmit = async (event: FormSubmitEvent<TrackerSchema>) => {
-  const { category, amount, notes } = event.data;
+  const { amount, notes } = event.data;
+
+  if (!selectedCategory.value) {
+    useToast().add({
+      title: "Please select a category",
+      color: "error",
+    });
+    return;
+  }
 
   const transactionStore = useTransactionsStore();
 
   const response = await transactionStore.addTransactions({
     wallet_id: state.wallet_id,
-    category_id: category,
+    category_id: selectedCategory?.value?.id as number,
     amount,
     notes,
   });

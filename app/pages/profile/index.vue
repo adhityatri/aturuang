@@ -2,9 +2,9 @@
   <div class="flex flex-1 flex-col gap-4 bg-primary">
     <div class="text-white p-4 relative">
       <div class="absolute inset-0 z-0 custom-bg" />
-      <div class="flex justify-end mb-4">
+      <div class="flex justify-end mb-4 mt-4">
         <div
-          class="bg-primary-900 ring-2 ring-primary-500 text-white rounded-full shadow-xl p-4 px-6 font-medium"
+          class="bg-neutral-100 text-primary ring-2 ring-white inset-shadow-sm inset-shadow-neutral-300 rounded-full shadow-xl p-2 px-6 font-medium"
         >
           <h3>Profil Saya</h3>
         </div>
@@ -30,10 +30,10 @@
     </div>
 
     <div
-      class="p-4 flex-1 bg-neutral-200 rounded-tl-[2rem] rounded-tr-[2rem] ring-2 ring-white"
+      class="p-4 flex-1 bg-neutral-200 inset-shadow-sm inset-shadow-neutral-300 rounded-tl-4xl rounded-tr-4xl ring-2 ring-white"
     >
       <div
-        class="my-6 flex flex-col p-4 items-start justify-center w-full rounded-lg bg-neutral-300"
+        class="my-6 flex flex-col p-4 items-start justify-center w-full rounded-3xl bg-neutral-200 inset-shadow-sm inset-shadow-neutral-300 ring-2 ring-white"
       >
         <h4 class="font-medium text-lg">Invite Friends</h4>
         <p class="text-sm">
@@ -45,13 +45,13 @@
         <profile-form />
         <nuxt-link
           :to="{ name: 'transactions-page' }"
-          class="text-sm px-6 py-6 shadow-sm rounded-[2em] ring-0 font-medium bg-white hover:bg-neutral-300 active:bg-neutral-300 hover:shadow-lg transition-all"
+          class="text-sm px-6 py-6 shadow-xl ring-2 ring-white rounded-full inset-shadow-sm inset-shadow-neutral-300 font-medium bg-neutral-200 hover:bg-neutral-300 active:bg-neutral-300 hover:shadow-lg transition-all"
         >
           History Transactions
         </nuxt-link>
         <UButton
           size="xl"
-          class="text-sm px-6 py-6 shadow-sm rounded-[2em] hover:shadow-lg transition-all"
+          class="ring-2 ring-white inset-shadow-sm inset-shadow-red-300/90 text-sm px-6 py-6 shadow-xl rounded-full hover:shadow-lg transition-all"
           variant="subtle"
           color="error"
           @click="handleLogout"

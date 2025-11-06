@@ -30,7 +30,7 @@
             v-if="!isPages"
             variant="subtle"
             :ui="{
-              base: 'bg-neutral-200 inset-shadow-sm inset-shadow-neutral-400 py-4 px-6 rounded-full ring-2 ring-white shadow-xl',
+              base: 'bg-neutral-200 inset-shadow-sm inset-shadow-neutral-300 py-3 px-6 rounded-full ring-2 ring-white shadow-xl',
             }"
             icon="solar:add-square-linear"
           >
@@ -54,12 +54,10 @@
         <wallet-item :list="list" @selected="handleSelected" />
         <UButton
           v-if="!isPages"
-          class="bg-primary px-4 py-3 rounded-xl shadow-lg shadow-neutral-300 flex flex-col items-center justify-center"
+          class="bg-primary inset-shadow-sm inset-shadow-primary-900/40 ring-2 ring-white px-4 py-3 rounded-xl shadow-lg shadow-neutral-400 flex flex-col items-center justify-center"
           @click="handleWallet()"
         >
-          <div class="text-neutral-200 tracking-wide font-medium">
-            Lihat Semua
-          </div>
+          <div class="text-white tracking-wide font-medium">Lihat Semua</div>
         </UButton>
       </div>
       <div
@@ -68,7 +66,12 @@
       >
         <div class="text-neutral-400 tracking-wide text-md text-center py-4">
           <p>Kamu belum mempunyai kantong</p>
-          <p class="text-neutral-600 font-bold" @click="() => openForm = true">Buat dahulu!</p>
+          <p
+            class="text-neutral-600 font-bold"
+            @click="() => (openForm = true)"
+          >
+            Buat dahulu!
+          </p>
         </div>
       </div>
     </template>
@@ -99,9 +102,9 @@ const list = computed(() =>
 );
 
 const selectedWallet = shallowRef<iWallets | null>(null);
-const handleSelected = (wallet: iWallets) => {
+const handleSelected = async (wallet: iWallets) => {
   selectedWallet.value = wallet;
-  openForm.value = true;
+  await navigateTo({ name: "wallet-detail", query: { id: wallet.id } });
 };
 
 const handleSubmit = async (value: { name: string; amount: number }) => {

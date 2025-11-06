@@ -3,16 +3,12 @@
     <div class="flex items-center justify-center w-[42px] h-[38px] rounded-md">
       <UIcon
         :name="
-          props.transaction?.category_type === 'expenses'
+          isExpenses
             ? 'solar:arrow-right-up-linear'
             : 'solar:arrow-left-down-linear'
         "
         class="text-[1.5rem]"
-        :class="
-          props.transaction?.category_type === 'expenses'
-            ? 'text-red-800'
-            : 'text-green-800'
-        "
+        :class="isExpenses ? 'text-red-800' : 'text-green-800'"
       />
     </div>
     <div class="flex justify-between items-start gap-4 w-full">
@@ -37,7 +33,7 @@
       />
       <transactions-amount
         v-else
-        :is-expenses="props.transaction?.categories?.type === 'expenses'"
+        :is-expenses="isExpenses"
       >
         {{ useFormatPriceIntl(props.transaction?.amount) }}
       </transactions-amount>
@@ -63,5 +59,12 @@ const props = withDefaults(defineProps<Props>(), {
       notes: "",
       categories: { name: "", type: "" },
     } as iTransaction),
+});
+
+const isExpenses = computed(() => {
+  return (
+    props.transaction?.categories?.type === "expenses" ||
+    props.transaction?.category_type === "expenses"
+  );
 });
 </script>

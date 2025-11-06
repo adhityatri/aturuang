@@ -1,6 +1,6 @@
 <template>
   <UCard
-    class="bg-white shadow-xl ring-0 flex flex-col gap-2"
+    class="bg-neutral-100 inset-shadow-sm inset-shadow-neutral-300 ring-2 ring-white shadow-xl shadow-neutral-300 flex flex-col gap-2"
   >
     <template v-if="isLoading">
       <div class="flex justify-between items-center">
