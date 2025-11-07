@@ -18,16 +18,21 @@
       :state="state"
       @submit="onSubmit"
     >
-      <UFormField label="Nama Kantong" name="name" class="w-[100%] mb-4">
+      <UFormField label="Nama Kantong" name="name" class="w-full mb-4">
         <UInput
           v-model="state.name"
           placeholder="Nama Kantong"
           size="xl"
           type="text"
-          class="w-[100%]"
+          class="w-full"
         />
       </UFormField>
-      <UFormField label="Jumlah" name="amount" class="w-[100%] mb-4">
+      <UFormField
+        v-if="props.type === 'create'"
+        label="Jumlah"
+        name="amount"
+        class="w-full mb-4"
+      >
         <UInputNumber
           v-model="state.amount"
           hide-button
@@ -41,7 +46,7 @@
             maximumFractionDigits: 0,
             currencySign: 'standard',
           }"
-          class="w-[100%]"
+          class="w-full"
           :ui="{
             base: 'px-6 py-4 rounded-full',
             increment: 'hidden',
@@ -51,7 +56,7 @@
       </UFormField>
       <UFormField class="mt-12">
         <UButton type="submit" block class="rounded-full py-4">{{
-          props.name ? "Update" : "Simpan"
+          props.type === "update" ? "Update" : "Simpan"
         }}</UButton>
       </UFormField>
     </UForm>
@@ -65,13 +70,16 @@ const props = withDefaults(
   defineProps<{
     name?: string;
     amount?: number;
+    type?: "create" | "update";
   }>(),
   {
     name: "",
     amount: 0,
+    type: "create",
   }
 );
 
+const walletStore = useWallets();
 const schema = valibot.required(
   valibot.object({
     name: valibot.pipe(
@@ -86,8 +94,8 @@ const schema = valibot.required(
 );
 
 const state = reactive({
-  name: props.name || "",
-  amount: props.amount || 0,
+  name: props.name || walletStore.detailWallet?.name || "",
+  amount: props.amount || walletStore.detailWallet?.amount || 0,
 });
 
 const emit = defineEmits(["submit"]);

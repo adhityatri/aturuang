@@ -34,20 +34,17 @@ const useWallets = defineStore("wallets-store", () => {
     }
   };
 
-  const updateWallet = async ({ id, name, amount }: any) => {
+  const updateWallet = async ({ id, name }: { id: string; name: string }) => {
     try {
       const { data, error } = await client
         .from("wallets")
-        .update({
-          name: name,
-          amount: amount,
-        })
+        .update({ name })
         .eq("id", id)
         .select();
 
       if (error) throw error;
 
-      wallets.value = data || [];
+      detailWallet.value = data ? data[0] : undefined;
       return { data, error };
     } catch (err) {
       return err;
@@ -70,9 +67,12 @@ const useWallets = defineStore("wallets-store", () => {
     }
   };
 
+  const isEditOpen = shallowRef<boolean>(false);
+
   return {
     wallets,
     detailWallet,
+    isEditOpen,
     getWallets,
     updateWallet,
     insert,

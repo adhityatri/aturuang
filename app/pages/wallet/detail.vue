@@ -2,7 +2,7 @@
   <div class="flex flex-col flex-1 bg-neutral-200 gap-4">
     <app-nav-title title="Detail Kantong" @close="$router.back()" />
 
-    <div class="px-4 py-8 flex gap-4">
+    <div class="px-4 pt-8 flex gap-4">
       <div
         class="h-[100px] w-[100px] ring-2 ring-white shadow-xl shadow-neutral-300 inset-shadow-sm inset-shadow-neutral-300 bg-neutral-200 rounded-xl flex items-center justify-center"
       >
@@ -12,9 +12,25 @@
         <h2 class="font-medium">
           {{ walletStore.detailWallet?.name }}
         </h2>
-        <span class="text-neutral-600 text-[1.2rem]">{{
-          useFormatPriceIntl(walletStore.detailWallet?.amount)
-        }}</span>
+        <app-privacy
+          v-if="usePrivacyStore.isPrivacyAccepted"
+          size="sm"
+          color="primary"
+        />
+        <span v-else class="text-neutral-600 text-[1.2rem]">
+          {{ useFormatPriceIntl(walletStore.detailWallet?.amount) }}
+        </span>
+
+        <div class="py-4 flex gap-4">
+          <wallet-edit @click="handleEditWallet" />
+          <wallet-move @refresh="handleRefresh" />
+          <!-- <UButton
+            class=" rounded-md text-sm ring-2 ring-white bg-neutral-200 shadow-lg text-primary inset-shadow-sm inset-shadow-neutral-300 active:bg-neutral-300"
+            size="xl"
+          >
+            Budget
+          </UButton> -->
+        </div>
       </div>
     </div>
 
@@ -32,7 +48,6 @@
           @click="navigateToTransactionDetail(transaction)"
         />
       </div>
-      <!-- <transactions-all :source="transactionStore.walletTransactions" :is-all="true" /> -->
     </div>
   </div>
 </template>
@@ -48,17 +63,36 @@ const id = computed(() => route.query.id);
 const { navigateToTransactionDetail } = useTransactionNavigation();
 
 const walletStore = useWallets();
+const usePrivacyStore = usePrivacy();
 
-callOnce(async () => await walletStore.getWalletById(id.value as string), {
-  mode: "navigation",
-});
-
-const transactionStore = useTransactionsStore();
-callOnce(
-  async () =>
-    await transactionStore.getTransactionsByWalletId(id.value as string),
+const { refresh: refreshWallet } = useAsyncData(
+  "detail-wallet-page",
+  () => walletStore.getWalletById(id.value as string),
   {
-    mode: "navigation",
+    lazy: true,
+    dedupe: "defer",
+    server: true,
   }
 );
+
+const transactionStore = useTransactionsStore();
+
+const { refresh: refreshTransactions } = useAsyncData(
+  "detail-wallet-transactions-page",
+  () => transactionStore.getTransactionsByWalletId(id.value as string),
+  {
+    lazy: true,
+    dedupe: "defer",
+    server: true,
+  }
+);
+
+const handleRefresh = () => {
+  refreshWallet();
+  refreshTransactions();
+};
+
+const handleEditWallet = () => {
+  walletStore.isEditOpen = true;
+};
 </script>

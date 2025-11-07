@@ -8,16 +8,16 @@
         <UIcon name="solar:alt-arrow-left-line-duotone" size="1.5rem" />
       </UButton>
       <div class="flex gap-2">
-        <div class="bg-neutral-200 ring-2 ring-white inset-shadow-sm inset-shadow-neutral-300 rounded-full shadow-xl p-4 px-6 font-medium">
+        <div
+          class="bg-neutral-200 ring-2 ring-white inset-shadow-sm inset-shadow-neutral-300 rounded-full shadow-xl p-4 px-6 font-medium"
+        >
           <h3>Kantong Saya</h3>
         </div>
-        <!-- <wallet-action /> -->
       </div>
     </div>
 
     <div class="flex flex-col gap-4 p-4">
       <wallet-list :is-pages="true" />
-      <!-- <wallet-item :list="walletStore.wallets" /> -->
     </div>
   </div>
 </template>

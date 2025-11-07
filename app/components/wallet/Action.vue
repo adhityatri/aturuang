@@ -12,8 +12,7 @@
         base: 'bg-neutral-200 h-[56px] w-[56px] rounded-full ring-2 ring-white shadow-xl place-content-center',
       }"
       icon="solar:add-square-linear"
-    >
-    </UButton>
+    />
     <template #body>
       <wallet-form
         name="Kantong Baru"

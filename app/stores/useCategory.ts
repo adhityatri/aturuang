@@ -6,7 +6,11 @@ export const useCategory = defineStore("category-store", () => {
 
   const getCategoryByType = async (type: categoryType) => {
     try {
-      let query = supabase.from("categories").select();
+      let query = supabase
+        .from("categories")
+        .select()
+        .neq("id", "23")
+        .neq("id", "24");
 
       if (type === "all") {
         query = query.in("type", ["income", "expenses"]);

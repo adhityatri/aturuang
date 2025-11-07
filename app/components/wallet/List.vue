@@ -109,19 +109,13 @@ const handleSelected = async (wallet: iWallets) => {
 
 const handleSubmit = async (value: { name: string; amount: number }) => {
   const payload = {
-    ...(selectedWallet.value ? { id: selectedWallet.value.id } : {}),
     name: value.name,
     amount: value.amount,
   };
 
   const response = shallowRef<any>(null);
-
-  if (selectedWallet.value?.id) {
-    response.value = await walletStore.updateWallet({ ...payload });
-  } else {
-    response.value = await walletStore.insert({ ...payload });
-  }
-
+  response.value = await walletStore.insert({ ...payload });
+  
   const error = response.value?.error;
 
   if (error) {
