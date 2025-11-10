@@ -34,6 +34,7 @@ const { isDesktop } = useDevice();
 
 definePageMeta({
   name: "homepage",
+  middleware: ['budget-detect']
 });
 
 const supabaseClient = useSupabaseClient();
