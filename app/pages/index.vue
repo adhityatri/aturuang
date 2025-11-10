@@ -5,6 +5,13 @@
       <app-hide-show-currency />
     </div>
 
+    <money-tracker-budget
+      :is-loading="isLoading"
+      :budget="budgetStore.budgets?.[0]?.amount || 0"
+      :expenses="transactionStore.expensesThisMonth"
+      class="mt-6"
+    />
+
     <summary-card
       :is-loading="isLoading"
       :current-balance="walletBalance"
@@ -13,7 +20,7 @@
       class="my-6"
     />
 
-    <wallet-list :is-loading="isLoading"/>
+    <wallet-list :is-loading="isLoading" />
 
     <transactions-list
       :source="
@@ -34,12 +41,13 @@ const { isDesktop } = useDevice();
 
 definePageMeta({
   name: "homepage",
-  middleware: ['budget-detect']
+  middleware: ["budget-detect"],
 });
 
 const supabaseClient = useSupabaseClient();
 const transactionStore = useTransactionsStore();
 const walletStore = useWallets();
+const budgetStore = useBudgets();
 
 let realtimeChannel: RealtimeChannel;
 let walletRealtimeChannel: RealtimeChannel;
