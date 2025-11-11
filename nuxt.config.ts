@@ -23,6 +23,8 @@ export default defineNuxtConfig({
 
   experimental: {
     watcher: "chokidar",
+    payloadExtraction: true,
+    inlineRouteRules: true
   },
 
   plugins: [
@@ -94,15 +96,24 @@ export default defineNuxtConfig({
           ],
         },
       },
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            vendor: ["vue", "vue-router", "pinia"],
+            supabase: ['@supabase/supabase-js'],
+            charts: ['apexcharts'],
+          }
+        }
+      }
     },
   },
 
   pwa: {
     registerType: "autoUpdate",
     manifest: {
-      name: "Aturuang",
-      short_name: "Aturuang",
-      description: "Aplikasi Pencatatan Uang",
+      name: "Yothro - Money Management App",
+      short_name: "Yothro",
+      description: "Aplikasi Pencatatan Uang yang membantu pengguna dalam mengelola keuangan mereka dengan lebih mudah.",
       theme_color: "#0353a4",
       background_color: "#0353a4",
       categories: ["finance", "productivity"],
@@ -126,7 +137,7 @@ export default defineNuxtConfig({
       ],
     },
     workbox: {
-      globPatterns: ["**/*.{js,css,png,svg,ico}"],
+      globPatterns: ["**/*.{js,css,png,svg,ico,woff2}"],
       navigateFallback: null,
       runtimeCaching: [
         {
@@ -171,4 +182,7 @@ export default defineNuxtConfig({
       ],
     },
   },
+  features: {
+    devLogs: false //nonaktifkan log dari server ke client
+  }
 });

@@ -97,15 +97,21 @@ const handleSaveBudget = async () => {
     ).toISOString(),
   };
 
-  try {
-    await budgetStore.insertBudget({ ...payload });
-    await navigateTo({ name: "home-page", replace: true });
-  } catch (error: any) {
+  const { error }: any = await budgetStore.insertBudget({ ...payload });
+  if (error) {
     useToast().add({
       title: "Gagal menyimpan",
       description: error?.message || "Terjadi kesalahan saat menyimpan budget",
       color: "error",
     });
+    return;
   }
+
+  await navigateTo({ name: "homepage", replace: true });
+  useToast().add({
+    title: "Sukses",
+    description: "Budget berhasil disimpan",
+    color: "success",
+  });
 };
 </script>
