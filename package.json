@@ -39,6 +39,7 @@
     "vue-demi"
   ],
   "devDependencies": {
+    "@iconify-json/lucide": "^1.2.73",
     "@iconify-json/solar": "^1.2.5"
   },
   "overrides": {

@@ -3,12 +3,8 @@
     class="bg-primary-900 flex px-8 flex-col flex-1 items-center justify-center text-white"
   >
     <div class="absolute inset-0 z-0 custom-bg" />
-    <div class="relative overflow-hidden w-[72px] h-[72px] mb-8">
-      <nuxt-img src="/images/Brand-fix.svg" alt="brand-icon" />
-    </div>
-    <div class="flex flex-col items-center justify-center z-1">
-      <h1 class="text-xl font-bold uppercase tracking-widest">Kelola Uangmu</h1>
-      <h2 class="text-md font-normal">Raih Mimpimu!</h2>
+    <div class="relative overflow-hidden h-fit w-[220px] mb-8">
+      <nuxt-img src="/images/Brand-light.svg" alt="brand-icon" />
     </div>
 
     <UForm
@@ -93,12 +89,12 @@ import * as v from "valibot";
 
 definePageMeta({
   name: "login-page",
-  title: "Aturuang.com | Login",
+  title: "yothro | Login",
   layout: "auth",
 });
 
 useHead({
-  title: "Aturuang.com | Login",
+  title: "yothro | Login",
 });
 
 const viewPassword = ref<boolean>(false);

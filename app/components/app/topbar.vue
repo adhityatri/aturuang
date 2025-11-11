@@ -5,10 +5,4 @@
         <h1 class="font-bold text-[1.2rem]">Selamat Pagi, Adhitya</h1>
     </UContainer>
   </header>
-  <!-- <header class="bg-white ring-1 ring-gray-200">
-    <UContainer class="flex items-center justify-between">
-      <app-brand />
-      <app-menu />
-    </UContainer>
-  </header> -->
 </template>
