@@ -4,7 +4,7 @@
   >
     <div class="absolute inset-0 z-0 custom-bg" />
     <div class="relative overflow-hidden h-fit w-[220px] mb-8">
-      <nuxt-img src="/images/Brand-light.svg" alt="brand-icon" />
+      <nuxt-img :src="`${useRuntimeConfig().public.supabaseUrl}/storage/v1/object/public/yothro/brand-light.svg`" alt="brand-icon" />
     </div>
 
     <UForm
@@ -96,6 +96,8 @@ definePageMeta({
 useHead({
   title: "yothro | Login",
 });
+
+
 
 const viewPassword = ref<boolean>(false);
 

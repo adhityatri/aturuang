@@ -21,7 +21,7 @@
         <div
           v-for="icon in profileIcons"
           :key="icon"
-          class="cursor-pointer p-2 ring-2 ring-neutral-200 shadow-xl shadow-neutral-300 rounded-xl"
+          class="cursor-pointer bg-white p-2 ring-2 ring-neutral-200 shadow-xl shadow-neutral-300 rounded-xl"
           :class="{
             'ring-primary-500': state.profile_picture === icon,
             'ring-neutral-200': state.profile_picture !== icon,
@@ -30,7 +30,9 @@
           @click="state.profile_picture = icon"
         >
           <img
-            :src="`/images/profile_icon/${icon}`"
+            :src="`${
+              useRuntimeConfig().public.supabaseUrl
+            }/storage/v1/object/public/yothro/${icon}`"
             :alt="icon"
             class="w-full h-auto object-cover"
           />
@@ -42,22 +44,22 @@
         :state="state"
         @submit="onSubmit"
       >
-        <UFormField label="Email" name="email" class="w-[100%] mb-4">
+        <UFormField label="Email" name="email" class="w-full mb-4">
           <UInput
             :value="getIdentities()?.email"
             size="xl"
             type="text"
             :disabled="true"
-            class="w-[100%]"
+            class="w-full"
           />
         </UFormField>
-        <UFormField label="Nama Lengkap" name="full_name" class="w-[100%] mb-4">
+        <UFormField label="Nama Lengkap" name="full_name" class="w-full mb-4">
           <UInput
             v-model="state.full_name"
             placeholder="Nama Lengkap"
             size="xl"
             type="text"
-            class="w-[100%]"
+            class="w-full"
           />
         </UFormField>
 

@@ -15,6 +15,12 @@ export default defineNuxtConfig({
     "@vite-pwa/nuxt",
   ],
 
+  runtimeConfig: {
+    public: {
+      supabaseUrl: process.env.SUPABASE_URL,
+    }
+  },
+
   experimental: {
     watcher: "chokidar",
   },
@@ -67,17 +73,7 @@ export default defineNuxtConfig({
       scrollBehaviorType: "smooth",
     },
   },
-
-  // nitro: {
-  //   compressPublicAssets: true,
-  //   // minify: true,
-  //   prerender: {
-  //     crawlLinks: true,
-  //     routes: ["/login", "/confirm", "/register", "/desktop"],
-  //     // routes: ["/", "/login", "/transactions"],
-  //   },
-  // },
-
+  
   vite: {
     cacheDir: ".vite-cache",
     build: {

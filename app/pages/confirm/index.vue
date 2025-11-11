@@ -29,7 +29,12 @@ watch(
     v-if="token"
     class="bg-primary text-white flex flex-col flex-1 justify-center items-center"
   >
-    <img src="/images/brand.png" class="w-[78px] h-[78px]" alt="confirm" />
-    <p class="mt-4">Mohon tunggu sebentar ...</p>
+    <img
+      :src="`${
+        useRuntimeConfig().public.supabaseUrl
+      }/storage/v1/object/public/yothro/brand-light.svg`"
+      class="h-fit w-[220px]"
+      alt="confirm"
+    />
   </div>
 </template>
