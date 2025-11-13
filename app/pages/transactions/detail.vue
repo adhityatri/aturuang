@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-neutral-50 flex flex-col flex-1 gap-4">
+  <div class="bg-neutral-200 flex flex-col flex-1 gap-4">
     <app-nav-title title="Rincian Transaksi" @close="$router.back()" />
     <!-- <div class="p-4 flex justify-between mt-4">
       <UButton

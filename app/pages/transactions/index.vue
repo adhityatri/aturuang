@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-1 flex-col gap-4 pt-8 bg-primary-900">
     <div class="relative overflow-hidden px-4 bg-primary-900 min-h-[200px]">
-      <transactions-charts :sources="transactionStore.transactionByMonth" />
+      <lazy-transactions-charts :sources="transactionStore.transactionByMonth" />
     </div>
 
     <div

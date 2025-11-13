@@ -8,7 +8,7 @@
     <UButton
       size="xl"
       :ui="{
-        base: 'text-sm px-6 py-6 rounded-full ring-2 ring-white bg-neutral-200 inset-shadow-sm inset-shadow-neutral-300 shadow-xl hover:shadow-lg transition-all',
+        base: 'text-sm px-6 py-6 rounded-full ring-2 ring-white main-shadow hover:shadow-lg transition-all',
       }"
       variant="outline"
       color="neutral"

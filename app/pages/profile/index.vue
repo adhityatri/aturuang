@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-1 flex-col gap-4 bg-primary">
+  <div class="flex flex-1 flex-col gap-4 bg-gradient">
     <div class="text-white p-4 relative">
       <div class="absolute inset-0 z-0 custom-bg" />
       <div class="flex justify-end mb-4 mt-4">
@@ -45,10 +45,19 @@
         <profile-form />
         <nuxt-link
           :to="{ name: 'transactions-page' }"
-          class="text-sm px-6 py-6 shadow-xl ring-2 ring-white rounded-full inset-shadow-sm inset-shadow-neutral-300 font-medium bg-neutral-200 hover:bg-neutral-300 active:bg-neutral-300 hover:shadow-lg transition-all"
+          class="text-sm px-6 py-6 ring-2 ring-white main-shadow rounded-full font-medium hover:bg-neutral-300 active:bg-neutral-300 hover:shadow-lg transition-all"
         >
           History Transactions
         </nuxt-link>
+        <UButton
+          size="xl"
+          variant="outline"
+          color="neutral"
+          class="ring-2 ring-white main-shadow text-sm px-6 py-6 rounded-full hover:shadow-lg transition-all"
+          @click="handleLogout"
+        >
+          Help us improve!
+        </UButton>
         <UButton
           size="xl"
           class="ring-2 ring-white inset-shadow-sm inset-shadow-red-300/90 text-sm px-6 py-6 shadow-xl rounded-full hover:shadow-lg transition-all"

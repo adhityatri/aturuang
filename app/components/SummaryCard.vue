@@ -3,16 +3,12 @@
     <USkeleton
       v-if="isLoading"
       class="relative overflow-hidden h-[200px] bg-neutral-300 rounded-2xl flex flex-col items-start justify-end px-4 py-2"
-    >
-      <div class="gap-2 flex flex-col mb-6">
-        <USkeleton class="h-4 w-[150px] bg-neutral-500 rounded-2xl" />
-        <USkeleton class="h-10 w-[250px] bg-neutral-500 rounded-lg" />
-      </div>
-      <USkeleton class="h-[70px] w-full rounded-2xl bg-neutral-500" />
-    </USkeleton>
+    />
     <div
       v-else
-      class="relative overflow-hidden h-[200px] bg-primary rounded-2xl shadow-xl flex flex-col items-start justify-between ring-4 ring-white shadow-neutral-400"
+      class="relative overflow-hidden h-[200px] bg-gradient rounded-2xl shadow-lg 
+      flex flex-col items-start justify-between ring-2 ring-primary shadow-neutral-400
+      inset-shadow-sm inset-shadow-primary-700"
     >
       <div class="absolute inset-0 z-0 custom-bg" />
       <div class="flex flex-col flex-1 px-4 py-2">

@@ -1,11 +1,7 @@
 <template>
   <main
-    class="bg-linear-to-b from-primary-600 via-primary-900 to-primary-950 flex flex-col flex-1"
+    class="bg-gradient flex flex-col flex-1"
   >
-    <!-- <div class="top-0 left-0 w-[80%] h-[80%] z-0 absolute bg-linear-to-r from-primary-800 via-purple-500 to-pink-500 rounded-tr-full rounded-br-full" /> -->
-
-    <!-- <div class="bottom-[35%] right-0 w-[60%] absolute h-[150px] bg-primary-900/20 ring-20 ring-primary-200/30 rounded-tl-full rounded-bl-full" /> -->
-
     <app-nav-title
       title="Atur Budget Bulanan"
       class="z-1"

@@ -5,13 +5,6 @@
       <app-hide-show-currency />
     </div>
 
-    <money-tracker-budget
-      :is-loading="isLoading"
-      :budget="budgetStore.budgets?.[0]?.amount || 0"
-      :expenses="transactionStore.expensesThisMonth"
-      class="mt-6"
-    />
-
     <summary-card
       :is-loading="isLoading"
       :current-balance="walletBalance"
@@ -19,8 +12,16 @@
       :expenses="transactionStore.expensesThisMonth"
       class="my-6"
     />
-
+    
     <wallet-list :is-loading="isLoading" />
+    
+    <money-tracker-budget
+      :is-loading="isLoading"
+      :budget="budgetStore.budgets?.[0]?.amount || 0"
+      :expenses="transactionStore.expensesThisMonth"
+      class="mb-6"
+    />
+
 
     <transactions-list
       :source="
