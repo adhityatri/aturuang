@@ -1,15 +1,15 @@
 <template>
-  <div class="flex flex-col flex-1 bg-neutral-200 gap-4">
+  <div class="flex flex-col flex-1 bg-gradient gap-4">
     <app-nav-title title="Detail Kantong" @close="$router.back()" />
 
     <div class="px-4 pt-8 flex gap-4">
       <div
-        class="h-[100px] w-[100px] ring-2 ring-white shadow-xl shadow-neutral-300 inset-shadow-sm inset-shadow-neutral-300 bg-neutral-200 rounded-xl flex items-center justify-center"
+        class="h-[100px] w-[100px] ring-2 ring-white shadow-xl main-shadow bg-neutral-200 rounded-xl flex items-center justify-center"
       >
         <UIcon name="solar:mask-happly-linear" class="text-[3em]" />
       </div>
       <div class="flex flex-col justify-end">
-        <h2 class="font-medium">
+        <h2 class="font-medium text-neutral-200 tracking-wide">
           {{ walletStore.detailWallet?.name }}
         </h2>
         <app-privacy
@@ -17,7 +17,7 @@
           size="sm"
           color="primary"
         />
-        <span v-else class="text-neutral-600 text-[1.2rem]">
+        <span v-else class="text-white text-[1.2rem]">
           {{ useFormatPriceIntl(walletStore.detailWallet?.amount) }}
         </span>
 

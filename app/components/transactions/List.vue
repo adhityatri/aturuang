@@ -9,9 +9,7 @@
       </div>
 
       <div class="mt-6 gap-2 flex flex-col">
-        <USkeleton class="h-[60px] w-full bg-neutral-500 rounded-2xl" />
-        <USkeleton class="h-[60px] w-full bg-neutral-500 rounded-2xl" />
-        <USkeleton class="h-[60px] w-full bg-neutral-500 rounded-2xl" />
+        <USkeleton v-for="i in 5" :key="i" class="h-[60px] w-full bg-neutral-500 rounded-2xl" />
       </div>
     </template>
     <template v-else>

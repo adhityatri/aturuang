@@ -1,19 +1,32 @@
 <template>
+  <USkeleton
+    v-if="isLoading"
+    class="h-[150px] w-full bg-neutral-300 rounded-2xl"
+  />
   <div
-    class="flex gap-4 justify-between bg-neutral-200 ring-2 ring-white shadow-xl p-4 inset-shadow-sm inset-shadow-neutral-300 rounded-2xl"
+    v-else
+    class="p-4 w-full bg-neutral-50 main-shadow ring-2 ring-white rounded-2xl"
   >
-    <div class="flex flex-col">
-      <h2 class="font-bold">Monthly Budget</h2>
-    </div>
+    <h1 class="font-bold text-lg capitalize">batas anggaran bulanan</h1>
+    <h2 class="text-md text-neutral-500">{{ calculateBudget.message }}</h2>
 
-    <div class="flex gap-1 text-right">
-      <h2 class="text-sm font-bold text-red-800">
-        {{ useFormatPriceIntl(props.expenses) }}
-      </h2>
-      <p class="text-sm text-neutral-600">
-        /
-        {{ useFormatPriceIntl(props.budget) }}
-      </p>
+    <div class="flex flex-col mt-4 gap-2">
+      <div class="flex items-end gap-2">
+        <h1 class="font-bold text-red-700 text-[1.5rem]">
+          {{ useFormatPriceIntl(props.expenses) }}
+        </h1>
+        <span class="font-bold text-neutral-400">/</span>
+        <h2 class="text-[0.875rem]">{{ useFormatPriceIntl(props.budget) }}</h2>
+      </div>
+      <UProgress
+        v-model="calculateBudget.percent"
+        size="lg"
+        !status
+        :ui="{
+          base: 'bg-neutral-300',
+          indicator: 'bg-red-700',
+        }"
+      />
     </div>
   </div>
 </template>
@@ -31,4 +44,15 @@ const props = withDefaults(
     expenses: 0,
   }
 );
+
+// const currentMonth = useDateFormat(new Date(), "MMMM", { locales: "id-ID" });
+
+const calculateBudget = computed(() => {
+  const percentage = (props.expenses / props.budget) * 100;
+  const message = getBudgetMessage(percentage);
+  return {
+    percent: percentage <= 100 ? percentage : 100,
+    message,
+  };
+});
 </script>

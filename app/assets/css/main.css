@@ -46,3 +46,15 @@
     transparent 100%
   );
 }
+
+.bg-gradient {
+  @apply bg-linear-to-b from-primary-600 via-primary-900 to-primary-950;
+}
+
+.main-shadow {
+  @apply bg-neutral-200 shadow-md inset-shadow-sm inset-shadow-neutral-300;
+}
+
+.text-main{
+  @apply text-neutral-600;
+}
