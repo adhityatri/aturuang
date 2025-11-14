@@ -54,7 +54,7 @@
           variant="outline"
           color="neutral"
           class="ring-2 ring-white main-shadow text-sm px-6 py-6 rounded-full hover:shadow-lg transition-all"
-          @click="handleLogout"
+          @click="handleImprove"
         >
           Help us improve!
         </UButton>
@@ -78,5 +78,9 @@ const supabase = useSupabaseClient();
 const handleLogout = async () => {
   await supabase.auth.signOut();
   await navigateTo({ name: "login-page", replace: true });
+};
+
+const handleImprove = async () => {
+  await navigateTo({ name: "improve-page", replace: true });
 };
 </script>

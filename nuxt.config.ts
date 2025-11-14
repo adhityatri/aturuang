@@ -111,8 +111,8 @@ export default defineNuxtConfig({
   pwa: {
     registerType: "autoUpdate",
     manifest: {
-      name: "Yothro - Money Management App",
-      short_name: "Yothro",
+      name: "Yotro - Money Management App",
+      short_name: "Yotro",
       description: "Aplikasi Pencatatan Uang yang membantu pengguna dalam mengelola keuangan mereka dengan lebih mudah.",
       theme_color: "#0353a4",
       background_color: "#0353a4",
