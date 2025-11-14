@@ -37,7 +37,34 @@ export const useFeedbackStore = defineStore("feedback-store", () => {
     return { data, error };
   };
 
+  const list = ref([]);
+  const getFeedback = async () => {
+    if (!user.value?.id) {
+      return;
+    }
+
+    const { data, error } = await supabase
+      .from("feedback")
+      .select("*")
+      .eq("user_id", user.value.id);
+
+    if (error) {
+      useToast().add({
+        title: "Feedback",
+        description: "Failed to get feedback.",
+        color: "error",
+      });
+      throw error;
+    }
+
+    list.value = data || [];
+
+    return { data, error };
+  };
+
   return {
     addFeedback,
+    getFeedback,
+    list,
   };
 });

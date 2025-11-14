@@ -90,6 +90,30 @@
         </UButton>
       </UForm>
     </div>
+
+    <USeparator class="py-4" type="dotted" size="xl" />
+
+    <div class="p-4 pt-0 flex flex-col gap-4">
+      <h1 class="font-medium text-lg">Riwayat Masukan</h1>
+      <div v-if="feedbackStore.list.length === 0" class="p-4 main-shadow shadow-lg rounded-xl ring-2 ring-white">
+        <p class="text-center text-neutral-500">Belum ada masukan.</p>
+      </div>
+      <div
+        v-for="item in feedbackStore.list"
+        :key="item.id"
+        class="bg-neutral-200 main-shadow p-4 rounded-xl shadow-lg ring-2 ring-white"
+      >
+        <div class="flex flex-col">
+          <span class="font-medium text-md capitalize">{{ item.type }}</span>
+          <span class="text-sm text-neutral-500">{{
+            useDateFormat(item.created_at, "dddd, DD MMMM YYYY", {
+              locales: "ID",
+            })
+          }}</span>
+        </div>
+        <p class="mt-2">{{ item.description }}</p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -116,6 +140,11 @@ const state = reactive({
 });
 
 const feedbackStore = useFeedbackStore();
+
+const { refresh } = useAsyncData("feedback-page", async () => {
+  await feedbackStore.getFeedback();
+});
+
 const onSubmit = async () => {
   const { error } = await feedbackStore.addFeedback({
     feedback: state.feedback,
@@ -125,6 +154,8 @@ const onSubmit = async () => {
   if (error) {
     return;
   }
+
+  refresh();
 
   state.feedback = "";
   state.type = "feature";

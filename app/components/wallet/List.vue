@@ -98,7 +98,7 @@ const walletStore = useWallets();
 const openForm = shallowRef<boolean>(false);
 
 const list = computed(() =>
-  props.isPages ? walletStore.wallets : walletStore.wallets.slice(0, 5)
+  props.isPages ? walletStore.wallets : walletStore.wallets.slice(0, 3)
 );
 
 const selectedWallet = shallowRef<iWallets | null>(null);
