@@ -22,7 +22,6 @@
       class="mb-6"
     />
 
-
     <transactions-list
       :source="
         transactionStore.todayTransactions.length > 0

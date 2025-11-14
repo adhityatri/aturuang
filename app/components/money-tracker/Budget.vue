@@ -21,7 +21,7 @@
       <UProgress
         v-model="calculateBudget.percent"
         size="lg"
-        !status
+        :status="false"
         :ui="{
           base: 'bg-neutral-300',
           indicator: 'bg-red-700',
