@@ -32,9 +32,9 @@
         <div
           v-for="category in categoryStore.categories"
           :key="category.id"
-          class="relative overflow-hidden bg-neutral-200 p-2 shadow-lg shadow-neutral-300 ring-2 ring-white inset-shadow-sm inset-shadow-neutral-300 rounded-md text-center"
+          class="relative overflow-hidden bg-linear-to-b from-neutral-100 to-neutral-200 p-2 shadow-lg shadow-neutral-300 ring-2 ring-white inset-shadow-sm inset-shadow-neutral-300 rounded-md text-center"
           :class="{
-            'bg-primary inset-shadow-primary-900 text-white':
+            'bg-linear-to-b from-primary to-primary-900 inset-shadow-primary-900 text-white':
               selectedCategory.id === category.id,
           }"
           @click="selectCategory(category)"

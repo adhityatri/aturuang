@@ -1,23 +1,10 @@
 <template>
   <div class="bg-neutral-200 flex flex-col flex-1 gap-4">
     <app-nav-title title="Rincian Transaksi" @close="$router.back()" />
-    <!-- <div class="p-4 flex justify-between mt-4">
-      <UButton
-        class="active:bg-neutral-300 text-primary ring-2 ring-white inset-shadow-sm inset-shadow-neutral-300 bg-neutral-200 rounded-full shadow-xl w-[40px] h-[40px] flex items-center justify-center"
-        @click="$router.back()"
-      >
-        <UIcon name="solar:alt-arrow-left-line-duotone" size="1.5rem" />
-      </UButton>
-      <div
-        class="bg-neutral-200 ring-2 ring-white inset-shadow-sm inset-shadow-neutral-300 rounded-full shadow-xl p-2 px-6 font-medium"
-      >
-        <h3>Rincian Transaksi</h3>
-      </div>
-    </div> -->
 
     <div class="flex flex-col gap-4 p-4">
       <div
-        class="bg-neutral-100 shadow-neutral-300 ring-2 ring-white inset-shadow-sm inset-shadow-neutral-300 border-primary shadow-lg rounded-xl p-4 flex flex-col gap-4"
+        class="shadow-neutral-300 ring-2 ring-white main-shadow border-primary shadow-lg rounded-xl p-4 flex flex-col gap-4"
       >
         <h1 class="font-bold text-2xl py-4">
           {{
@@ -74,7 +61,7 @@
       </div>
 
       <div
-        class="relative overflow-hidden bg-neutral-100 inset-shadow-sm inset-shadow-neutral-300 ring-2 ring-white rounded-xl p-4 shadow-xl flex justify-between items-center"
+        class="relative overflow-hidden main-shadow ring-2 ring-white rounded-xl p-4 shadow-xl flex justify-between items-center"
       >
         <div class="capitalize font-bold text-[1.1rem]">
           {{ transactionsStore.transactionDetail?.category_name }}

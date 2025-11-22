@@ -30,7 +30,7 @@
             v-if="!isPages"
             variant="subtle"
             :ui="{
-              base: 'bg-neutral-200 inset-shadow-sm inset-shadow-neutral-300 py-3 px-6 rounded-full ring-2 ring-white shadow-xl',
+              base: 'main-shadow py-3 px-6 rounded-full ring-2 ring-white shadow-xl',
             }"
             icon="solar:add-square-linear"
           >

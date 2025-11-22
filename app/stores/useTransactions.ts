@@ -48,6 +48,34 @@ const useTransactionsStore = defineStore("transactions-store", () => {
     }, 0);
   });
 
+  const monthlySummary = computed(() => {
+    const { startDate, endDate } = useMonthlyStart();
+
+    const filteredData = transactionsList.value.filter((item) => {
+      const itemDate = new Date(item.created_at);
+      return (
+        itemDate >= new Date(startDate.value) &&
+        itemDate <= new Date(endDate.value)
+      );
+    });
+
+    let totalExpenses = 0;
+    let totalIncomes = 0;
+
+    filteredData.forEach((item) => {
+      if (item.category_type === "expenses") {
+        totalExpenses += item.amount;
+      } else if (item.category_type === "income") {
+        totalIncomes += item.amount;
+      }
+    });
+
+    return {
+      totalExpenses,
+      totalIncomes,
+    };
+  });
+
   const expensesThisMonth = computed(() => {
     return transactionsList.value.reduce((sum, transaction) => {
       const { created_at, category_type, amount } = transaction;
@@ -81,14 +109,19 @@ const useTransactionsStore = defineStore("transactions-store", () => {
 
   const getTransactionsWithCategory = async (params: {
     category_type_filter: string;
+    page_limit?: number;
   }) => {
     if (!user.value) return;
 
+    const user_id = shallowRef(user.value?.id);
+
     try {
       const { data, error } = await supabaseClient.rpc(
-        "get_transactions_with_categories",
+        "get_transactions_with_categories_and_count",
         {
           category_type_filter: params.category_type_filter,
+          p_user_id: user_id.value,
+          ...(params.page_limit && { page_limit: params.page_limit }),
         }
       );
 
@@ -97,10 +130,11 @@ const useTransactionsStore = defineStore("transactions-store", () => {
         throw error;
       }
 
-      transactionsList.value = ((data || []) as iTransaction[]).sort(
+      transactionsList.value = ((data?.data || []) as iTransaction[]).sort(
         (a, b) =>
           new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
       );
+
       return data;
     } catch (err) {
       return err;
@@ -278,6 +312,7 @@ const useTransactionsStore = defineStore("transactions-store", () => {
   const walletTransactions = ref<ReturnType<typeof groupTransactionsByDate>>(
     []
   );
+
   const getTransactionsByWalletId = async (walletId: string) => {
     if (!user.value) return;
 
@@ -317,6 +352,7 @@ const useTransactionsStore = defineStore("transactions-store", () => {
     transactionByMonth,
     transactionDetail,
     walletTransactions,
+    monthlySummary,
     getSumTransactionCategory,
     get_transactions_by_month,
     getTransactionsWithCategory,
