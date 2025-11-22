@@ -82,8 +82,9 @@
           size="xl"
           color="primary"
           type="submit"
+          :disabled="!isReady"
           :ui="{
-            base: 'px-6 py-4 rounded-full',
+            base: 'px-6 py-4 rounded-full disabled:bg-neutral-500',
           }"
         >
           Kirimkan
@@ -95,7 +96,10 @@
 
     <div class="p-4 pt-0 flex flex-col gap-4">
       <h1 class="font-medium text-lg">Riwayat Masukan</h1>
-      <div v-if="feedbackStore.list.length === 0" class="p-4 main-shadow shadow-lg rounded-xl ring-2 ring-white">
+      <div
+        v-if="feedbackStore.list.length === 0"
+        class="p-4 main-shadow shadow-lg rounded-xl ring-2 ring-white"
+      >
         <p class="text-center text-neutral-500">Belum ada masukan.</p>
       </div>
       <div
@@ -144,6 +148,8 @@ const feedbackStore = useFeedbackStore();
 const { refresh } = useAsyncData("feedback-page", async () => {
   await feedbackStore.getFeedback();
 });
+
+const isReady = computed(() => state.feedback.length > 0);
 
 const onSubmit = async () => {
   const { error } = await feedbackStore.addFeedback({

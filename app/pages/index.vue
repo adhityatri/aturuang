@@ -8,18 +8,20 @@
     <summary-card
       :is-loading="isLoading"
       :current-balance="walletBalance"
-      :income="transactionStore.incomeThisMonth"
-      :expenses="transactionStore.expensesThisMonth"
+      :income="transactionStore.monthlySummary.totalIncomes || 0"
+      :expenses="transactionStore.monthlySummary.totalExpenses || 0"
       class="my-6"
     />
-    
+
     <wallet-list :is-loading="isLoading" />
-    
+
     <money-tracker-budget
       :is-loading="isLoading"
       :budget="budgetStore.budgets?.[0]?.amount || 0"
-      :expenses="transactionStore.expensesThisMonth"
-      class="mb-6"
+      :reset-date="budgetStore.budgets?.[0]?.monthly_start || '1'"
+      :expenses="transactionStore.monthlySummary.totalExpenses || 0"
+      :is-open="budgetStore.isBudgetOpen"
+      @submit="handleSubmitBudget"
     />
 
     <transactions-list
@@ -29,7 +31,7 @@
           : transactionStore.recentTransactions
       "
       :is-loading="isLoading"
-      class="rounded-lg"
+      class="rounded-lg mt-4"
       title="Riwayat Transaksi"
     />
   </div>
@@ -53,14 +55,15 @@ let realtimeChannel: RealtimeChannel;
 let walletRealtimeChannel: RealtimeChannel;
 
 const { refresh: refreshTransactions, status: statusTransactions } =
-  await useAsyncData(
+  useAsyncData(
     "transactions-data",
     async () => {
       try {
         const result = await transactionStore.getTransactionsWithCategory({
           category_type_filter: "all",
+          // page_limit: 5
         });
-        return Array.isArray(result) ? result : [];
+        return Array?.isArray(result) ? result : [];
       } catch (error) {
         useToast().add({
           title: "Error",
@@ -98,6 +101,15 @@ const isLoading = computed(
   () =>
     statusTransactions.value !== "success" && statusWallet.value !== "success"
 );
+
+const handleSubmitBudget = async (payload: any) => {
+  const response = await budgetStore.update(payload);
+  if (response.error) {
+    return;
+  }
+
+  budgetStore.isBudgetOpen = false;
+};
 
 onMounted(() => {
   if (!isDesktop) {

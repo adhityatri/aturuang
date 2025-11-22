@@ -52,9 +52,9 @@
 }
 
 .main-shadow {
-  @apply bg-neutral-200 shadow-md inset-shadow-sm inset-shadow-neutral-300;
+  @apply bg-linear-to-b from-neutral-50 via-neutral-100 to-neutral-200 shadow-md inset-shadow-sm inset-shadow-neutral-300;
 }
 
-.text-main{
+.text-main {
   @apply text-neutral-600;
 }

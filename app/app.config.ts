@@ -1,13 +1,13 @@
 export default defineAppConfig({
   ui: {
-    button:{
-        slots: {
-            base: 'text-main'
-        }
+    button: {
+      slots: {
+        base: "text-main",
+      },
     },
     select: {
       slots: {
-        base: "rounded-[2em] bg-neutral-100!",
+        base: "rounded-[2em] bg-neutral-100! main-shadow",
       },
       variants: {
         size: {
@@ -19,7 +19,7 @@ export default defineAppConfig({
     },
     input: {
       slots: {
-        base: "rounded-[2em] bg-neutral-100!",
+        base: "rounded-[2em] bg-neutral-100! main-shadow",
       },
       variants: {
         size: {
@@ -29,6 +29,16 @@ export default defineAppConfig({
         },
       },
     },
+    inputNumber: {
+      slots: {
+        base: "main-shadow",
+      },
+    },
+    tabs: {
+      slots: {
+        root: "main-shadow",
+      },
+    },
     slideover: {
       slots: {
         overlay: "bg-black/70",
@@ -36,6 +46,11 @@ export default defineAppConfig({
     },
     container: {
       base: "w-full max-w-(--ui-container) mx-auto px-4 sm:px-6 lg:px-8",
+    },
+    textarea: {
+      slots: {
+        base: "main-shadow",
+      },
     },
   },
 });

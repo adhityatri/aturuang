@@ -2,7 +2,7 @@
   <div
     v-for="wallet in props.list"
     :key="wallet.id"
-    class="bg-neutral-200 inset-shadow-sm inset-shadow-neutral-300 px-4 py-3 rounded-xl ring-2 ring-white shadow-lg shadow-neutral-300 min-w-[170px] snap-x"
+    class="main-shadow px-4 py-3 rounded-xl ring-2 ring-white shadow-lg shadow-neutral-300 min-w-[170px] snap-x"
     @click="emit('selected', wallet)"
   >
     <div class="flex flex-col h-full gap-1 justify-between items-end">

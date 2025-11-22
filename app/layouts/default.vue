@@ -10,7 +10,7 @@
     <UButton
       v-if="canCreate"
       :ui="{
-        base: 'bg-neutral-200 active:bg-neutral-300 inset-shadow-sm inset-shadow-neutral-300 fixed flex items-center justify-center rounded-full px-2 shadow-xl shadow-neutral-300/90 w-[100px] h-[50px] bottom-23 right-4 text-primary ring-2 ring-white',
+        base: 'main-shadow active:bg-neutral-300 fixed flex items-center justify-center rounded-full px-2 shadow-xl shadow-neutral-300/90 w-[100px] h-[50px] bottom-23 right-4 text-primary ring-2 ring-white',
       }"
       @click="onNew()"
     >
