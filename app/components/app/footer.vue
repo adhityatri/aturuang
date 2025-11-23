@@ -20,27 +20,6 @@
       />
     </nuxt-link>
   </UContainer>
-  <!-- <USlideover
-    v-if="canCreate"
-    v-model:open="open"
-    :dismissible="false"
-    title="Transaksi Baru"
-    side="bottom"
-  >
-    <UButton
-      class="w-[120px] h-[50px] bottom-[5rem] right-4 fixed flex items-center justify-center rounded-full px-2"
-      :ui="{
-        base: 'bg-primary text-white ring-2 ring-white',
-      }"
-    >
-      <UIcon name="solar:add-square-broken" class="size-6 mr-2" />
-      Baru
-    </UButton>
-
-    <template #body>
-      <money-tracker-form @close-on-submit="onClose" />
-    </template>
-  </USlideover> -->
 </template>
 
 <script setup lang="ts">
@@ -55,6 +34,12 @@ const navigation = [
     name: "Transactions",
     icon: "solar:wallet-money-linear",
     href: "/transactions",
+    current: false,
+  },
+  {
+    name: "Insight",
+    icon: "solar:command-bold-duotone",
+    href: "/insight",
     current: false,
   },
   {
