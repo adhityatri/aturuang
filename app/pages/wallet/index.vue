@@ -26,7 +26,7 @@ useHead({
 
 const walletStore = useWallets();
 
-await useAsyncData("wallets-data", () => walletStore.getWallets(), {
+await useAsyncData("wallets-data-page", () => walletStore.getWallets(), {
   lazy: true,
   dedupe: "defer",
   server: true,
