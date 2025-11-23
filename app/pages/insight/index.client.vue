@@ -18,7 +18,7 @@
     <div v-else class="flex flex-col">
       <app-nav-title title="Insight" @close="$router.back()" />
       <div class="flex flex-col flex-1 gap-2 px-4">
-        <template v-if="isNotEmpty">
+        <template v-if="isNotEmpty || resultData">
           <div
             class="flex flex-col justify-between min-h-[130px] w-full rounded-xl bg-gradient text-white p-4 mt-6 mb-2"
           >
@@ -56,7 +56,7 @@ definePageMeta({
 
 const transactionsStore = useTransactionsStore();
 const isNotEmpty = computed(
-  () => transactionsStore.monthlySummary.filteredData.length !== 0
+  () => transactionsStore.monthlySummary?.filteredData?.length !== 0
 );
 
 const user = useSupabaseUser();
@@ -75,7 +75,7 @@ const { status, execute } = await useAsyncData(
     $fetch("/api/insight", {
       method: "POST",
       body: {
-        userName: user.value?.user_metadata?.user_name,
+        userName: user.value?.user_metadata?.full_name,
         transactions: transactionsStore.monthlySummary.filteredData,
       },
     }),
@@ -99,8 +99,7 @@ const { status, execute } = await useAsyncData(
 );
 
 if (
-  isNotEmpty.value &&
-  cachedAnalysis &&
+  !cachedAnalysis ||
   cachedHash !== useSignature(transactionsStore.monthlySummary.filteredData)
 ) {
   execute();
