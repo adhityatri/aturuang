@@ -71,6 +71,7 @@ const useTransactionsStore = defineStore("transactions-store", () => {
     });
 
     return {
+      filteredData,
       totalExpenses,
       totalIncomes,
     };

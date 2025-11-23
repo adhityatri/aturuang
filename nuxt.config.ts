@@ -13,18 +13,20 @@ export default defineNuxtConfig({
     "@vueuse/nuxt",
     "@pinia/nuxt",
     "@vite-pwa/nuxt",
+    "@nuxtjs/mdc",
   ],
 
   runtimeConfig: {
     public: {
+      geminiKey: process.env.GEMINI_API_KEY,
       supabaseUrl: process.env.SUPABASE_URL,
-    }
+    },
   },
 
   experimental: {
     watcher: "chokidar",
     payloadExtraction: true,
-    inlineRouteRules: true
+    inlineRouteRules: true,
   },
 
   plugins: [
@@ -75,7 +77,7 @@ export default defineNuxtConfig({
       scrollBehaviorType: "smooth",
     },
   },
-  
+
   vite: {
     cacheDir: ".vite-cache",
     build: {
@@ -100,11 +102,11 @@ export default defineNuxtConfig({
         output: {
           manualChunks: {
             vendor: ["vue", "vue-router", "pinia"],
-            supabase: ['@supabase/supabase-js'],
-            charts: ['apexcharts'],
-          }
-        }
-      }
+            supabase: ["@supabase/supabase-js"],
+            charts: ["apexcharts"],
+          },
+        },
+      },
     },
   },
 
@@ -113,7 +115,8 @@ export default defineNuxtConfig({
     manifest: {
       name: "Yotro - Money Management App",
       short_name: "Yotro",
-      description: "Aplikasi Pencatatan Uang yang membantu pengguna dalam mengelola keuangan mereka dengan lebih mudah.",
+      description:
+        "Aplikasi Pencatatan Uang yang membantu pengguna dalam mengelola keuangan mereka dengan lebih mudah.",
       theme_color: "#0353a4",
       background_color: "#0353a4",
       categories: ["finance", "productivity"],
@@ -183,6 +186,6 @@ export default defineNuxtConfig({
     },
   },
   features: {
-    devLogs: false //nonaktifkan log dari server ke client
-  }
+    devLogs: false, //nonaktifkan log dari server ke client
+  },
 });
