@@ -11,7 +11,7 @@
         <UIcon name="solar:info-square-linear" />
         <p class="text-sm">
           Reset saldo dan anggaran setiap tanggal
-          {{ useBudgets().budgets?.[0]?.monthly_start }}
+          {{ props.resetDate }}
         </p>
       </div>
       <div
@@ -19,12 +19,6 @@
       >
         <div class="absolute inset-0 z-0 custom-bg" />
         <div class="flex flex-col flex-1 px-4 py-2">
-          <!-- <div>
-            <UIcon
-              name="solar:wallet-money-bold"
-              class="text-[10rem] opacity-20 text-white absolute right-0 bottom-[-10px]"
-            />
-          </div> -->
           <div
             class="leading-8 flex-1 flex flex-col justify-center text-white z-1"
           >
@@ -86,6 +80,7 @@ interface Props {
   income?: number;
   expenses?: number;
   isLoading?: boolean;
+  resetDate?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -93,5 +88,6 @@ const props = withDefaults(defineProps<Props>(), {
   income: 0,
   expenses: 0,
   isLoading: false,
+  resetDate: "1",
 });
 </script>

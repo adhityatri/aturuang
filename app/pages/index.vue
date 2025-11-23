@@ -10,6 +10,7 @@
       :current-balance="walletBalance"
       :income="transactionStore.monthlySummary.totalIncomes || 0"
       :expenses="transactionStore.monthlySummary.totalExpenses || 0"
+      :reset-date="budgetStore.budgets?.[0]?.monthly_start"
       class="my-6"
     />
 
@@ -103,7 +104,7 @@ const isLoading = computed(
 );
 
 const handleSubmitBudget = async (payload: any) => {
-  const response = await budgetStore.update(payload);
+  const response: any = await budgetStore.update(payload);
   if (response.error) {
     return;
   }
