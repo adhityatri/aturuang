@@ -48,8 +48,9 @@ export default defineEventHandler(async (event) => {
             //         - Do NOT include discounts, promos, vouchers, or negative adjustments. IGNORE THEM COMPLETELY.
             //         - Do NOT include subtotal, tax, or change.
             //         - Only list the actual products or services bought.`,
-            text: `Analyze this receipt image. First, extract all purchased items and categorize them. Then determine if the majority of items are food/drink related.
-                  Extraction Rules:
+            text: `Analyze this receipt image. First, extract all purchased items and categorize them. 
+                    Then determine if the majority of items are food/drink related.
+                    Extraction Rules:
                       1. Extract the date (format: YYYY-MM-DD)
                       2. Extract the merchant name
                       3. Extract all purchased items (line items) - for each item provide:
@@ -61,19 +62,23 @@ export default defineEventHandler(async (event) => {
                           .join(", ")})
 
                     GLOBAL CATEGORY DETECTION:
-                    After extracting all items, analyze if the majority are food/drink related. If 50% or more of items are categorized as 'makanan' or 'minuman', set the global category to 'makanan'. Otherwise, use the most frequently occurring category among the items, or 'belanja' as default.
+                    After extracting all items, analyze if the majority of items are food or drink related. 
+                    If 50% or more of items are categorized as 'makanan' or 'minuman', 
+                    set the global category to 'makanan'. 
+                    Otherwise, use the most frequently occurring category among the items, or 'belanja' as default.
 
                     CRITICAL FILTERING RULES:
                     - Do NOT include discounts, promos, vouchers, or negative adjustments. IGNORE THEM COMPLETELY.
                     - Do NOT include subtotal, tax, or change.
                     - Only list the actual products or services bought,
+                    - Only use the category list provided in the ${categoryList}.
                     - Focus on tangible items bought, not monetary adjustments
                     
                     Output Format:
                       {
                         "date": "YYYY-MM-DD",
                         "merchant": "merchant name",
-                        "global_category": "determined category based on majority rule",
+                        "global_category": "determined category based on majority rule from the category list provided in the ${categoryList}",
                         "items": [
                           {
                             "description": "item name",
