@@ -1,25 +1,25 @@
 <template>
   <div class="flex flex-col gap-4">
-    <div class="flex items-center gap-4">
+    <div class="grid grid-cols-2 gap-4">
       <UButton
-        size="xl"
         :ui="{
-          base: 'w-1/2 flex justify-center bg-neutral-200 inset-shadow-sm inset-shadow-neutral-300 ring-2 ring-white text-primary active:bg-neutral-400/20',
+          base: 'text-[0.875rem] py-3 rounded-2xl place-content-center ring-2 ring-white bg-linear-to-b from-neutral-100 via-neutral-200 to-neutral-300 text-primary',
         }"
         :class="{
-          'bg-primary inset-shadow-primary-900 text-white': active === 'income',
+          'bg-linear-to-b from-primary via-primary-900/40 to-primary-900/80 inset-shadow-primary-900 text-white':
+            active === 'income',
         }"
         @click="selectedTab('income')"
       >
         Pemasukan
       </UButton>
       <UButton
-        size="xl"
         :ui="{
-          base: 'w-1/2 flex justify-center bg-neutral-200 inset-shadow-sm inset-shadow-neutral-300 ring-2 ring-white text-primary active:bg-neutral-400/20',
+          base: 'text-[0.875rem] py-3 rounded-2xl place-content-center ring-2 ring-white bg-linear-to-b from-neutral-100 via-neutral-200 to-neutral-300 text-primary',
         }"
         :class="{
-          'bg-red-400 inset-shadow-red-900 text-white': active === 'expenses',
+          'bg-linear-to-b from-red-500 via-red-700 to-red-900/80 text-white':
+            active === 'expenses',
         }"
         @click="selectedTab('expenses')"
       >
@@ -32,7 +32,7 @@
         <div
           v-for="category in categoryStore.categories"
           :key="category.id"
-          class="relative overflow-hidden bg-linear-to-b from-neutral-100 to-neutral-200 p-2 shadow-lg shadow-neutral-300 ring-2 ring-white inset-shadow-sm inset-shadow-neutral-300 rounded-md text-center"
+          class="relative overflow-hidden bg-linear-to-b from-neutral-100 to-neutral-200 p-2 shadow-lg shadow-neutral-300 ring-2 ring-white rounded-xl main-shadow text-center"
           :class="{
             'bg-linear-to-b from-primary to-primary-900 inset-shadow-primary-900 text-white':
               selectedCategory.id === category.id,
@@ -47,7 +47,12 @@
           </span>
         </div>
       </div>
-      <USkeleton v-else class="bg-neutral-300 w-full h-[200px]" />
+      <div
+        v-else
+        class="grid grid-cols-4 auto-rows-auto gap-4 mt-6 w-full h-[200px]"
+      >
+        <USkeleton v-for="i in 12" :key="i" class="bg-neutral-300" />
+      </div>
     </div>
   </div>
 </template>

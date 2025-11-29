@@ -49,7 +49,7 @@ export default defineAppConfig({
     },
     textarea: {
       slots: {
-        base: "main-shadow",
+        base: "main-shadow border-2 border-white rounded-2xl text-md",
       },
     },
   },

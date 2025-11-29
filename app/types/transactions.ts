@@ -26,3 +26,27 @@ export interface iSumTransactionByMonth {
   total_amount: number;
   amountFormatted?: string;
 }
+
+export interface aiReceiptItem {
+  description: string;
+  amount: number;
+  category: string;
+}
+
+export interface aiTransaction {
+  id: string;
+  amount: number;
+  category: string;
+  description: string;
+  date: string;
+  type: string;
+  items?: aiReceiptItem[];
+}
+
+export interface aiReceiptResponse {
+  items: aiReceiptItem[];
+  date: string;
+  merchantName: string;
+  global_category: string;
+  type: string;
+}

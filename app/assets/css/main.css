@@ -3,6 +3,8 @@
 
 :root {
   --ui-bg: #f8f9fa;
+  --ui-primary: #0353a4;
+  --ui-primary-darken: #012b5b;
   --ui-container: 1366px;
 }
 

@@ -1,4 +1,5 @@
 import type {
+  aiReceiptResponse,
   iSumTransactionByMonth,
   iTransaction,
 } from "~/types/transactions";
@@ -337,6 +338,11 @@ const useTransactionsStore = defineStore("transactions-store", () => {
     }
   };
 
+  const aiResponse = ref<aiReceiptResponse>();
+  const aiLoading = ref<boolean>(false);
+
+  const isCreateOpen = ref<boolean>(false);
+
   return {
     transactions: transactionsList,
     loading: readonly(loading),
@@ -354,6 +360,9 @@ const useTransactionsStore = defineStore("transactions-store", () => {
     transactionDetail,
     walletTransactions,
     monthlySummary,
+    aiResponse,
+    aiLoading,
+    isCreateOpen,
     getSumTransactionCategory,
     get_transactions_by_month,
     getTransactionsWithCategory,

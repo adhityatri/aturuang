@@ -4,7 +4,12 @@
   >
     <div class="absolute inset-0 z-0 custom-bg" />
     <div class="relative overflow-hidden h-fit w-[220px] mb-8">
-      <nuxt-img :src="`${useRuntimeConfig().public.supabaseUrl}/storage/v1/object/public/yothro/brand-light.svg`" alt="brand-icon" />
+      <nuxt-img
+        :src="`${
+          useRuntimeConfig().public.supabaseUrl
+        }/storage/v1/object/public/yothro/brand-light.svg`"
+        alt="brand-icon"
+      />
     </div>
 
     <UForm
@@ -89,15 +94,13 @@ import * as v from "valibot";
 
 definePageMeta({
   name: "login-page",
-  title: "yothro | Login",
+  title: "yotro | Login",
   layout: "auth",
 });
 
 useHead({
-  title: "yothro | Login",
+  title: "yotro | Login",
 });
-
-
 
 const viewPassword = ref<boolean>(false);
 

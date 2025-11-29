@@ -71,7 +71,7 @@
             size="xl"
             :ui="{
               root: 'w-full',
-              base: 'rounded-2xl text-md',
+              base: 'text-md',
             }"
           />
         </UFormField>

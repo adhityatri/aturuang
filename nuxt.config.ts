@@ -2,6 +2,16 @@
 export default defineNuxtConfig({
   compatibilityDate: "2025-05-15",
   devtools: { enabled: false },
+
+  nitro: {
+    preset: "cloudflare-pages",
+  },
+
+  routeRules: {
+    "/_nuxt/**": {
+      headers: { "cache-control": "public, max-age=31536000, immutable" },
+    },
+  },
   css: ["~/assets/css/main.css"],
   modules: [
     "@nuxt/eslint",
@@ -24,7 +34,7 @@ export default defineNuxtConfig({
   },
 
   experimental: {
-    watcher: "chokidar",
+    watcher: "parcel",
     payloadExtraction: true,
     inlineRouteRules: true,
   },
@@ -111,6 +121,9 @@ export default defineNuxtConfig({
   },
 
   pwa: {
+    devOptions: {
+      enabled: false,
+    },
     registerType: "autoUpdate",
     manifest: {
       name: "Yotro - Money Management App",

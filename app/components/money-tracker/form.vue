@@ -1,6 +1,6 @@
 <template>
   <UForm
-    class="w-full z-1"
+    class="w-full z-1 mt-0!"
     :schema="trackerSchema"
     :state="state"
     @submit="onSubmit"
@@ -15,55 +15,79 @@
       class="mb-4"
     />
 
+    <money-tracker-form-image />
+    <USeparator
+      label="Input Manual"
+      class="my-4"
+      color="info"
+      size="sm"
+      :ui="{
+        label: 'text-sm text-neutral-600',
+        border: 'border-neutral-300',
+      }"
+    />
     <category-display
       :selected-category="selectedCategory"
       @select="selectCategory"
     />
 
-    <UFormField label="Pilih Kantong" name="wallet_id" class="w-full my-4">
-      <USelect
-        v-model="state.wallet_id"
-        :items="walletList"
+    <div class="flex gap-4 mt-4">
+      <UFormField label="Kantong" name="wallet_id" class="w-[120px]">
+        <USelect
+          v-model="state.wallet_id"
+          :items="walletList"
+          size="xl"
+          :ui="{
+            base: 'px-6 py-4 rounded-full w-full',
+            trailingIcon: 'h-[20px] w-[20px]',
+            content:
+              'main-shadow rounded-2xl mt-1 ring-2 ring-white shadow-lg shadow-neutral-300 w-full',
+          }"
+          trailing-icon="i-lucide-wallet"
+          placeholder="Kantong"
+        />
+      </UFormField>
+      <UFormField label="Jumlah" name="amount" class="mb-4 flex-1">
+        <UInputNumber
+          v-model="state.amount"
+          orientation="vertical"
+          hide-buttons
+          :format-options="{
+            style: 'currency',
+            currency: 'IDR',
+            currencyDisplay: 'narrowSymbol',
+            compactDisplay: 'short',
+            maximumFractionDigits: 0,
+            currencySign: 'standard',
+          }"
+          class="w-full"
+          :ui="{
+            base: 'px-6 py-4 rounded-full',
+            increment: 'hidden',
+            decrement: 'hidden',
+          }"
+        />
+      </UFormField>
+    </div>
+
+    <UFormField label="Keterangan (Optional)" name="notes" class="w-full my-4">
+      <UTextarea
+        v-model="state.notes"
+        placeholder="ex: Membeli makanan, dll."
         size="xl"
+        type="text"
         class="w-full"
-        placeholder="Pilih Kantong"
-      />
-    </UFormField>
-    <UFormField label="Keterangan" name="notes" class="w-full mb-4">
-      <UInput v-model="state.notes" placeholder="ex: Membeli makanan, dll." size="xl" type="text" class="w-full" />
-    </UFormField>
-    <UFormField label="Jumlah" name="amount" class="w-full mb-4">
-      <UInputNumber
-        v-model="state.amount"
-        orientation="vertical"
-        hide-buttons
-        size="xl"
-        :format-options="{
-          style: 'currency',
-          currency: 'IDR',
-          currencyDisplay: 'narrowSymbol',
-          compactDisplay: 'short',
-          maximumFractionDigits: 0,
-          currencySign: 'standard',
-        }"
-        class="w-full"
-        :ui="{
-          base: 'px-6 py-4 rounded-full',
-          increment: 'hidden',
-          decrement: 'hidden',
-        }"
       />
     </UFormField>
 
     <UButton
       block
-      class="mt-8"
       :disabled="!isReady"
       size="xl"
       color="primary"
       type="submit"
       :ui="{
-        base: 'px-6 py-4 rounded-full',
+        base: 'px-6 py-4 rounded-full mt-4',
       }"
     >
       Simpan

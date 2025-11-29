@@ -1,8 +1,8 @@
 {
-  "name": "yothro-app",
+  "name": "yotro-app",
   "private": true,
   "type": "module",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
@@ -42,7 +42,8 @@
   ],
   "devDependencies": {
     "@iconify-json/lucide": "^1.2.73",
-    "@iconify-json/solar": "^1.2.5"
+    "@iconify-json/solar": "^1.2.5",
+    "@parcel/watcher": "^2.5.1"
   },
   "overrides": {
     "cookie": "1.0.2"
