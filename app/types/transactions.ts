@@ -10,6 +10,7 @@ export interface iTransaction {
   total_amount?: number;
   notes: string;
   categories: categories;
+  category_id?: number;
   category_name?: string;
   category_type?: string;
   wallet_id?: string;

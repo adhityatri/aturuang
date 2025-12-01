@@ -56,7 +56,9 @@ const useTransactionsStore = defineStore("transactions-store", () => {
       const itemDate = new Date(item.created_at);
       return (
         itemDate >= new Date(startDate.value) &&
-        itemDate <= new Date(endDate.value)
+        itemDate <= new Date(endDate.value) &&
+        item.category_id !== 23 &&
+        item.category_id !== 24
       );
     });
 
