@@ -6,7 +6,11 @@ export default defineNuxtRouteMiddleware(async () => {
   } as const;
 
   const budgetsStore = useBudgets();
-  await budgetsStore.getBudgetsByUserId();
+  try {
+    await budgetsStore.getBudgetsByUserId();
+  } catch (error) {
+    console.error("Error fetching budgets in middleware:", error);
+  }
 
   if (budgetsStore.budgets?.length === 0) {
     return navigateTo({ name: routes.BUDGET });
