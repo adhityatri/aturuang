@@ -16,14 +16,14 @@
 
     <wallet-list :is-loading="isLoading" />
 
-    <!-- <money-tracker-budget
+    <money-tracker-budget
       :is-loading="isLoading"
       :budget="budgetStore.budgets?.[0]?.amount || 0"
       :reset-date="budgetStore.budgets?.[0]?.monthly_start || '1'"
       :expenses="transactionStore.monthlySummary.totalExpenses || 0"
       :is-open="budgetStore.isBudgetOpen"
       @submit="handleSubmitBudget"
-    /> -->
+    />
 
     <transactions-list
       :source="
@@ -44,7 +44,7 @@ const { isDesktop } = useDevice();
 
 definePageMeta({
   name: "homepage",
-  // middleware: ["budget-detect"],
+  middleware: ["budget-detect"],
 });
 
 const supabaseClient = useSupabaseClient();
