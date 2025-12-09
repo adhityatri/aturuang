@@ -24,6 +24,7 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     "@vite-pwa/nuxt",
     "@nuxtjs/mdc",
+    "@vueuse/nuxt",
   ],
 
   runtimeConfig: {

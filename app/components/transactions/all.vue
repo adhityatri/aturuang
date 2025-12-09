@@ -1,6 +1,6 @@
 <template>
   <UCard
-    class="bg-white shadow-lg flex flex-col gap-2"
+    class="gap-2"
     :class="{
       'ring-0': isAll,
     }"
