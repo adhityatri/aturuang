@@ -34,11 +34,11 @@ const useWallets = defineStore("wallets-store", () => {
     }
   };
 
-  const updateWallet = async ({ id, name }: { id: string; name: string }) => {
+  const updateWallet = async ({ id, name, amount }: { id: string; name: string; amount: number }) => {
     try {
       const { data, error } = await client
         .from("wallets")
-        .update({ name })
+        .update({ name, amount })
         .eq("id", id)
         .select();
 

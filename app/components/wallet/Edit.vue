@@ -28,10 +28,11 @@ const closeEdit = () => {
   walletStore.isEditOpen = false;
 };
 
-const handleSubmit = async (value: { name: string }) => {
+const handleSubmit = async (value: { name: string, amount: number }) => {
   const payload = {
     id: id.value || "",
     name: value.name,
+    amount: value.amount,
   };
 
   const response = shallowRef<any>(null);

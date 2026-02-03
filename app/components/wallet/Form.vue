@@ -28,7 +28,6 @@
         />
       </UFormField>
       <UFormField
-        v-if="props.type === 'create'"
         label="Jumlah"
         name="amount"
         class="w-full mb-4"
