@@ -21,6 +21,18 @@
   --color-primary-800: #0353a4;
   --color-primary-900: #012b5b;
   --color-primary-950: #00193a;
+  
+  --color-accent-blue: #064eaf;
+  --color-accent-red: #ef2b24;
+  --color-accent-yellow: #ffd21e;
+  --color-accent-red-dark: #d6231d;
+  --color-accent-red-darker: #b91d19;
+  --color-accent-yellow-light: #ffe066;
+  
+  --color-text-dark: #0a0a0a;
+  --color-text-secondary: #6b7280;
+  --color-border-dark: #111111;
+  --color-bg-light: #f8f5ed;
 }
 
 #__nuxt {

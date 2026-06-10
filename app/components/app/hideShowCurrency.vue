@@ -1,7 +1,7 @@
 <template>
     <UButton
         :ui="{
-            base: 'h-full w-full bg-transparent text-[#0A0A0A] hover:bg-transparent hover:text-[#0A0A0A] active:bg-transparent active:text-[#0A0A0A]',
+            base: 'h-12 w-12 flex items-center justify-center ring-2 ring-dark  bg-white p-2 bg-transparent text-dark hover:bg-transparent hover:text-dark active:bg-transparent active:text-dark',
         }"
         :icon="
             privacyStore.isPrivacyAccepted

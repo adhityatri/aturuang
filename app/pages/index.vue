@@ -1,21 +1,14 @@
 <template>
-    <div class="flex flex-1 flex-col p-6 pb-14 bg-[#F8F5ED]">
+    <div class="flex flex-1 flex-col p-6 pb-14 bg-light">
         <div class="mb-8">
             <p
-                class="text-[12px] font-medium uppercase tracking-[0.2em] text-[#6B7280] mb-2"
+                class="text-[12px] font-medium uppercase tracking-[0.2em] text-secondary mb-2"
             >
                 {{ currentDate }}
             </p>
             <div class="flex justify-between items-end">
                 <app-greeting :is-loading="isLoading" />
-                <div class="relative">
-                    <!-- Bauhaus Circle Action -->
-                    <div
-                        class="w-12 h-12 rounded-full border-2 border-[#111111] flex items-center justify-center bg-white shadow-[4px_4px_0px_#111111]"
-                    >
-                        <app-hide-show-currency />
-                    </div>
-                </div>
+                <app-hide-show-currency />
             </div>
         </div>
 
@@ -37,9 +30,9 @@
         <div>
             <div class="flex items-center justify-between mb-4">
                 <div class="flex items-center gap-2">
-                    <div class="w-3 h-3 bg-[#0A0A0A]" />
+                    <div class="w-3 h-3 bg-text-dark" />
                     <h2
-                        class="text-xl font-[800] uppercase tracking-tight text-[#0A0A0A]"
+                        class="text-xl font-[800] uppercase tracking-tight text-dark"
                     >
                         Riwayat Transaksi
                     </h2>

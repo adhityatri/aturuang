@@ -1,18 +1,14 @@
 <template>
-  <UApp class="p-0">
-    <NuxtRouteAnnouncer />
-    <NuxtLayout>
-      <NuxtPwaManifest />
-      <NuxtLoadingIndicator color="#0353A4" />
-      <NuxtPage />
-    </NuxtLayout>
-  </UApp>
+    <UApp class="p-0">
+        <NuxtRouteAnnouncer />
+        <NuxtLayout>
+            <NuxtPwaManifest />
+            <NuxtLoadingIndicator color="#0353A4" />
+            <NuxtPage />
+        </NuxtLayout>
+    </UApp>
 </template>
 
 <script setup lang="ts">
-useHead({
-  bodyAttrs: {
-    class: "flex flex-col h-[100dvh] bg-[#F8F5ED]",
-  },
-});
+useHead({ bodyAttrs: { class: "flex flex-col h-[100dvh] bg-light" } });
 </script>
