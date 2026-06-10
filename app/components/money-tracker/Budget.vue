@@ -1,17 +1,19 @@
 <template>
   <USkeleton
     v-if="isLoading"
-    class="h-[150px] w-full bg-neutral-300 rounded-2xl"
+    class="h-[150px] w-full bg-neutral-300 rounded-xl border-[1.5px] border-[#111111] shadow-[2px_2px_0px_#111111]"
   />
   <div
     v-else
-    class="p-4 w-full bg-neutral-50 main-shadow ring-2 ring-white rounded-2xl"
+    class="p-4 w-full bg-white border-[1.5px] border-[#111111] shadow-[2px_2px_0px_#111111] rounded-xl"
   >
     <div class="flex justify-between items-start py-2">
       <div class="flex flex-col">
-        <div class="flex items-center gap-2">
-          <UIcon name="solar:calendar-linear" />
-          <h1 class="font-bold text-lg capitalize">anggaran bulanan</h1>
+        <div class="flex items-center gap-3">
+          <div class="p-2 bg-[#064EAF] text-white rounded border border-[#111111]">
+            <UIcon name="solar:calendar-linear" class="text-md block" />
+          </div>
+          <h1 class="font-black text-lg uppercase tracking-wider text-[#0A0A0A]">Anggaran Bulanan</h1>
         </div>
       </div>
 
@@ -25,7 +27,7 @@
           trailing-icon="solar:settings-linear"
           variant="soft"
           :ui="{
-            base: 'px-4 py-2 rounded-full bg-primary/10',
+            base: 'px-4 py-2 rounded-lg bg-[#FFD21E] text-[#0A0A0A] border-[1.5px] border-[#111111] font-bold uppercase tracking-wide',
           }"
         >
           Sesuaikan
@@ -34,8 +36,8 @@
         <template #header>
           <div class="flex flex-1 items-start justify-between">
             <div class="flex flex-col">
-              <h1 class="font-bold text-lg">Sesuaikan Anggaran Bulanan</h1>
-              <small class="text-neutral-500">{{
+              <h1 class="font-black text-lg uppercase tracking-wide text-[#0A0A0A]">Sesuaikan Anggaran</h1>
+              <small class="text-[#6B7280] uppercase text-[10px] font-bold tracking-wider">{{
                 `Anggaran saat ini: ${useFormatPriceIntl(props.budget)}`
               }}</small>
             </div>
@@ -72,7 +74,7 @@
                 }"
                 class="w-full"
                 :ui="{
-                  base: 'px-6 py-4 rounded-full bg-neutral-100',
+                  base: 'px-6 py-4 rounded-lg bg-white border-[1.5px] border-[#111111]',
                   increment: 'hidden',
                   decrement: 'hidden',
                 }"
@@ -89,13 +91,16 @@
                 size="xl"
                 class="w-full"
                 placeholder="Pilih Tanggal Gajian"
+                :ui="{
+                  base: 'rounded-lg bg-white border-[1.5px] border-[#111111]',
+                }"
               />
             </UFormField>
 
             <p
-              class="p-4 ring-2 ring-white main-shadow shadow-xl rounded-lg text-neutral-500"
+              class="p-4 bg-[#FFD21E] border-[1.5px] border-[#111111] shadow-[2px_2px_0px_#111111] rounded-lg text-[#0A0A0A] font-bold"
             >
-              <b>Penting</b> : Kami akan mereset saldo dan anggaran Anda pada
+              <span class="uppercase">Penting:</span> Kami akan mereset saldo dan anggaran Anda pada
               tanggal
               {{ state.reset_date }}
               setiap bulan.
@@ -112,7 +117,7 @@
               size="xl"
               color="primary"
               :ui="{
-                base: 'bg-primary disabled:bg-neutral-300 disabled:text-primary shadow-lg inset-shadow-md inset-shadow-neutral-400 ring-2 ring-white text-white px-6 py-4 rounded-full',
+                base: 'bg-[#064EAF] disabled:bg-neutral-300 disabled:text-primary border-[1.5px] border-[#111111] shadow-[2px_2px_0px_#111111] text-white px-6 py-4 rounded-lg font-bold uppercase tracking-wide',
               }"
               type="submit"
             >
@@ -130,16 +135,16 @@
           size="lg"
           color="primary"
         />
-        <h1 v-else class="font-bold text-red-700 text-[1.5rem]">
+        <h1 v-else class="font-black text-[#EF2B24] text-[1.5rem]">
           {{ useFormatPriceIntl(props.expenses) }}
         </h1>
-        <span class="font-bold text-neutral-400">/</span>
+        <span class="font-black text-[#0A0A0A]">/</span>
         <app-privacy
           v-if="usePrivacy().isPrivacyAccepted"
           size="md"
           color="primary"
         />
-        <h2 v-else class="text-[0.875rem]">
+        <h2 v-else class="text-[#0A0A0A] font-bold">
           {{ useFormatPriceIntl(props.budget) }}
         </h2>
       </div>
@@ -148,12 +153,12 @@
         size="lg"
         :status="false"
         :ui="{
-          base: 'bg-neutral-300',
-          indicator: 'bg-red-700',
+          base: 'bg-[#F8F5ED] border-[1.5px] border-[#111111]',
+          indicator: 'bg-[#EF2B24]',
         }"
       />
     </div>
-    <p class="mt-2 text-md text-neutral-500">{{ calculateBudget.message }}</p>
+    <p class="mt-2 text-md text-[#6B7280] font-bold uppercase">{{ calculateBudget.message }}</p>
   </div>
 </template>
 

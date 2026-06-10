@@ -12,7 +12,7 @@
 <script setup lang="ts">
 useHead({
   bodyAttrs: {
-    class: "flex flex-col h-[100dvh] bg-gray-300",
+    class: "flex flex-col h-[100dvh] bg-[#F8F5ED]",
   },
 });
 </script>

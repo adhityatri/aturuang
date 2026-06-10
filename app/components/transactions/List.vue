@@ -1,33 +1,38 @@
 <template>
   <UCard
-    class="bg-neutral-100 inset-shadow-sm inset-shadow-neutral-300 ring-2 ring-white shadow-xl shadow-neutral-300 flex flex-col gap-2"
+    class="bg-white border-[1.5px] border-[#111111] shadow-[2px_2px_0px_#111111] rounded-xl flex flex-col gap-2"
+    :ui="{
+      body: {
+        padding: 'p-4',
+      },
+    }"
   >
     <template v-if="isLoading">
       <div class="flex justify-between items-center">
-        <USkeleton class="h-4 w-[150px] bg-neutral-500 rounded-2xl" />
-        <USkeleton class="h-2 w-[70px] bg-neutral-500 rounded-2xl" />
+        <USkeleton class="h-4 w-[150px] bg-neutral-300 rounded-xl" />
+        <USkeleton class="h-2 w-[70px] bg-neutral-300 rounded-xl" />
       </div>
 
       <div class="mt-6 gap-2 flex flex-col">
-        <USkeleton v-for="i in 5" :key="i" class="h-[60px] w-full bg-neutral-500 rounded-2xl" />
+        <USkeleton v-for="i in 5" :key="i" class="h-[60px] w-full bg-neutral-300 rounded-xl" />
       </div>
     </template>
     <template v-else>
-      <div class="flex items-center justify-between mb-2">
+      <div class="flex items-center justify-between mb-4">
         <transactions-title>{{ props.title }}</transactions-title>
         <nuxt-link
           v-if="!isAll"
           to="/transactions"
-          class="text-sm text-neutral-400 hover:text-neutral-600"
+          class="text-sm font-bold uppercase tracking-wider text-[#0A0A0A] border-[1.5px] border-[#111111] px-3 py-1 rounded-lg hover:bg-neutral-100 transition-colors"
         >
-          Lihat Semua
+          Lihat Semua →
         </nuxt-link>
       </div>
-      <div v-if="source.length === 0" class="text-center text-neutral-400 py-4">
+      <div v-if="source.length === 0" class="text-center text-[#6B7280] py-4 text-xs font-bold uppercase tracking-wider">
         Tidak ada transaksi hari ini
       </div>
-      <div v-else>
-        <small class="uppercase text-neutral-400">{{ groupTitle }}</small>
+      <div v-else class="flex flex-col gap-2">
+        <small class="uppercase text-[#6B7280] font-bold tracking-wider text-[10px] mb-1">{{ groupTitle }}</small>
         <transactions-item
           v-for="value in source"
           :key="value.id"

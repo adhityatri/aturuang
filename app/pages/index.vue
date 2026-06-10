@@ -1,144 +1,167 @@
 <template>
-  <div class="flex flex-1 flex-col p-4 pb-14">
-    <div class="flex justify-between items-start pt-[2em]">
-      <app-greeting :is-loading="isLoading" />
-      <app-hide-show-currency />
+    <div class="flex flex-1 flex-col p-6 pb-14 bg-[#F8F5ED]">
+        <div class="mb-8">
+            <p
+                class="text-[12px] font-medium uppercase tracking-[0.2em] text-[#6B7280] mb-2"
+            >
+                {{ currentDate }}
+            </p>
+            <div class="flex justify-between items-end">
+                <app-greeting :is-loading="isLoading" />
+                <div class="relative">
+                    <!-- Bauhaus Circle Action -->
+                    <div
+                        class="w-12 h-12 rounded-full border-2 border-[#111111] flex items-center justify-center bg-white shadow-[4px_4px_0px_#111111]"
+                    >
+                        <app-hide-show-currency />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <summary-card
+            :is-loading="isLoading"
+            :current-balance="walletBalance"
+            :income="totalIncomes"
+            :expenses="totalExpenses"
+            :reset-date="budgetResetDate"
+            :budget="budgetAmount"
+            class="mb-10"
+            @submit-budget="handleSubmitBudget"
+        />
+
+        <div class="mb-10">
+            <wallet-list :is-loading="isLoading" />
+        </div>
+
+        <div>
+            <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center gap-2">
+                    <div class="w-3 h-3 bg-[#0A0A0A]" />
+                    <h2
+                        class="text-xl font-[800] uppercase tracking-tight text-[#0A0A0A]"
+                    >
+                        Riwayat Transaksi
+                    </h2>
+                </div>
+            </div>
+            <transactions-list
+                :source="transactionsSource"
+                :is-loading="isLoading"
+                class="rounded-lg"
+            />
+        </div>
     </div>
-
-    <summary-card
-      :is-loading="isLoading"
-      :current-balance="walletBalance"
-      :income="transactionStore.monthlySummary.totalIncomes || 0"
-      :expenses="transactionStore.monthlySummary.totalExpenses || 0"
-      :reset-date="budgetStore.budgets?.[0]?.monthly_start"
-      class="my-6"
-    />
-
-    <wallet-list :is-loading="isLoading" />
-
-    <money-tracker-budget
-      :is-loading="isLoading"
-      :budget="budgetStore.budgets?.[0]?.amount || 0"
-      :reset-date="budgetStore.budgets?.[0]?.monthly_start || '1'"
-      :expenses="transactionStore.monthlySummary.totalExpenses || 0"
-      :is-open="budgetStore.isBudgetOpen"
-      @submit="handleSubmitBudget"
-    />
-
-    <transactions-list
-      :source="
-        transactionStore.todayTransactions.length > 0
-          ? transactionStore.todayTransactions
-          : transactionStore.recentTransactions
-      "
-      :is-loading="isLoading"
-      class="rounded-lg mt-4"
-      title="Riwayat Transaksi"
-    />
-  </div>
 </template>
 
 <script setup lang="ts">
 import type { RealtimeChannel } from "@supabase/supabase-js";
-const { isDesktop } = useDevice();
 
-definePageMeta({
-  name: "homepage",
-  middleware: ["budget-detect"],
-});
+definePageMeta({ name: "homepage", middleware: ["budget-detect"] });
 
 const supabaseClient = useSupabaseClient();
 const transactionStore = useTransactionsStore();
 const walletStore = useWallets();
 const budgetStore = useBudgets();
+const { isDesktop } = useDevice();
 
-let realtimeChannel: RealtimeChannel;
-let walletRealtimeChannel: RealtimeChannel;
+const currentDate = computed(() => {
+    return new Date()
+        .toLocaleDateString("id-ID", {
+            weekday: "long",
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+        })
+        .toUpperCase();
+});
 
-const { refresh: refreshTransactions, status: statusTransactions } =
-  useAsyncData(
+let realtimeChannel: RealtimeChannel | null = null;
+let walletRealtimeChannel: RealtimeChannel | null = null;
+
+const { status: statusTransactions } = await useAsyncData(
     "transactions-data",
-    async () => {
-      try {
-        const result = await transactionStore.getTransactionsWithCategory({
-          category_type_filter: "all",
-          // page_limit: 5
-        });
-        return Array?.isArray(result) ? result : [];
-      } catch (error) {
-        useToast().add({
-          title: "Error",
-          description: "Gagal mengambil data transaksi : " + error,
-          color: "error",
-        });
-        return []; // Always return a consistent type
-      }
-    },
-    {
-      default: () => [],
-      lazy: true,
-      dedupe: "defer",
-      server: true,
-    }
-  );
+    () =>
+        transactionStore
+            .getTransactionsWithCategory({ category_type_filter: "all" })
+            .then((result) => (Array.isArray(result) ? result : []))
+            .catch((error) => {
+                useToast().add({
+                    title: "Error",
+                    description: "Gagal mengambil data transaksi: " + error,
+                    color: "error",
+                });
+                return [];
+            }),
+    { default: () => [], lazy: true, dedupe: "defer", server: true },
+);
 
-const { refresh: refreshWallets, status: statusWallet } = await useAsyncData(
-  "wallets-data",
-  () => walletStore.getWallets(),
-  {
+await useAsyncData("wallets-data", () => walletStore.getWallets(), {
     lazy: true,
     dedupe: "defer",
     server: true,
-  }
-);
-
-const walletBalance = computed(() => {
-  return (
-    walletStore.wallets.reduce((acc, wallet) => acc + wallet.amount, 0) ?? 0
-  );
 });
 
-const isLoading = computed(
-  () =>
-    statusTransactions.value !== "success" && statusWallet.value !== "success"
+const walletBalance = computed(() =>
+    walletStore.wallets.reduce((acc, wallet) => acc + wallet.amount, 0),
 );
 
-const handleSubmitBudget = async (payload: any) => {
-  const response: any = await budgetStore.update(payload);
-  if (response.error) {
-    return;
-  }
+const totalIncomes = computed(
+    () => transactionStore.monthlySummary.totalIncomes ?? 0,
+);
+const totalExpenses = computed(
+    () => transactionStore.monthlySummary.totalExpenses ?? 0,
+);
 
-  budgetStore.isBudgetOpen = false;
+const firstBudget = computed(() => budgetStore.budgets?.[0]);
+const budgetAmount = computed(() => firstBudget.value?.amount ?? 0);
+const budgetResetDate = computed(() => firstBudget.value?.monthly_start ?? "1");
+
+const transactionsSource = computed(() =>
+    transactionStore.todayTransactions.length > 0
+        ? transactionStore.todayTransactions
+        : transactionStore.recentTransactions,
+);
+
+const isLoading = computed(() => statusTransactions.value !== "success");
+
+const handleSubmitBudget = async (payload: { amount: number }) => {
+    const response = await budgetStore.update(payload);
+    if (response?.error) return;
+
+    budgetStore.isBudgetOpen = false;
 };
 
 onMounted(() => {
-  if (!isDesktop) {
+    if (isDesktop) return;
+
     realtimeChannel = supabaseClient
-      .channel("public:transactions")
-      .on(
-        "postgres_changes",
-        { event: "*", schema: "public", table: "transactions" },
-        () => refreshTransactions()
-      );
+        .channel("public:transactions")
+        .on(
+            "postgres_changes",
+            { event: "*", schema: "public", table: "transactions" },
+            () =>
+                transactionStore.getTransactionsWithCategory({
+                    category_type_filter: "all",
+                }),
+        )
+        .subscribe();
 
     walletRealtimeChannel = supabaseClient
-      .channel("public:wallets")
-      .on(
-        "postgres_changes",
-        { event: "*", schema: "public", table: "wallets" },
-        () => refreshWallets()
-      );
-
-    realtimeChannel.subscribe();
-    walletRealtimeChannel.subscribe();
-  }
+        .channel("public:wallets")
+        .on(
+            "postgres_changes",
+            { event: "*", schema: "public", table: "wallets" },
+            () => walletStore.getWallets(),
+        )
+        .subscribe();
 });
 
 onUnmounted(() => {
-  if (realtimeChannel && !isDesktop) {
-    supabaseClient.removeChannel(realtimeChannel);
-    supabaseClient.removeChannel(walletRealtimeChannel);
-  }
+    if (isDesktop) return;
+
+    if (realtimeChannel) supabaseClient.removeChannel(realtimeChannel);
+    if (walletRealtimeChannel)
+        supabaseClient.removeChannel(walletRealtimeChannel);
 });
 </script>
