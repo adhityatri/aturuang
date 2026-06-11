@@ -1,25 +1,41 @@
 <template>
     <USkeleton
         v-if="isLoading"
-        class="h-37.5 w-full bg-neutral-300 rounded-xl border-[1.5px] border-dark shadow-[2px_2px_0px_border-dark]"
+        class="h-52 w-full rounded-[1.4rem] border-[1.5px] border-dark bg-neutral-300 shadow-[3px_3px_0px_#111111]"
     />
+
     <div
         v-else
-        class="p-4 w-full bg-white border-[1.5px] border-dark shadow-[2px_2px_0px_border-dark] rounded-xl"
+        class="relative w-full overflow-hidden rounded-[1.4rem] border-[1.5px] border-dark bg-white p-4 shadow-[3px_3px_0px_#111111]"
     >
-        <div class="flex justify-between items-start py-2">
-            <div class="flex flex-col">
-                <div class="flex items-center gap-3">
-                    <div
-                        class="p-2 bgaccent-blue text-white rounded border border-dark"
+        <!-- Bauhaus Decoration -->
+        <div
+            class="absolute -right-8 -top-8 size-28 rounded-full bg-accent-yellow"
+        />
+        <div
+            class="absolute -left-10 bottom-0 size-24 rounded-tr-full bg-accent-blue"
+        />
+        <div
+            class="absolute bottom-0 right-0 size-16 rounded-tl-full bg-accent-red"
+        />
+
+        <!-- Header -->
+        <div class="relative z-1 flex items-start justify-between gap-3">
+            <div class="flex items-center gap-3">
+                <div
+                    class="flex size-11 items-center justify-center rounded-xl border-[1.5px] border-dark bg-accent-blue text-white shadow-[2px_2px_0px_#111111]"
+                >
+                    <UIcon name="solar:calendar-linear" class="block text-xl" />
+                </div>
+
+                <div>
+                    <p
+                        class="text-[10px] font-black uppercase tracking-[0.22em] text-secondary"
                     >
-                        <UIcon
-                            name="solar:calendar-linear"
-                            class="text-md block"
-                        />
-                    </div>
+                        Dashboard
+                    </p>
                     <h1
-                        class="font-black text-lg uppercase tracking-wider text-dark"
+                        class="text-md font-black uppercase leading-5 text-dark"
                     >
                         Anggaran Bulanan
                     </h1>
@@ -36,27 +52,27 @@
                     trailing-icon="solar:settings-linear"
                     variant="soft"
                     :ui="{
-                        base: 'px-4 py-2 rounded-lg bg-accent-yellow text-dark border-[1.5px] border-dark font-bold uppercase tracking-wide',
+                        base: 'relative z-1 size-10 rounded-full bg-accent-yellow text-dark border-[1.5px] border-dark shadow-[2px_2px_0px_#111111] font-bold flex items-center justify-center p-0',
                     }"
-                >
-                    Sesuaikan
-                </UButton>
+                />
 
                 <template #header>
                     <div class="flex flex-1 items-start justify-between">
                         <div class="flex flex-col">
                             <h1
-                                class="font-black text-lg uppercase tracking-wide text-dark"
+                                class="text-lg font-black uppercase tracking-wide text-dark"
                             >
                                 Sesuaikan Anggaran
                             </h1>
                             <small
-                                class="text-secondary uppercase text-[10px] font-bold tracking-wider"
-                                >{{
-                                    `Anggaran saat ini: ${useFormatPriceIntl(props.budget)}`
-                                }}</small
+                                class="text-[10px] font-bold uppercase tracking-wider text-secondary"
                             >
+                                {{
+                                    `Anggaran saat ini: ${useFormatPriceIntl(props.budget)}`
+                                }}
+                            </small>
                         </div>
+
                         <UButton
                             icon="lucide:x"
                             color="neutral"
@@ -68,7 +84,7 @@
 
                 <template #body>
                     <UForm
-                        class="w-full z-1"
+                        class="z-1 w-full"
                         :schema="budgetSchema"
                         :state="state"
                         @submit="onSubmit"
@@ -76,7 +92,7 @@
                         <UFormField
                             label="Budget"
                             name="amount"
-                            class="w-full my-4"
+                            class="my-4 w-full"
                         >
                             <UInputNumber
                                 v-model="state.amount"
@@ -100,10 +116,11 @@
                                 }"
                             />
                         </UFormField>
+
                         <UFormField
                             label="Awal Bulan"
                             name="reset_date"
-                            class="w-full my-4"
+                            class="my-4 w-full"
                         >
                             <USelect
                                 v-model="state.reset_date"
@@ -118,12 +135,12 @@
                         </UFormField>
 
                         <p
-                            class="p-4 bg-accent-yellow border-[1.5px] border-dark shadow-[2px_2px_0px_border-dark] rounded-lg text-dark font-bold"
+                            class="rounded-lg border-[1.5px] border-dark bg-accent-yellow p-4 font-bold text-dark shadow-[2px_2px_0px_#111111]"
                         >
-                            <span class="uppercase">Penting:</span> Kami akan
-                            mereset saldo dan anggaran Anda pada tanggal
-                            {{ state.reset_date }}
-                            setiap bulan.
+                            <span class="uppercase">Penting:</span>
+                            Kami akan mereset saldo dan anggaran Anda pada
+                            tanggal
+                            {{ state.reset_date }} setiap bulan.
                             {{
                                 Number(state.reset_date) >= 27
                                     ? `Untuk bulan yang tidak memiliki tanggal ${state.reset_date}, reset akan dilakukan pada hari terakhir bulan tersebut.`
@@ -137,7 +154,7 @@
                             size="xl"
                             color="primary"
                             :ui="{
-                                base: 'bg-accent-blue disabled:bg-neutral-300 disabled:text-primary border-[1.5px] border-dark shadow-border-dark] text-white px-6 py-4 rounded-lg font-bold uppercase tracking-wide',
+                                base: 'bg-accent-blue disabled:bg-neutral-300 disabled:text-primary border-[1.5px] border-dark shadow-[2px_2px_0px_#111111] text-white px-6 py-4 rounded-lg font-bold uppercase tracking-wide',
                             }"
                             type="submit"
                         >
@@ -148,39 +165,83 @@
             </USlideover>
         </div>
 
-        <div class="flex flex-col mt-4 gap-2">
-            <div class="flex items-end gap-2">
+        <!-- Amount Card -->
+        <div
+            class="relative z-1 mt-5 rounded-2xl border-[1.5px] border-dark bg-white/90 p-4 shadow-[2px_2px_0px_#111111]"
+        >
+            <div class="flex flex-wrap items-end gap-2">
                 <app-privacy
                     v-if="usePrivacy().isPrivacyAccepted"
                     size="lg"
                     color="primary"
                 />
-                <h1 v-else class="font-black text-accent-red text-[1.5rem]">
-                    {{ useFormatPriceIntl(props.expenses) }}
-                </h1>
-                <span class="font-black text-dark">/</span>
+
+                <template v-else>
+                    <span
+                        class="rounded-lg bg-accent-red px-2 py-1 text-sm font-black text-white"
+                    >
+                        Rp
+                    </span>
+                    <h1
+                        class="text-[2rem] font-black leading-none text-accent-red"
+                    >
+                        {{
+                            useFormatPriceIntl(props.expenses)
+                                .replace("Rp", "")
+                                .trim()
+                        }}
+                    </h1>
+                </template>
+
+                <span class="pb-1 font-black text-dark">/</span>
+
                 <app-privacy
                     v-if="usePrivacy().isPrivacyAccepted"
                     size="md"
                     color="primary"
                 />
-                <h2 v-else class="text-dark font-bold">
+
+                <h2 v-else class="pb-1 font-black text-dark">
                     {{ useFormatPriceIntl(props.budget) }}
                 </h2>
             </div>
-            <UProgress
-                v-model="calculateBudget.percent"
-                size="lg"
-                :status="false"
-                :ui="{
-                    base: 'bg-light border-[1.5px] border-dark',
-                    indicator: 'bg-accent-red',
-                }"
-            />
+
+            <div class="mt-4 flex items-center gap-3">
+                <UProgress
+                    v-model="calculateBudget.percent"
+                    size="lg"
+                    :status="false"
+                    class="flex-1"
+                    :ui="{
+                        base: 'bg-light border-[1.5px] border-dark',
+                        indicator: 'bg-accent-red',
+                    }"
+                />
+
+                <span
+                    class="rounded-full border-[1.5px] border-dark bg-accent-blue px-3 py-1 text-xs font-black text-white"
+                >
+                    {{ Math.round(calculateBudget.percent) }}%
+                </span>
+            </div>
         </div>
-        <p class="mt-2 text-md text-secondary font-bold uppercase">
-            {{ calculateBudget.message }}
-        </p>
+
+        <!-- Status -->
+        <!-- <div
+            class="relative z-1 mt-4 flex items-center gap-3 rounded-2xl border-[1.5px] border-dark bg-blue-50 p-3"
+        >
+            <div
+                class="flex size-10 shrink-0 items-center justify-center rounded-full bg-accent-yellow text-xl"
+            >
+                😎
+            </div>
+
+            <div class="h-10 w-[3px] rounded-full bg-accent-blue" />
+
+            <p class="text-xs font-black uppercase leading-4 text-accent-blue">
+                {{ calculateBudget.message }}
+            </p>
+        </div> -->
     </div>
 </template>
 
@@ -217,9 +278,20 @@ const resetDateList = computed(() => {
     }));
 });
 
+// const calculateBudget = computed(() => {
+//     const percentage = (props.expenses / props.budget) * 100;
+//     const message = getBudgetMessage(percentage);
+//     return { percent: percentage <= 100 ? percentage : 100, message };
+// });
+//
 const calculateBudget = computed(() => {
+    if (!props.budget) {
+        return { percent: 0, message: getBudgetMessage(0) };
+    }
+
     const percentage = (props.expenses / props.budget) * 100;
     const message = getBudgetMessage(percentage);
+
     return { percent: percentage <= 100 ? percentage : 100, message };
 });
 

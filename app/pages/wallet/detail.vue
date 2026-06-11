@@ -1,61 +1,182 @@
 <template>
-  <div class="flex flex-col flex-1 bg-gradient gap-4">
-    <app-nav-title title="Detail Kantong" @close="$router.back()" />
-
-    <div class="px-4 pt-8 flex gap-4">
-      <div
-        class="h-[100px] w-[100px] ring-2 ring-white shadow-xl main-shadow bg-neutral-200 rounded-xl flex items-center justify-center"
-      >
-        <UIcon name="solar:mask-happly-linear" class="text-[3em]" />
-      </div>
-      <div class="flex flex-col justify-end">
-        <h2 class="font-medium text-neutral-200 tracking-wide">
-          {{ walletStore.detailWallet?.name }}
-        </h2>
-        <app-privacy
-          v-if="usePrivacyStore.isPrivacyAccepted"
-          size="sm"
-          color="primary"
+    <div
+        class="relative flex min-h-dvh flex-1 flex-col overflow-hidden bg-[#fffaf0]"
+    >
+        <!-- Background -->
+        <div class="absolute inset-0 z-0 bg-accent-blue" />
+        <div class="absolute inset-0 z-0 custom-bg opacity-30" />
+        <div
+            class="absolute -right-16 top-24 size-40 rounded-full bg-accent-yellow"
         />
-        <span v-else class="text-white text-[1.2rem]">
-          {{ useFormatPriceIntl(walletStore.detailWallet?.amount) }}
-        </span>
+        <div
+            class="absolute -left-16 top-52 size-36 rounded-full bg-accent-red"
+        />
 
-        <div class="py-4 flex gap-4">
-          <wallet-edit @click="handleEditWallet" />
-          <wallet-move @refresh="handleRefresh" />
-          <!-- <UButton
-            class=" rounded-md text-sm ring-2 ring-white bg-neutral-200 shadow-lg text-primary inset-shadow-sm inset-shadow-neutral-300 active:bg-neutral-300"
-            size="xl"
-          >
-            Budget
-          </UButton> -->
+        <div class="relative z-1">
+            <app-nav-title title="Detail Kantong" @close="$router.back()" />
+
+            <!-- Wallet Hero -->
+            <section class="px-4 pb-6 pt-4">
+                <div
+                    class="relative overflow-hidden rounded-[2rem] border-[2px] border-dark bg-white p-5 shadow-[5px_5px_0px_#111111]"
+                >
+                    <!-- Bauhaus Shapes -->
+                    <div
+                        class="absolute -right-12 -top-12 size-32 rounded-full bg-accent-yellow"
+                    />
+                    <div
+                        class="absolute -bottom-12 -left-12 size-28 rounded-tr-full bg-accent-blue"
+                    />
+                    <div
+                        class="absolute bottom-4 right-5 size-10 rounded-full bg-accent-red"
+                    />
+
+                    <div class="relative z-1 flex items-start gap-4">
+                        <div
+                            class="flex size-24 shrink-0 items-center justify-center rounded-3xl border-[2px] border-dark bg-[#fffaf0] text-dark shadow-[3px_3px_0px_#111111]"
+                        >
+                            <UIcon
+                                name="solar:mask-happly-linear"
+                                class="text-[3rem]"
+                            />
+                        </div>
+
+                        <div class="min-w-0 flex-1">
+                            <p
+                                class="text-[10px] font-black uppercase tracking-[0.24em] text-accent-blue"
+                            >
+                                Kantong
+                            </p>
+
+                            <h1
+                                class="truncate text-lg font-black uppercase leading-tight text-dark"
+                            >
+                                {{
+                                    walletStore.detailWallet?.name || "Kantong"
+                                }}
+                            </h1>
+
+                            <div class="mt-2">
+                                <app-privacy
+                                    v-if="usePrivacyStore.isPrivacyAccepted"
+                                    size="sm"
+                                    color="primary"
+                                />
+
+                                <p
+                                    v-else
+                                    class="text-xl font-black leading-none text-accent-blue"
+                                >
+                                    {{
+                                        useFormatPriceIntl(
+                                            walletStore.detailWallet?.amount ||
+                                                0,
+                                        )
+                                    }}
+                                </p>
+
+                                <p
+                                    class="mt-2 text-xs font-bold uppercase tracking-wider text-secondary"
+                                >
+                                    Saldo tersedia
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="relative z-1 mt-5 grid grid-cols-2 gap-3">
+                        <wallet-edit @click="handleEditWallet" />
+                        <wallet-move @refresh="handleRefresh" />
+                    </div>
+                </div>
+            </section>
         </div>
-      </div>
-    </div>
 
-    <div class="rounded-tl-2xl rounded-tr-2xl flex-1 p-4 bg-white">
-      <div
-        v-for="value in transactionStore.walletTransactions"
-        :key="value.title"
-      >
-        <small class="uppercase text-neutral-400">{{ value.title }}</small>
+        <!-- Transactions Panel -->
+        <main
+            class="relative z-1 flex flex-1 flex-col rounded-t-[2rem] border-t-[2px] border-dark bg-white p-4 shadow-[0_-4px_0px_#111111]"
+        >
+            <div class="mb-4 flex items-center justify-between">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="size-3 bg-text-dark" />
+                        <h2 class="text-lg font-black uppercase text-dark">
+                            Riwayat Transaksi
+                        </h2>
+                    </div>
+                </div>
 
-        <transactions-item
-          v-for="transaction in value.value"
-          :key="transaction.id"
-          :transaction="transaction"
-          @click="navigateToTransactionDetail(transaction)"
-        />
-      </div>
+                <UButton
+                    icon="solar:refresh-linear"
+                    color="neutral"
+                    variant="ghost"
+                    :ui="{
+                        base: 'flex size-11 items-center justify-center rounded-xl border-[1.5px] border-dark bg-accent-yellow p-0 text-dark shadow-[2px_2px_0px_#111111]',
+                    }"
+                    @click="handleRefresh"
+                />
+            </div>
+
+            <template v-if="transactionStore.walletTransactions.length === 0">
+                <div
+                    class="flex flex-1 flex-col items-center justify-center rounded-2xl border-[1.5px] border-dashed border-dark bg-neutral-50 px-6 py-10 text-center"
+                >
+                    <div
+                        class="mb-4 flex size-16 items-center justify-center rounded-full bg-accent-yellow text-dark"
+                    >
+                        <UIcon name="solar:receipt-linear" class="text-3xl" />
+                    </div>
+
+                    <h3 class="text-sm font-black uppercase text-dark">
+                        Belum Ada Transaksi
+                    </h3>
+
+                    <p
+                        class="mt-2 max-w-[240px] text-xs font-medium leading-5 text-secondary"
+                    >
+                        Transaksi yang memakai kantong ini akan muncul di
+                        halaman ini.
+                    </p>
+                </div>
+            </template>
+
+            <template v-else>
+                <div class="flex flex-col gap-5">
+                    <div
+                        v-for="value in transactionStore.walletTransactions"
+                        :key="value.title"
+                        class="flex flex-col gap-2"
+                    >
+                        <div class="flex items-center justify-between">
+                            <small
+                                class="text-[10px] font-black uppercase tracking-[0.2em] text-accent-blue"
+                            >
+                                {{ value.title }}
+                            </small>
+
+                            <span
+                                class="rounded-full bg-neutral-100 px-3 py-1 text-[10px] font-bold text-secondary"
+                            >
+                                {{ value.value.length }} item
+                            </span>
+                        </div>
+
+                        <transactions-item
+                            v-for="transaction in value.value"
+                            :key="transaction.id"
+                            :transaction="transaction"
+                            @click="navigateToTransactionDetail(transaction)"
+                        />
+                    </div>
+                </div>
+            </template>
+        </main>
     </div>
-  </div>
 </template>
 
 <script setup lang="ts">
-definePageMeta({
-  name: "wallet-detail",
-});
+definePageMeta({ name: "wallet-detail" });
 
 const route = useRoute();
 const id = computed(() => route.query.id);
@@ -66,33 +187,25 @@ const walletStore = useWallets();
 const usePrivacyStore = usePrivacy();
 
 const { refresh: refreshWallet } = useAsyncData(
-  "detail-wallet-page",
-  () => walletStore.getWalletById(id.value as string),
-  {
-    lazy: true,
-    dedupe: "defer",
-    server: true,
-  }
+    "detail-wallet-page",
+    () => walletStore.getWalletById(id.value as string),
+    { lazy: true, dedupe: "defer", server: true },
 );
 
 const transactionStore = useTransactionsStore();
 
 const { refresh: refreshTransactions } = useAsyncData(
-  "detail-wallet-transactions-page",
-  () => transactionStore.getTransactionsByWalletId(id.value as string),
-  {
-    lazy: true,
-    dedupe: "defer",
-    server: true,
-  }
+    "detail-wallet-transactions-page",
+    () => transactionStore.getTransactionsByWalletId(id.value as string),
+    { lazy: true, dedupe: "defer", server: true },
 );
 
 const handleRefresh = () => {
-  refreshWallet();
-  refreshTransactions();
+    refreshWallet();
+    refreshTransactions();
 };
 
 const handleEditWallet = () => {
-  walletStore.isEditOpen = true;
+    walletStore.isEditOpen = true;
 };
 </script>

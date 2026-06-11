@@ -27,23 +27,11 @@
             <wallet-list :is-loading="isLoading" />
         </div>
 
-        <div>
-            <div class="flex items-center justify-between mb-4">
-                <div class="flex items-center gap-2">
-                    <div class="w-3 h-3 bg-text-dark" />
-                    <h2
-                        class="text-xl font-[800] uppercase tracking-tight text-dark"
-                    >
-                        Riwayat Transaksi
-                    </h2>
-                </div>
-            </div>
-            <transactions-list
-                :source="transactionsSource"
-                :is-loading="isLoading"
-                class="rounded-lg"
-            />
-        </div>
+        <transactions-list
+            :source="transactionsSource"
+            :is-loading="isLoading"
+            class="rounded-lg"
+        />
     </div>
 </template>
 

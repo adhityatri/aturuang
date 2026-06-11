@@ -17,18 +17,18 @@
             >
                 <USkeleton
                     v-if="isLoading"
-                    class="relative overflow-hidden h-[220px] bg-neutral-300 rounded-xl border-[1.5px] border-[#111111] shadow-[4px_4px_0px_#111111] flex flex-col items-start justify-end px-4 py-2"
+                    class="relative overflow-hidden h-55 bg-neutral-300 rounded-[1.4rem] border-[1.5px] border-border-dark shadow-[4px_4px_0px_#111111] flex flex-col items-start justify-end px-4 py-2"
                 />
-                <div v-else class="rounded-xl">
+                <div v-else class="rounded-[1.4rem]">
                     <div
-                        class="relative overflow-hidden h-[220px] bg-[#064EAF] rounded-xl border-[1.5px] border-[#111111] shadow-[4px_4px_0px_#111111] flex flex-col items-start justify-between p-6 text-white"
+                        class="relative overflow-hidden h-55 bg-accent-blue rounded-[1.4rem] border-[1.5px] border-border-dark shadow-[4px_4px_0px_#111111] flex flex-col items-start justify-between p-6 text-white"
                     >
                         <!-- Bauhaus Geometric Decorative Shapes -->
                         <div
-                            class="absolute -top-6 -right-6 w-24 h-24 bg-[#EF2B24] rounded-full border-[1.5px] border-[#111111] pointer-events-none"
+                            class="absolute -top-6 -right-6 w-24 h-24 bg-accent-red rounded-full border-[1.5px] border-border-dark pointer-events-none"
                         />
                         <div
-                            class="absolute top-12 -right-2 w-12 h-12 bg-[#FFD21E] border-[1.5px] border-[#111111] pointer-events-none"
+                            class="absolute top-12 -right-2 w-12 h-12 bg-accent-yellow border-[1.5px] border-border-dark pointer-events-none"
                         />
 
                         <div class="relative z-10 w-full">
@@ -54,10 +54,12 @@
 
                         <div class="relative z-10 w-full mt-auto">
                             <div
-                                class="grid grid-cols-2 gap-3 p-3 bg-white text-[#0A0A0A] rounded-lg border-[1.5px] border-[#111111] shadow-[2px_2px_0px_#111111]"
+                                class="grid grid-cols-2 gap-3 p-3 bg-white text-text-dark rounded-lg border-[1.5px] border-border-dark shadow-[2px_2px_0px_#111111]"
                             >
                                 <div class="flex items-center gap-3 px-2">
-                                    <div class="p-1.5 bg-[#064EAF] text-white rounded border border-[#111111]">
+                                    <div
+                                        class="p-1.5 bg-accent-blue] text-white rounded border border-border-dark"
+                                    >
                                         <UIcon
                                             name="solar:arrow-down-left-linear"
                                             class="text-md block"
@@ -65,7 +67,7 @@
                                     </div>
                                     <div class="flex flex-col">
                                         <small
-                                            class="text-[#6B7280] text-[10px] uppercase tracking-wider font-bold"
+                                            class="text-text-secondary text-[10px] uppercase tracking-wider font-bold"
                                             >Pemasukan</small
                                         >
                                         <div class="flex items-center gap-1">
@@ -77,11 +79,12 @@
                                             <span
                                                 v-else
                                                 class="text-sm font-bold"
-                                                >{{
+                                            >
+                                                {{
                                                     summaryItems[0]
                                                         .formattedValue
-                                                }}</span
-                                            >
+                                                }}
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -90,7 +93,7 @@
                                 >
                                     <div class="flex flex-col">
                                         <small
-                                            class="text-[#6B7280] text-[10px] uppercase tracking-wider font-bold"
+                                            class="text-text-secondary text-[10px] uppercase tracking-wider font-bold"
                                             >Pengeluaran</small
                                         >
                                         <div
@@ -111,7 +114,9 @@
                                             >
                                         </div>
                                     </div>
-                                    <div class="p-1.5 bg-[#EF2B24] text-white rounded border border-[#111111]">
+                                    <div
+                                        class="p-1.5 bg-accent-red text-white rounded border border-border-dark"
+                                    >
                                         <UIcon
                                             name="solar:arrow-up-right-linear"
                                             class="text-md block"
@@ -145,14 +150,14 @@
             <button
                 v-for="index in 2"
                 :key="index"
-                class="w-6 h-3 transition-all duration-200 border border-[#111111]"
+                class="w-6 h-3 transition-all duration-200 border border-border-dark"
                 :class="[
                     activeIndex === index - 1
-                        ? 'bg-[#064EAF]'
+                        ? 'bg-accent-blue'
                         : 'bg-white hover:bg-neutral-100',
                 ]"
                 @click="scrollToSlide(index - 1)"
-            ></button>
+            />
         </div>
     </div>
 </template>

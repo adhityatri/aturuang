@@ -1,66 +1,45 @@
 <template>
-  <UContainer
-    as="footer"
-    class="fixed bottom-0 main-shadow border-t-2 border-t-white h-[70px] flex items-center justify-evenly overflow-hidden"
-  >
-    <nuxt-link
-      v-for="item in navigation"
-      :key="item.name"
-      :to="item.href"
-      class="transition-alltext-sm font-medium flex flex-col flex-1 items-center justify-center mx-2 text-neutral-700 cursor-pointer hover:text-primary"
-      :class="{ 'text-primary text-[1.1rem]': currentRouter === item.href }"
+    <footer
+        class="z-1000 fixed bottom-0 w-full bg-white border-t-[1.5px] border-dark h-17.5 flex items-stretch"
     >
-      <span>
-        {{ item.name }}
-      </span>
-      <UIcon
-        name="solar:balloon-bold"
-        class="transition-all size-3 opacity-0 rotate-180"
-        :class="{ 'opacity-100': currentRouter === item.href }"
-      />
-    </nuxt-link>
-  </UContainer>
+        <nuxt-link
+            v-for="(item, index) in navigation"
+            :key="item.name"
+            :to="item.href"
+            class="relative flex flex-col flex-1 items-center justify-center gap-0.5 text-[9px] font-black uppercase tracking-widest transition-colors"
+            :class="[
+                currentRouter === item.href
+                    ? 'bg-accent-blue text-white'
+                    : 'bg-white text-dark hover:bg-neutral-100',
+                index !== navigation.length - 1
+                    ? 'border-r-[1.5px] border-dark'
+                    : '',
+            ]"
+        >
+            <UIcon
+                :name="item.icon"
+                class="size-5 transition-transform"
+                :class="currentRouter === item.href ? 'scale-110' : ''"
+            />
+            <span>{{ item.name }}</span>
+        </nuxt-link>
+    </footer>
 </template>
 
 <script setup lang="ts">
 const navigation = [
-  {
-    name: "Home",
-    icon: "solar:home-2-linear",
-    href: "/",
-    current: true,
-  },
-  {
-    name: "Transactions",
-    icon: "solar:wallet-money-linear",
-    href: "/transactions",
-    current: false,
-  },
-  {
-    name: "Insight",
-    icon: "solar:command-bold-duotone",
-    href: "/insight",
-    current: false,
-  },
-  {
-    name: "Profile",
-    icon: "solar:user-linear",
-    href: "/profile",
-    current: false,
-  },
+    { name: "Home", icon: "solar:home-2-linear", href: "/" },
+    {
+        name: "Transactions",
+        icon: "solar:wallet-money-linear",
+        href: "/transactions",
+    },
+    // { name: "Insight", icon: "solar:command-bold-duotone", href: "/insight" },
+    { name: "Profile", icon: "solar:user-linear", href: "/profile" },
 ];
 
 const router = useRouter();
 const currentRouter = computed(() => {
-  return router.currentRoute.value.path;
+    return router.currentRoute.value.path;
 });
-
-// const open = ref(false);
-// const onClose = () => {
-//   open.value = false;
-// };
-
-// const canCreate = computed(() => {
-//   return currentRouter.value === "/";
-// });
 </script>

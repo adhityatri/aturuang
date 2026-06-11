@@ -1,12 +1,12 @@
 <template>
-  <div class="flex flex-1 flex-col gap-4 pt-8 bg-primary-900">
-    <div class="relative overflow-hidden px-4 bg-primary-900 min-h-[200px]">
+    <div class="flex flex-1 flex-col gap-4 pt-8 bg-bg-light">
+        <!-- <div class="relative overflow-hidden px-4 bg-primary-900 min-h-[200px]">
       <lazy-transactions-charts
         :sources="transactionStore.transactionByMonth"
       />
-    </div>
+    </div> -->
 
-    <div
+        <!-- <div
       ref="scrollComponent"
       class="rounded-tl-2xl rounded-tr-2xl bg-white flex flex-1 overflow-auto"
     >
@@ -16,20 +16,13 @@
         :expenses="expenses"
         class="pt-4"
       />
+    </div> -->
     </div>
-  </div>
 </template>
 
 <script setup lang="ts">
-definePageMeta({
-  name: "transactions-page",
-});
-useHead({
-  bodyAttrs: {
-    class: "",
-  },
-  title: "Transaksi",
-});
+definePageMeta({ name: "transactions-page" });
+useHead({ bodyAttrs: { class: "" }, title: "Transaksi" });
 
 const transactionStore = useTransactionsStore();
 const page = ref<number>(20);
@@ -38,49 +31,47 @@ const isLoading = ref(false);
 const scrollComponent = ref(null);
 
 const loadMore = async () => {
-  if (isLoading.value) return;
-  isLoading.value = true;
-  try {
-    page.value += 30;
-    await transactionStore.getTransactionsWithCategory({
-      category_type_filter: "all",
-      page_limit: page.value,
-    });
-  } finally {
-    isLoading.value = false;
-  }
+    if (isLoading.value) return;
+    isLoading.value = true;
+    try {
+        page.value += 30;
+        await transactionStore.getTransactionsWithCategory({
+            category_type_filter: "all",
+            page_limit: page.value,
+        });
+    } finally {
+        isLoading.value = false;
+    }
 };
 
 const handleScroll = (e) => {
-  const element = scrollComponent?.value;
-  if (element.getBoundingClientRect().bottom < window.innerHeight) {
-    loadMore();
-  }
+    const element = scrollComponent?.value;
+    if (element.getBoundingClientRect().bottom < window.innerHeight) {
+        loadMore();
+    }
 };
 
 onMounted(() => {
-  window.addEventListener("scroll", handleScroll);
-  loadMore();
+    window.addEventListener("scroll", handleScroll);
+    loadMore();
 });
 
 onUnmounted(() => {
-  window.removeEventListener("scroll", handleScroll);
+    window.removeEventListener("scroll", handleScroll);
 });
 
 await callOnce(
-  "transactions-by-month",
-  () => transactionStore.get_transactions_by_month(),
-  {
-    mode: "navigation",
-  }
+    "transactions-by-month",
+    () => transactionStore.get_transactions_by_month(),
+    { mode: "navigation" },
 );
 
 const income = useFilterByCategory(
-  transactionStore.groupedTransactions,
-  "income"
+    transactionStore.groupedTransactions,
+    "income",
 );
 const expenses = useFilterByCategory(
-  transactionStore.groupedTransactions,
-  "expenses"
+    transactionStore.groupedTransactions,
+    "expenses",
 );
 </script>
