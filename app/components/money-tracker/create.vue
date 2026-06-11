@@ -1,51 +1,54 @@
 <template>
-  <UModal class="bg-white border-[1.5px] border-[#111111] shadow-[4px_4px_0px_#111111] rounded-xl" fullscreen :open="isOpen">
-    <template #header>
-      <div class="flex justify-between py-2 w-full pt-4">
-        <UButton
-          class="all:unset text-white bg-[#EF2B24] border-[1.5px] border-[#111111] shadow-[2px_2px_0px_#111111] rounded-lg w-[40px] h-[40px] flex items-center justify-center hover:bg-[#d6231d] active:bg-[#b91d19] transition-colors"
-          @click="emits('close')"
-        >
-          <UIcon name="material-symbols:close-rounded" size="1.5rem" />
-        </UButton>
-        <div
-          class="flex items-center justify-center bg-[#064EAF] text-white border-[1.5px] border-[#111111] shadow-[2px_2px_0px_#111111] rounded-lg p-2 px-6 font-black uppercase tracking-wider"
-        >
-          <span>Add Transaction</span>
-        </div>
-      </div>
-    </template>
+    <UModal fullscreen :open="isOpen" :ui="{ content: 'bg-[#fffaf0]' }">
+        <template #header>
+            <div
+                class="relative flex w-full items-center justify-between px-1 py-3"
+            >
+                <UButton
+                    aria-label="Tutup modal transaksi"
+                    :ui="{
+                        base: 'flex size-11 items-center justify-center rounded-2xl border-[2px] border-dark bg-accent-red p-0 text-white shadow-[3px_3px_0px_#111111] transition active:translate-x-[2px] active:translate-y-[2px] active:shadow-none',
+                    }"
+                    @click="emits('close')"
+                >
+                    <UIcon
+                        name="material-symbols:close-rounded"
+                        class="text-2xl"
+                    />
+                </UButton>
 
-    <template #body>
-      <!-- <div class="flex flex-col gap-2"> -->
-      <!-- <category-display
-          :selected-category="selectedCategory"
-          @select="selectCategory"
-        /> -->
-      <money-tracker-form class="mt-8" @close-on-submit="emits('close')" />
-      <!-- </div> -->
-    </template>
-  </UModal>
+                <div
+                    class="rounded-2xl border-[2px] border-dark bg-accent-blue px-5 py-3 text-center text-sm font-black uppercase tracking-wide text-white shadow-[3px_3px_0px_#111111]"
+                >
+                    Add Transaction
+                </div>
+            </div>
+        </template>
+
+        <template #body>
+            <div class="relative min-h-full overflow-hidden pb-8">
+                <div
+                    class="absolute -right-16 top-0 size-40 rounded-full bg-accent-yellow"
+                />
+                <div
+                    class="absolute -left-16 bottom-16 size-36 rounded-full bg-accent-blue"
+                />
+                <div
+                    class="absolute bottom-4 right-8 size-20 rounded-full bg-accent-red"
+                />
+
+                <section
+                    class="relative z-1 mt-4 rounded-[2rem] border-[2px] border-dark bg-white p-4 shadow-[5px_5px_0px_#111111]"
+                >
+                    <money-tracker-form @close-on-submit="emits('close')" />
+                </section>
+            </div>
+        </template>
+    </UModal>
 </template>
 
 <script setup lang="ts">
-// import type { iCategory } from "~/types/category";
+withDefaults(defineProps<{ isOpen?: boolean }>(), { isOpen: false });
 
-withDefaults(
-  defineProps<{
-    isOpen?: boolean;
-  }>(),
-  {
-    isOpen: false,
-  }
-);
-
-const emits = defineEmits(["close"]);
-
-// const selectedCategory = ref<iCategory>();
-
-// const selectCategory = (category: iCategory) => {
-//   console.log(category);
-//   selectedCategory.value = category;
-// };
+const emits = defineEmits<{ close: [] }>();
 </script>
