@@ -5,8 +5,6 @@
         :state="state"
         @submit="onSubmit"
     >
-        <app-category-display />
-
         <UBanner
             v-if="!isReady"
             color="warning"

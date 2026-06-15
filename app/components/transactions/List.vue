@@ -21,7 +21,7 @@
 
             <nuxt-link
                 v-if="!isAll"
-                to="/transactions"
+                to="/activity"
                 class="flex size-12 items-center justify-center rounded-xl border-[1.5px] border-dark bg-accent-yellow text-dark shadow-[2px_2px_0px_#111111] transition hover:bg-yellow-300 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
                 aria-label="Lihat semua transaksi"
             >

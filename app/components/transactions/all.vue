@@ -8,7 +8,7 @@
     <div v-if="!isAll" class="flex items-center justify-between mb-2">
       <transactions-title>{{ props.title }}</transactions-title>
       <nuxt-link
-        to="/transactions"
+        to="/activity"
         class="text-sm text-neutral-400 hover:text-neutral-600"
       >
         Lihat Semua

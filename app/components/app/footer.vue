@@ -30,9 +30,9 @@
 const navigation = [
     { name: "Home", icon: "solar:home-2-linear", href: "/" },
     {
-        name: "Transactions",
+        name: "Activity",
         icon: "solar:wallet-money-linear",
-        href: "/transactions",
+        href: "/activity",
     },
     // { name: "Insight", icon: "solar:command-bold-duotone", href: "/insight" },
     { name: "Profile", icon: "solar:user-linear", href: "/profile" },

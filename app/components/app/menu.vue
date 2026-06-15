@@ -11,8 +11,8 @@ const menuItems = ref<NavigationMenuItem[]>([
     to: '/'
   },
   {
-    label: 'Transactions',
-    to: '/transactions'
+    label: 'Activity',
+    to: '/activity'
   },
   {
     label: 'Budget',
