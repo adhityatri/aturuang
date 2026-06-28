@@ -23,15 +23,15 @@
             @submit-budget="handleSubmitBudget"
         />
 
-        <div class="mb-10">
-            <wallet-list :is-loading="isLoading" />
-        </div>
-
         <transactions-list
             :source="transactionsSource"
             :is-loading="isLoading"
             class="rounded-lg"
         />
+
+        <div class="my-10">
+            <wallet-list :is-loading="isLoading" />
+        </div>
     </div>
 </template>
 

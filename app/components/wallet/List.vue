@@ -19,14 +19,14 @@
                 class="flex justify-between items-center mb-4"
                 :class="{ 'mb-0': isPages }"
             >
-                <!-- <div class="flex items-center gap-2">
+                <div class="flex items-center gap-2">
                     <div class="w-3 h-3 bg-text-dark" />
                     <h2
                         class="text-lg font-extrabold uppercase tracking-tight text-dark"
                     >
                         Kantong Saya
                     </h2>
-                </div> -->
+                </div>
                 <USlideover
                     v-model:open="openForm"
                     :dismissible="true"

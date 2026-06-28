@@ -28,7 +28,7 @@ const useTransactionsStore = defineStore("transactions-store", () => {
     const now = new Date();
     const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
     return transactionsList.value.filter(
-      (t) => new Date(t.created_at) >= startOfMonth
+      (t) => new Date(t.created_at) >= startOfMonth,
     );
   });
 
@@ -73,11 +73,7 @@ const useTransactionsStore = defineStore("transactions-store", () => {
       }
     });
 
-    return {
-      filteredData,
-      totalExpenses,
-      totalIncomes,
-    };
+    return { filteredData, totalExpenses, totalIncomes };
   });
 
   const expensesThisMonth = computed(() => {
@@ -97,7 +93,7 @@ const useTransactionsStore = defineStore("transactions-store", () => {
     const incomeTransactions = filterTransactionsByType("income");
     const total = incomeTransactions.reduce(
       (sum, t) => sum + (t.amount || 0),
-      0
+      0,
     );
     return { transactions: incomeTransactions, total };
   });
@@ -106,7 +102,7 @@ const useTransactionsStore = defineStore("transactions-store", () => {
     const expenseTransactions = filterTransactionsByType("expenses");
     const total = expenseTransactions.reduce(
       (sum, t) => sum + (t.amount || 0),
-      0
+      0,
     );
     return { transactions: expenseTransactions, total };
   });
@@ -120,14 +116,14 @@ const useTransactionsStore = defineStore("transactions-store", () => {
     const user_id = shallowRef(user.value?.id);
 
     try {
-      const { data, error } = await supabaseClient.rpc(
+      const { data, error } = (await supabaseClient.rpc(
         "get_transactions_with_categories_and_count",
         {
           category_type_filter: params.category_type_filter,
           p_user_id: user_id.value,
           ...(params.page_limit && { page_limit: params.page_limit }),
-        }
-      );
+        },
+      )) as any;
 
       if (error) {
         console.error("Error fetching transactions with categories:", error);
@@ -136,7 +132,7 @@ const useTransactionsStore = defineStore("transactions-store", () => {
 
       transactionsList.value = ((data?.data || []) as iTransaction[]).sort(
         (a, b) =>
-          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
       );
 
       return data;
@@ -152,9 +148,7 @@ const useTransactionsStore = defineStore("transactions-store", () => {
     try {
       const { data, error } = await supabaseClient.rpc(
         "get_transactions_by_id",
-        {
-          p_transactions_id: id,
-        }
+        { p_transactions_id: id },
       );
 
       if (error) {
@@ -171,7 +165,7 @@ const useTransactionsStore = defineStore("transactions-store", () => {
 
   const filterTransactionsByType = (type: "income" | "expenses" | "all") => {
     return transactionsList.value.filter(
-      (item) => item?.category_type === type
+      (item) => item?.category_type === type,
     );
   };
 
@@ -224,7 +218,7 @@ const useTransactionsStore = defineStore("transactions-store", () => {
   };
 
   const groupedTransactions = computed(() =>
-    groupTransactionsByDate(transactionsList.value)
+    groupTransactionsByDate(transactionsList.value),
   );
 
   const transactionByCategory = ref<[]>([]);
@@ -251,7 +245,7 @@ const useTransactionsStore = defineStore("transactions-store", () => {
 
     try {
       const { data, error } = await supabaseClient.rpc(
-        "monthly_transaction_sums_all"
+        "monthly_transaction_sums_all",
       );
 
       if (error) {
@@ -266,7 +260,7 @@ const useTransactionsStore = defineStore("transactions-store", () => {
             ...item,
             amountFormatted: useFormatPriceIntl(item.total_amount),
           };
-        }
+        },
       );
 
       return data;
@@ -294,7 +288,7 @@ const useTransactionsStore = defineStore("transactions-store", () => {
           p_category_id: transactionData.category_id,
           p_amount: transactionData.amount,
           p_notes: transactionData.notes || null,
-        }
+        },
       );
 
       if (error) throw error;
@@ -314,7 +308,7 @@ const useTransactionsStore = defineStore("transactions-store", () => {
   };
 
   const walletTransactions = ref<ReturnType<typeof groupTransactionsByDate>>(
-    []
+    [],
   );
 
   const getTransactionsByWalletId = async (walletId: string) => {
@@ -345,6 +339,64 @@ const useTransactionsStore = defineStore("transactions-store", () => {
 
   const isCreateOpen = ref<boolean>(false);
 
+  const deleteTransaction = async (id: string) => {
+    if (!user.value) return;
+    try {
+      const { data: tx, error: fetchError } = await supabaseClient
+        .from("transactions")
+        .select("amount, wallet_id, category_id")
+        .eq("id", id)
+        .single();
+
+      if (fetchError || !tx) throw fetchError;
+
+      const { data: category } = await supabaseClient
+        .from("categories")
+        .select("type")
+        .eq("id", tx.category_id)
+        .single();
+
+      const { error: deleteError } = await supabaseClient
+        .from("transactions")
+        .delete()
+        .eq("id", id);
+
+      if (deleteError) throw deleteError;
+
+      if (tx.wallet_id && tx.amount) {
+        const { data: wallet } = await supabaseClient
+          .from("wallets")
+          .select("amount")
+          .eq("id", tx.wallet_id)
+          .single();
+
+        if (wallet) {
+          const newBalance =
+            category?.type === "expenses"
+              ? wallet.amount + tx.amount
+              : wallet.amount - tx.amount;
+
+          await supabaseClient
+            .from("wallets")
+            .update({ amount: newBalance })
+            .eq("id", tx.wallet_id);
+        }
+      }
+
+      transactionsList.value = transactionsList.value.filter(
+        (t) => String(t.id) !== String(id),
+      );
+
+      return { success: true, message: "Transaction deleted successfully" };
+    } catch (err: any) {
+      return {
+        success: false,
+        error: err.message,
+        message: "Failed to delete transaction",
+      };
+    }
+  };
+
   return {
     transactions: transactionsList,
     loading: readonly(loading),
@@ -371,6 +423,7 @@ const useTransactionsStore = defineStore("transactions-store", () => {
     addTransactions,
     getTransactionsWithCategoryById,
     getTransactionsByWalletId,
+    deleteTransaction,
   };
 });
 

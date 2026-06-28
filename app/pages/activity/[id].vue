@@ -3,13 +3,13 @@
         class="relative flex min-h-dvh flex-1 flex-col overflow-hidden bg-[#fffaf0]"
     >
         <!-- Background -->
-        <div class="absolute inset-0 z-0 bg-accent-blue" />
+        <div class="absolute inset-0 z-0 bg-bg-light" />
         <div class="absolute inset-0 z-0 custom-bg opacity-30" />
         <div
-            class="absolute -right-16 top-28 size-40 rounded-full bg-accent-yellow"
+            class="absolute -right-16 top-28 size-40 rounded-full bg-accent-yellow/20"
         />
         <div
-            class="absolute -left-16 top-64 size-36 rounded-full bg-accent-red"
+            class="absolute -left-16 top-64 size-36 rounded-full bg-accent-red/20"
         />
 
         <div class="relative z-1">
@@ -21,10 +21,7 @@
                     class="relative overflow-hidden rounded-[2rem] border-[2px] border-dark bg-white p-5 shadow-[5px_5px_0px_#111111]"
                 >
                     <div
-                        class="absolute -right-10 -top-10 size-28 rounded-full bg-accent-yellow"
-                    />
-                    <div
-                        class="absolute -bottom-12 -left-10 size-28 rounded-tr-full bg-accent-blue"
+                        class="absolute -right-10 -top-10 size-28 rounded-full bg-accent-yellow/40"
                     />
 
                     <div class="relative z-1">
@@ -105,8 +102,11 @@
 
                 <!-- Detail Info -->
                 <section
-                    class="mt-5 rounded-[2rem] border-[2px] border-dark bg-white p-4 shadow-[5px_5px_0px_#111111]"
+                    class="relative overflow-hidden mt-5 rounded-[2rem] border-[2px] border-dark bg-white p-4 shadow-[5px_5px_0px_#111111]"
                 >
+                    <div
+                        class="absolute -bottom-10 -right-8 size-28 rounded-tl-full bg-accent-blue/50"
+                    />
                     <div class="mb-4 flex items-center gap-2">
                         <span class="size-3 bg-dark" />
                         <h2 class="text-lg font-black uppercase text-dark">
@@ -218,6 +218,65 @@
                         </div>
                     </div>
                 </section>
+
+                <section class="mt-5">
+                    <UButton
+                        block
+                        size="lg"
+                        class="mt-5 rounded-none border-2 border-black bg-accent-red py-4 font-black uppercase text-white shadow-[5px_5px_0_#111] hover:bg-[#FFD21E]/90"
+                        @click="isConfirmOpen = true"
+                    >
+                        Remove
+                    </UButton>
+                </section>
+
+                <UModal v-model:open="isConfirmOpen">
+                    <template #content>
+                        <div class="p-6 flex flex-col gap-4">
+                            <div class="flex items-center gap-3">
+                                <div
+                                    class="flex size-12 shrink-0 items-center justify-center rounded-xl border-2 border-black bg-accent-red text-white shadow-[3px_3px_0_#111]"
+                                >
+                                    <UIcon
+                                        name="solar:trash-bin-minimalistic-bold"
+                                        class="text-2xl"
+                                    />
+                                </div>
+                                <div>
+                                    <h3
+                                        class="text-lg font-black uppercase text-dark"
+                                    >
+                                        Hapus Transaksi?
+                                    </h3>
+                                    <p class="text-sm text-secondary">
+                                        Data yang dihapus tidak bisa
+                                        dikembalikan.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="flex gap-3">
+                                <UButton
+                                    block
+                                    size="lg"
+                                    class="flex-1 rounded-none border-2 border-black bg-white py-3 font-black uppercase text-dark shadow-[4px_4px_0_#111] hover:bg-neutral-100"
+                                    @click="isConfirmOpen = false"
+                                >
+                                    Batal
+                                </UButton>
+                                <UButton
+                                    block
+                                    size="lg"
+                                    :loading="isDeleting"
+                                    class="flex-1 rounded-none border-2 border-black bg-accent-red py-3 font-black uppercase text-white shadow-[4px_4px_0_#111] hover:bg-accent-red/90"
+                                    @click="handleRemove()"
+                                >
+                                    Hapus
+                                </UButton>
+                            </div>
+                        </div>
+                    </template>
+                </UModal>
             </main>
         </div>
     </div>
@@ -229,7 +288,7 @@ definePageMeta({ name: "transaction-detail", title: "Detail Transaksi" });
 useHead({ bodyAttrs: { class: "" }, title: "Detail Transaksi" });
 
 const route = useRoute();
-const id = computed(() => route.query.id?.toString());
+const id = computed(() => route.params.id?.toString());
 
 const transactionsStore = useTransactionsStore();
 
@@ -248,4 +307,28 @@ const transactionIcon = computed(() => {
         ? "solar:arrow-left-down-linear"
         : "solar:arrow-right-up-linear";
 });
+
+const isConfirmOpen = ref(false);
+const isDeleting = ref(false);
+
+const handleRemove = async () => {
+    isDeleting.value = true;
+    const result = await transactionsStore.deleteTransaction(id.value || "");
+    isDeleting.value = false;
+    isConfirmOpen.value = false;
+    if (result?.success) {
+        useToast().add({
+            title: "Success",
+            description: "Data berhasil dihapus",
+            color: "success",
+        });
+        navigateTo({ name: "transactions-page", replace: true });
+    } else {
+        useToast().add({
+            title: "Error",
+            description: result?.message,
+            color: "error",
+        });
+    }
+};
 </script>
