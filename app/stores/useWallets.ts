@@ -34,7 +34,15 @@ const useWallets = defineStore("wallets-store", () => {
     }
   };
 
-  const updateWallet = async ({ id, name, amount }: { id: string; name: string; amount: number }) => {
+  const updateWallet = async ({
+    id,
+    name,
+    amount,
+  }: {
+    id: string;
+    name: string;
+    amount: number;
+  }) => {
     try {
       const { data, error } = await client
         .from("wallets")
@@ -60,7 +68,8 @@ const useWallets = defineStore("wallets-store", () => {
 
       if (error) throw error;
 
-      wallets.value = data || [];
+      await getWallets();
+      // wallets.value = data || [];
       return { data, error };
     } catch (err) {
       return err;
