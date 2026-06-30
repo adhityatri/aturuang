@@ -1,0 +1,57 @@
+<template>
+    <div
+        class="flex items-start gap-3 border-2 border-black bg-white p-4 shadow-[4px_4px_0_#111]"
+    >
+        <div
+            :class="[
+                'grid h-9 w-9 place-items-center rounded-full text-white',
+                iconBgClass || 'bg-[#E6392E]',
+            ]"
+        >
+            <UIcon :name="icon" />
+        </div>
+
+        <div class="flex-1">
+            <h4 class="text-sm font-black uppercase">{{ title }}</h4>
+            <p class="mt-1 text-xs text-neutral-600">
+                {{ message }}
+            </p>
+        </div>
+
+        <UButton
+            v-if="showCloseButton"
+            icon="i-lucide-x"
+            color="neutral"
+            variant="ghost"
+            size="xs"
+            @click="$emit('close')"
+        />
+    </div>
+</template>
+
+<script setup lang="ts">
+defineProps({
+    icon: {
+        type: String,
+        default: 'i-lucide-zap',
+    },
+    title: {
+        type: String,
+        required: true,
+    },
+    message: {
+        type: String,
+        required: true,
+    },
+    iconBgClass: {
+        type: String,
+        default: 'bg-[#E6392E]',
+    },
+    showCloseButton: {
+        type: Boolean,
+        default: false,
+    },
+});
+
+defineEmits(['close']);
+</script>

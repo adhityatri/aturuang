@@ -2,61 +2,78 @@
 @import "@nuxt/ui";
 
 :root {
-  --ui-bg: #f8f9fa;
-  --ui-primary: #0353a4;
-  --ui-primary-darken: #012b5b;
-  --ui-container: 1366px;
+    --ui-bg: #f8f9fa;
+    --ui-primary: #0353a4;
+    --ui-primary-darken: #012b5b;
+    --ui-container: 1366px;
 }
 
 @theme {
-  --color-primary: #0353a4;
-  --color-primary-50: #f0f3ff;
-  --color-primary-100: #e0e8ff;
-  --color-primary-200: #c0d1ff;
-  --color-primary-300: #9ebbff;
-  --color-primary-400: #78a5fe;
-  --color-primary-500: #458ffe;
-  --color-primary-600: #077aec;
-  --color-primary-700: #0567c8;
-  --color-primary-800: #0353a4;
-  --color-primary-900: #012b5b;
-  --color-primary-950: #00193a;
+    --color-primary: #0353a4;
+    --color-primary-50: #f0f3ff;
+    --color-primary-100: #e0e8ff;
+    --color-primary-200: #c0d1ff;
+    --color-primary-300: #9ebbff;
+    --color-primary-400: #78a5fe;
+    --color-primary-500: #458ffe;
+    --color-primary-600: #077aec;
+    --color-primary-700: #0567c8;
+    --color-primary-800: #0353a4;
+    --color-primary-900: #012b5b;
+    --color-primary-950: #00193a;
+
+    --color-accent-blue: #064eaf;
+    --color-accent-red: #ef2b24;
+    --color-accent-yellow: #ffd21e;
+    --color-accent-red-dark: #d6231d;
+    --color-accent-red-darker: #b91d19;
+    --color-accent-yellow-light: #ffe066;
+
+    --color-text-dark: #0a0a0a;
+    --color-text-secondary: #6b7280;
+    --color-border-dark: #111111;
+    --color-bg-light: #f8f5ed;
 }
 
 #__nuxt {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 }
 
 .custom-bg {
-  background: linear-gradient(
-      to right,
-      rgba(255, 255, 255, 0.1) 1px,
-      transparent 1px
-    ),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
-  background-size: 20px 30px;
-  -webkit-mask-image: radial-gradient(
-    ellipse 70% 60% at 50% 0%,
-    #000 60%,
-    transparent 100%
-  );
-  mask-image: radial-gradient(
-    ellipse 70% 60% at 50% 0%,
-    #000 60%,
-    transparent 100%
-  );
+    background:
+        linear-gradient(
+            to right,
+            rgba(255, 255, 255, 0.1) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            to bottom,
+            rgba(255, 255, 255, 0.1) 1px,
+            transparent 1px
+        );
+    background-size: 20px 30px;
+    -webkit-mask-image: radial-gradient(
+        ellipse 70% 60% at 50% 0%,
+        #000 60%,
+        transparent 100%
+    );
+    mask-image: radial-gradient(
+        ellipse 70% 60% at 50% 0%,
+        #000 60%,
+        transparent 100%
+    );
 }
 
 .bg-gradient {
-  @apply bg-linear-to-b from-primary-600 via-primary-900 to-primary-950;
+    @apply bg-linear-to-b from-primary-600 via-primary-900 to-primary-950;
 }
 
 .main-shadow {
-  @apply bg-linear-to-b from-neutral-50 via-neutral-100 to-neutral-200 shadow-md inset-shadow-sm inset-shadow-neutral-300;
+    @apply bg-linear-to-b from-neutral-50 via-neutral-100 to-neutral-200 shadow-md inset-shadow-sm inset-shadow-neutral-300;
 }
 
 .text-main {
-  @apply text-neutral-600;
+    @apply text-neutral-600;
 }

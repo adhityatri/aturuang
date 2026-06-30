@@ -1,93 +1,231 @@
 <template>
-  <div class="flex flex-col gap-4">
-    <USkeleton
-      v-if="isLoading"
-      class="relative overflow-hidden h-[200px] bg-neutral-300 rounded-2xl flex flex-col items-start justify-end px-4 py-2"
-    />
-    <div v-else class="rounded-2xl">
-      <div
-        class="flex font-medium bg-primary-900/20 rounded-tl-2xl rounded-tr-2xl gap-2 items-center p-4 mx-2"
-      >
-        <UIcon name="solar:info-square-linear" />
-        <p class="text-sm">
-          Reset saldo dan anggaran setiap tanggal
-          {{ props.resetDate }}
-        </p>
-      </div>
-      <div
-        class="relative overflow-hidden h-[200px] bg-gradient rounded-xl shadow-lg flex flex-col items-start justify-between ring-2 ring-primary shadow-neutral-400 inset-shadow-sm inset-shadow-primary-700"
-      >
-        <div class="absolute inset-0 z-0 custom-bg" />
-        <div class="flex flex-col flex-1 px-4 py-2">
-          <div
-            class="leading-8 flex-1 flex flex-col justify-center text-white z-1"
-          >
-            <p>Saldo Saat Ini</p>
-            <app-privacy v-if="usePrivacyStore.isPrivacyAccepted" size="lg" />
-            <h1 v-else class="text-[2rem] font-bold">
-              {{ useFormatPriceIntl(props.currentBalance) }}
-            </h1>
-          </div>
-        </div>
+    <div class="flex flex-col gap-4">
+        <!-- Slider Container -->
         <div
-          class="bg-linear-to-b from-primary-900/10 via-primary-900/70 to-primary-900 gap-2 rounded-xl p-2 h-auto text-white w-full flex justify-between z-1"
+            ref="scrollContainer"
+            class="flex overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-none w-full gap-4"
+            @scroll="handleScroll"
         >
-          <div class="flex flex-1/2 items-center justify-start gap-2 px-2 py-2">
+            <!-- Slide 1: Saldo Utama -->
             <div
-              class="main-shadow h-[32px] w-[32px] rounded-xl flex items-center justify-center"
+                class="snap-center shrink-0 w-full"
+                :class="
+                    activeIndex === 0
+                        ? 'scale-100 opacity-100'
+                        : 'scale-95 opacity-50'
+                "
             >
-              <UIcon
-                name="solar:arrow-left-down-linear"
-                class="text-[1.5rem] text-green-800"
-              />
+                <USkeleton
+                    v-if="isLoading"
+                    class="relative overflow-hidden h-55 bg-neutral-300 rounded-[1.4rem] border-[1.5px] border-border-dark shadow-[4px_4px_0px_#111111] flex flex-col items-start justify-end px-4 py-2"
+                />
+                <div v-else class="rounded-[1.4rem]">
+                    <div
+                        class="relative overflow-hidden h-55 bg-accent-blue rounded-[1.4rem] border-[1.5px] border-border-dark shadow-[4px_4px_0px_#111111] flex flex-col items-start justify-between p-6 text-white"
+                    >
+                        <!-- Bauhaus Geometric Decorative Shapes -->
+                        <div
+                            class="absolute -top-6 -right-6 w-24 h-24 bg-accent-red rounded-full border-[1.5px] border-border-dark pointer-events-none"
+                        />
+                        <div
+                            class="absolute top-12 -right-2 w-12 h-12 bg-accent-yellow border-[1.5px] border-border-dark pointer-events-none"
+                        />
+
+                        <div class="relative z-10 w-full">
+                            <p
+                                class="text-white/80 text-xs font-bold uppercase tracking-widest mb-1"
+                            >
+                                Saldo Saat Ini
+                            </p>
+                            <div class="flex items-center gap-2">
+                                <app-privacy
+                                    v-if="isPrivacyAccepted"
+                                    size="lg"
+                                    color="white"
+                                />
+                                <h1
+                                    v-else
+                                    class="text-3xl font-black tracking-tight"
+                                >
+                                    {{ formattedBalance }}
+                                </h1>
+                            </div>
+                        </div>
+
+                        <div class="relative z-10 w-full mt-auto">
+                            <div
+                                class="grid grid-cols-2 gap-3 p-3 bg-white text-text-dark rounded-lg border-[1.5px] border-border-dark shadow-[2px_2px_0px_#111111]"
+                            >
+                                <div class="flex items-center gap-3 px-2">
+                                    <div
+                                        class="p-1.5 bg-accent-blue] text-white rounded border border-border-dark"
+                                    >
+                                        <UIcon
+                                            name="solar:arrow-down-left-linear"
+                                            class="text-md block"
+                                        />
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <small
+                                            class="text-text-secondary text-[10px] uppercase tracking-wider font-bold"
+                                            >Pemasukan</small
+                                        >
+                                        <div class="flex items-center gap-1">
+                                            <app-privacy
+                                                v-if="isPrivacyAccepted"
+                                                size="sm"
+                                                color="primary"
+                                            />
+                                            <span
+                                                v-else
+                                                class="text-sm font-bold"
+                                            >
+                                                {{
+                                                    summaryItems[0]
+                                                        .formattedValue
+                                                }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    class="flex items-center justify-end gap-3 px-2 text-right"
+                                >
+                                    <div class="flex flex-col">
+                                        <small
+                                            class="text-text-secondary text-[10px] uppercase tracking-wider font-bold"
+                                            >Pengeluaran</small
+                                        >
+                                        <div
+                                            class="flex items-center justify-end gap-1"
+                                        >
+                                            <app-privacy
+                                                v-if="isPrivacyAccepted"
+                                                size="sm"
+                                                color="primary"
+                                            />
+                                            <span
+                                                v-else
+                                                class="text-sm font-bold"
+                                                >{{
+                                                    summaryItems[1]
+                                                        .formattedValue
+                                                }}</span
+                                            >
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="p-1.5 bg-accent-red text-white rounded border border-border-dark"
+                                    >
+                                        <UIcon
+                                            name="solar:arrow-up-right-linear"
+                                            class="text-md block"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="flex flex-col items-start leading-[1.2rem]">
-              <small class="font-medium tracking-wide">Pemasukan</small>
-              <app-privacy v-if="usePrivacyStore.isPrivacyAccepted" size="sm" />
-              <h2 v-else class="text-[0.85rem]">
-                {{ useFormatPriceIntl(props.income) }}
-              </h2>
-            </div>
-          </div>
-          <div class="flex flex-1/2 items-center justify-end gap-2 px-2 py-2">
-            <div class="flex flex-col items-end leading-[1.2rem]">
-              <small class="font-medium tracking-wide">Pengeluaran</small>
-              <app-privacy v-if="usePrivacyStore.isPrivacyAccepted" size="sm" />
-              <h2 v-else class="text-[0.85rem]">
-                {{ useFormatPriceIntl(props.expenses) }}
-              </h2>
-            </div>
+
+            <!-- Slide 2: Money Tracker -->
             <div
-              class="main-shadow h-[32px] w-[32px] rounded-xl flex items-center justify-center"
+                class="snap-center shrink-0 w-full flex flex-col justify-center"
             >
-              <UIcon
-                name="solar:arrow-right-up-linear"
-                class="text-[1.5rem] text-red-800"
-              />
+                <div>
+                    <money-tracker-budget
+                        :is-loading="isLoading"
+                        :budget="budget"
+                        :reset-date="resetDate"
+                        :expenses="expenses"
+                        @submit="$emit('submit-budget', $event)"
+                    />
+                </div>
             </div>
-          </div>
         </div>
-      </div>
+
+        <!-- Indicators -->
+        <div class="flex justify-center gap-3 mt-4">
+            <button
+                v-for="index in 2"
+                :key="index"
+                class="w-6 h-3 transition-all duration-200 border border-border-dark"
+                :class="[
+                    activeIndex === index - 1
+                        ? 'bg-accent-blue'
+                        : 'bg-white hover:bg-neutral-100',
+                ]"
+                @click="scrollToSlide(index - 1)"
+            />
+        </div>
     </div>
-  </div>
 </template>
 
 <script setup lang="ts">
-const usePrivacyStore = usePrivacy();
+import { storeToRefs } from "pinia";
 
 interface Props {
-  currentBalance?: number;
-  income?: number;
-  expenses?: number;
-  isLoading?: boolean;
-  resetDate?: string;
+    currentBalance?: number;
+    income?: number;
+    expenses?: number;
+    isLoading?: boolean;
+    resetDate?: string;
+    budget?: number;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  currentBalance: 0,
-  income: 0,
-  expenses: 0,
-  isLoading: false,
-  resetDate: "1",
+    currentBalance: 0,
+    income: 0,
+    expenses: 0,
+    isLoading: false,
+    resetDate: "1",
+    budget: 0,
 });
+
+defineEmits(["submit-budget"]);
+
+const { isPrivacyAccepted } = storeToRefs(usePrivacy());
+
+const scrollContainer = ref<HTMLElement | null>(null);
+const activeIndex = ref(0);
+
+const handleScroll = (event: Event) => {
+    const container = event.target as HTMLElement;
+    const index = Math.round(container.scrollLeft / container.clientWidth);
+    activeIndex.value = index;
+};
+
+const scrollToSlide = (index: number) => {
+    if (scrollContainer.value) {
+        scrollContainer.value.scrollTo({
+            left: scrollContainer.value.clientWidth * index,
+            behavior: "smooth",
+        });
+        activeIndex.value = index;
+    }
+};
+
+const formattedBalance = computed(() =>
+    useFormatPriceIntl(props.currentBalance),
+);
+
+const summaryItems = computed(() => [
+    {
+        label: "Pemasukan",
+        value: props.income,
+        icon: "solar:arrow-left-down-linear",
+        iconColor: "text-green-800",
+        formattedValue: useFormatPriceIntl(props.income),
+        class: "basis-1/2 justify-start",
+    },
+    {
+        label: "Pengeluaran",
+        value: props.expenses,
+        icon: "solar:arrow-right-up-linear",
+        iconColor: "text-red-800",
+        formattedValue: useFormatPriceIntl(props.expenses),
+        class: "basis-1/2 justify-end",
+    },
+]);
 </script>

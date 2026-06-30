@@ -1,86 +1,203 @@
 <template>
-  <div class="flex flex-1 flex-col gap-4 bg-gradient">
-    <div class="text-white p-4 relative">
-      <div class="absolute inset-0 z-0 custom-bg" />
-      <div class="flex justify-end mb-4 mt-4">
-        <div
-          class="bg-neutral-100 text-primary ring-2 ring-white inset-shadow-sm inset-shadow-neutral-300 rounded-full shadow-xl p-2 px-6 font-medium"
-        >
-          <h3>Profil Saya</h3>
-        </div>
-      </div>
-      <div
-        class="h-[200px] w-full flex flex-col gap-2 items-center justify-center"
-      >
-        <app-avatar>
-          <img
-            :src="`/images/profile_icon/${getIdentities()?.avatar}`"
-            :alt="`${getIdentities()?.full_name}-${getIdentities()?.avatar}`"
-          />
-        </app-avatar>
-        <div class="flex flex-col text-center mt-4">
-          <span class="font-bold text-sm uppercase tracking-widest">{{
-            getIdentities()?.full_name
-          }}</span>
-          <small class="font-normal text-xs color-neutral">{{
-            getIdentities()?.email
-          }}</small>
-        </div>
-      </div>
-    </div>
-
     <div
-      class="p-4 flex-1 bg-neutral-200 inset-shadow-sm inset-shadow-neutral-300 rounded-tl-4xl rounded-tr-4xl ring-2 ring-white"
+        class="relative flex min-h-dvh flex-1 flex-col overflow-hidden bg-[#fffaf0]"
     >
-      <div
-        class="my-6 flex flex-col p-4 items-start justify-center w-full rounded-3xl bg-neutral-200 inset-shadow-sm inset-shadow-neutral-300 ring-2 ring-white"
-      >
-        <h4 class="font-medium text-lg">Invite Friends</h4>
-        <p class="text-sm">
-          Share your referral link with friends and earn rewards!
-        </p>
-      </div>
+        <!-- Header -->
+        <section
+            class="relative overflow-hidden rounded-b-[2rem] border-b-[2px] border-dark bg-accent-blue px-4 pb-10 pt-6 text-white shadow-[0_4px_0px_#111111]"
+        >
+            <!-- Bauhaus Pattern -->
+            <div class="absolute inset-0 z-0 custom-bg opacity-40" />
+            <div
+                class="absolute -left-16 bottom-[-4rem] size-36 rounded-full bg-accent-yellow"
+            />
+            <div
+                class="absolute -right-14 bottom-[-3rem] size-32 rounded-full bg-accent-red"
+            />
 
-      <div class="flex flex-col gap-4">
-        <profile-form />
-        <nuxt-link
-          :to="{ name: 'transactions-page' }"
-          class="text-sm px-6 py-6 ring-2 ring-white main-shadow rounded-full font-medium hover:bg-neutral-300 active:bg-neutral-300 hover:shadow-lg transition-all"
-        >
-          History Transactions
-        </nuxt-link>
-        <UButton
-          size="xl"
-          variant="outline"
-          color="neutral"
-          class="ring-2 ring-white main-shadow text-sm px-6 py-6 rounded-full hover:shadow-lg transition-all"
-          @click="handleImprove"
-        >
-          Help us improve!
-        </UButton>
-        <UButton
-          size="xl"
-          class="ring-2 ring-white inset-shadow-sm inset-shadow-red-300/90 text-sm px-6 py-6 shadow-xl rounded-full hover:shadow-lg transition-all"
-          variant="subtle"
-          color="error"
-          @click="handleLogout"
-        >
-          Logout
-        </UButton>
-      </div>
+            <div class="relative z-1 flex justify-end">
+                <nuxt-link
+                    :to="{ name: 'profile-page' }"
+                    class="flex items-center gap-2 rounded-full border-[2px] border-dark bg-white px-5 py-2 text-sm font-black text-primary shadow-[3px_3px_0px_#111111] transition active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
+                >
+                    <UIcon name="solar:user-rounded-linear" class="text-lg" />
+                    Profil Saya
+                    <UIcon
+                        name="lucide:chevron-right"
+                        class="text-lg text-dark"
+                    />
+                </nuxt-link>
+            </div>
+
+            <div
+                class="relative z-1 mt-8 flex flex-col items-center justify-center text-center"
+            >
+                <div
+                    class="rounded-full border-[2px] border-dark bg-white p-1 shadow-[4px_4px_0px_#111111]"
+                >
+                    <app-avatar>
+                        <img
+                            :src="`/images/profile_icon/${getIdentities()?.avatar}`"
+                            :alt="`${getIdentities()?.full_name}-${getIdentities()?.avatar}`"
+                        />
+                    </app-avatar>
+                </div>
+
+                <div class="mt-5 flex flex-col items-center">
+                    <span class="text-xl font-black uppercase tracking-widest">
+                        {{ getIdentities()?.full_name }}
+                    </span>
+
+                    <span class="mt-2 h-1 w-14 rounded-full bg-accent-yellow" />
+
+                    <small class="mt-3 text-sm font-medium text-white/90">
+                        {{ getIdentities()?.email }}
+                    </small>
+                </div>
+            </div>
+        </section>
+
+        <!-- Content -->
+        <main class="relative z-1 -mt-5 flex flex-1 flex-col px-4 pb-6">
+            <div
+                class="relative flex-1 overflow-hidden rounded-[2rem] border-[2px] border-dark bg-white p-4 shadow-[4px_4px_0px_#111111]"
+            >
+                <!-- Content Decoration -->
+                <div
+                    class="absolute -bottom-10 -left-10 size-24 rounded-full bg-accent-blue"
+                />
+                <div
+                    class="absolute -bottom-12 -right-8 size-24 rounded-full bg-accent-red"
+                />
+                <div
+                    class="absolute bottom-4 right-3 size-8 rounded-full bg-accent-yellow"
+                />
+
+                <!-- Invite Card -->
+                <button
+                    type="button"
+                    class="relative z-1 flex w-full items-center gap-4 rounded-2xl border-[2px] border-dark bg-[#fffaf0] p-4 text-left shadow-[3px_3px_0px_#111111] transition active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
+                >
+                    <div
+                        class="flex size-14 shrink-0 items-center justify-center rounded-2xl border-[2px] border-dark bg-accent-yellow text-dark"
+                    >
+                        <UIcon name="solar:gift-linear" class="text-3xl" />
+                    </div>
+
+                    <div class="min-w-0 flex-1">
+                        <h4 class="text-lg font-black text-dark">
+                            Invite Friends
+                        </h4>
+                        <p class="mt-1 text-sm leading-5 text-secondary">
+                            Share your referral link with friends and earn
+                            rewards!
+                        </p>
+                    </div>
+
+                    <div
+                        class="flex size-10 shrink-0 items-center justify-center rounded-full bg-accent-yellow text-dark"
+                    >
+                        <UIcon name="lucide:chevron-right" class="text-xl" />
+                    </div>
+                </button>
+
+                <!-- Menu -->
+                <div class="relative z-1 mt-5 flex flex-col gap-4">
+                    <profile-form />
+
+                    <nuxt-link
+                        :to="{ name: 'transactions-page' }"
+                        class="flex items-center justify-between rounded-2xl border-[2px] border-dark bg-white p-4 text-sm font-black text-dark shadow-[3px_3px_0px_#111111] transition hover:bg-neutral-100 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
+                    >
+                        <div class="flex items-center gap-4">
+                            <span
+                                class="flex size-12 items-center justify-center rounded-xl bg-accent-yellow text-dark"
+                            >
+                                <UIcon
+                                    name="solar:history-linear"
+                                    class="text-2xl"
+                                />
+                            </span>
+
+                            <span>History Transactions</span>
+                        </div>
+
+                        <UIcon
+                            name="lucide:chevron-right"
+                            class="text-xl text-dark"
+                        />
+                    </nuxt-link>
+
+                    <UButton
+                        size="xl"
+                        variant="ghost"
+                        color="neutral"
+                        :ui="{
+                            base: 'flex justify-between rounded-2xl border-[2px] border-dark bg-white p-4 text-sm font-black text-dark shadow-[3px_3px_0px_#111111] transition hover:bg-neutral-100 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none',
+                        }"
+                        @click="handleImprove"
+                    >
+                        <div class="flex items-center gap-4">
+                            <span
+                                class="flex size-12 items-center justify-center rounded-xl bg-accent-blue text-white"
+                            >
+                                <UIcon
+                                    name="solar:chat-round-dots-linear"
+                                    class="text-2xl"
+                                />
+                            </span>
+
+                            <span>Help us improve!</span>
+                        </div>
+
+                        <UIcon
+                            name="lucide:chevron-right"
+                            class="text-xl text-dark"
+                        />
+                    </UButton>
+
+                    <UButton
+                        size="xl"
+                        variant="ghost"
+                        color="error"
+                        :ui="{
+                            base: 'flex justify-between rounded-2xl border-[2px] border-red-500 bg-red-50 p-4 text-sm font-black text-red-500 shadow-[3px_3px_0px_#111111] transition active:translate-x-[2px] active:translate-y-[2px] active:shadow-none',
+                        }"
+                        @click="handleLogout"
+                    >
+                        <div class="flex items-center gap-4">
+                            <span
+                                class="flex size-12 items-center justify-center rounded-xl bg-accent-red text-white"
+                            >
+                                <UIcon
+                                    name="solar:logout-2-linear"
+                                    class="text-2xl"
+                                />
+                            </span>
+
+                            <span>Logout</span>
+                        </div>
+
+                        <UIcon
+                            name="lucide:chevron-right"
+                            class="text-xl text-accent-red"
+                        />
+                    </UButton>
+                </div>
+            </div>
+        </main>
     </div>
-  </div>
 </template>
 
 <script setup lang="ts">
 const supabase = useSupabaseClient();
 
 const handleLogout = async () => {
-  await supabase.auth.signOut();
-  await navigateTo({ name: "login-page", replace: true });
+    await supabase.auth.signOut();
+    await navigateTo({ name: "login-page", replace: true });
 };
 
 const handleImprove = async () => {
-  await navigateTo({ name: "improve-page", replace: true });
+    await navigateTo({ name: "improve-page", replace: true });
 };
 </script>
