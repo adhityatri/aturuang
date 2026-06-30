@@ -2,10 +2,7 @@ export default defineAppConfig({
   ui: {
     button: { slots: { base: "text-main" } },
     select: { variants: { size: { xl: { base: "px-6 py-4 text-sm" } } } },
-    input: {
-      slots: { base: "rounded-[2em] bg-neutral-100! main-shadow" },
-      variants: { size: { xl: { base: "px-6 py-4 text-sm" } } },
-    },
+    input: { variants: { size: { xl: { base: "px-6 py-4 text-sm" } } } },
     inputNumber: { slots: { base: "all:unset ring-0!" } },
     tabs: { slots: { root: "main-shadow" } },
     slideover: { slots: { overlay: "bg-black/70" } },
