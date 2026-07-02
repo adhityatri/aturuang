@@ -64,14 +64,7 @@ const { status: statusTransactions } = await useAsyncData(
         transactionStore
             .getTransactionsWithCategory({ category_type_filter: "all" })
             .then((result) => (Array.isArray(result) ? result : []))
-            .catch((error) => {
-                useToast().add({
-                    title: "Error",
-                    description: "Gagal mengambil data transaksi: " + error,
-                    color: "error",
-                });
-                return [];
-            }),
+            .catch(() => []),
     { default: () => [], lazy: true, dedupe: "defer", server: true },
 );
 

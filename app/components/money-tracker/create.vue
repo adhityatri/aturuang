@@ -1,11 +1,11 @@
 <template>
-    <UModal fullscreen :open="isOpen" :ui="{ content: 'bg-dark' }">
+    <UModal fullscreen :open="isOpen" :ui="{ content: 'bg-dark', header: 'border-0' }">
         <template #header>
             <div class="relative flex w-full items-center justify-between px-1 py-3">
                 <UButton
                     aria-label="Tutup modal transaksi"
                     :ui="{
-                        base: 'flex size-11 items-center justify-center rounded-2xl  bg-white-smooth p-0 text-dark transition active:translate-x-[2px] active:translate-y-[2px] active:shadow-none',
+                        base: 'flex size-11 items-center justify-center rounded-2xl bg-white-smooth p-0 text-dark transition active:translate-x-[2px] active:translate-y-[2px] active:shadow-none',
                     }"
                     @click="emits('close')"
                 >

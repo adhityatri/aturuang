@@ -9,7 +9,7 @@
             <h1
                 class="text-3xl font-extrabold uppercase tracking-wide leading-none"
             >
-                {{ getFirstWord(getIdentities()?.full_name || "User") }}
+                {{ getFirstWord(identity?.full_name || "User") }}
             </h1>
         </template>
     </div>
@@ -17,4 +17,5 @@
 
 <script setup lang="ts">
 const props = defineProps({ isLoading: { type: Boolean, default: false } });
+const identity = getIdentities();
 </script>

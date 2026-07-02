@@ -21,19 +21,19 @@
                 <div class="rounded-4xl bg-white-smooth p-1 ring-2 ring-dark">
                     <app-avatar>
                         <img
-                            :src="`/images/profile_icon/${getIdentities()?.avatar}`"
-                            :alt="`${getIdentities()?.full_name}-${getIdentities()?.avatar}`"
+                            :src="`/images/profile_icon/${identity?.avatar}`"
+                            :alt="`${identity?.full_name}-${identity?.avatar}`"
                         />
                     </app-avatar>
                 </div>
 
                 <div class="mt-5 flex flex-col items-center">
                     <span class="text-xl font-black uppercase tracking-widest">
-                        {{ getIdentities()?.full_name }}
+                        {{ identity?.full_name }}
                     </span>
 
                     <small class="text-sm font-medium text-dark">
-                        {{ getIdentities()?.email }}
+                        {{ identity?.email }}
                     </small>
                     <span class="mt-4 h-1 w-14 rounded-full bg-dark" />
                 </div>
@@ -140,6 +140,7 @@
 
 <script setup lang="ts">
 const supabase = useSupabaseClient();
+const identity = getIdentities();
 
 const handleLogout = async () => {
     await supabase.auth.signOut();
