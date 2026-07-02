@@ -1,19 +1,16 @@
 <template>
     <footer
-        class="z-1000 fixed bottom-0 w-full bg-white border-t-[1.5px] border-dark h-17.5 flex items-stretch"
+        class="z-1000 fixed ring-2 ring-accent-green bottom-5 left-[50%] rounded-2xl overflow-hidden translate-x-[-50%] w-[80%] h-15 flex items-stretch"
     >
         <nuxt-link
-            v-for="(item, index) in navigation"
+            v-for="item in navigation"
             :key="item.name"
             :to="item.href"
             class="relative flex flex-col flex-1 items-center justify-center gap-0.5 text-[9px] font-black uppercase tracking-widest transition-colors"
             :class="[
                 currentRouter === item.href
-                    ? 'bg-accent-blue text-white'
-                    : 'bg-white text-dark hover:bg-neutral-100',
-                index !== navigation.length - 1
-                    ? 'border-r-[1.5px] border-dark'
-                    : '',
+                    ? 'bg-dark text-white'
+                    : 'bg-accent-green text-dark hover:bg-neutral-100',
             ]"
         >
             <UIcon
@@ -29,11 +26,7 @@
 <script setup lang="ts">
 const navigation = [
     { name: "Home", icon: "solar:home-2-linear", href: "/" },
-    {
-        name: "Activity",
-        icon: "solar:wallet-money-linear",
-        href: "/activity",
-    },
+    { name: "Activity", icon: "solar:wallet-money-linear", href: "/activity" },
     // { name: "Insight", icon: "solar:command-bold-duotone", href: "/insight" },
     { name: "Profile", icon: "solar:user-linear", href: "/profile" },
 ];

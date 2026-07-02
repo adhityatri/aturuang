@@ -1,12 +1,9 @@
 <template>
-    <div
-        class="relative px-6 py-8 flex flex-1 flex-col gap-4 overflow-hidden bg-[#fffaf0]"
-    >
-        <app-decorative-shape />
-        <app-title-page>Activity</app-title-page>
-        <div class="flex flex-col flex-1 gap-4 overflow-auto z-1">
+    <div class="relative py-8 flex flex-1 flex-col gap-4 overflow-hidden bg-dark">
+        <div class="px-6 flex flex-col gap-4">
+            <app-title-page>Activity</app-title-page>
             <div
-                class="sticky! top-0 grid grid-cols-3 border-2 border-black bg-white shadow-[4px_4px_0_#111]"
+                class="sticky! overflow-hidden rounded-2xl h-12 mt-6 top-0 grid grid-cols-3 bg-white-smooth"
             >
                 <button
                     v-for="tab in tabs"
@@ -14,7 +11,7 @@
                     class="py-3 text-xs font-black uppercase tracking-wide transition"
                     :class="
                         activeTab === tab.value
-                            ? 'bg-[#FFD21E] text-black'
+                            ? 'bg-accent-green text-black'
                             : 'bg-white text-black hover:bg-neutral-100'
                     "
                     @click="selectTab(tab.value as categoryType)"
@@ -22,12 +19,13 @@
                     {{ tab.label }}
                 </button>
             </div>
-            <div
-                ref="scrollComponent"
-                class="flex-1 shadow-[4px_4px_0_#111] overflow-auto"
-            >
-                <transactions-item-list />
-            </div>
+        </div>
+
+        <div
+            ref="scrollComponent"
+            class="flex-1 rounded-t-4xl bg-white-smooth px-6 py-6 overflow-auto"
+        >
+            <transactions-item-list />
         </div>
     </div>
 </template>
@@ -87,9 +85,7 @@ onUnmounted(() => {
     window.removeEventListener("scroll", handleScroll);
 });
 
-await callOnce(
-    "transactions-by-month",
-    () => transactionStore.get_transactions_by_month(),
-    { mode: "navigation" },
-);
+await callOnce("transactions-by-month", () => transactionStore.get_transactions_by_month(), {
+    mode: "navigation",
+});
 </script>

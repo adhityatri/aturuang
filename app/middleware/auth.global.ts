@@ -11,6 +11,13 @@ export default defineNuxtRouteMiddleware((to) => {
   const routeName = String(to.name ?? "");
   const isAuthenticated = Boolean(user.value);
 
+  useSupabaseClient().auth.onAuthStateChange((event) => {
+    if (event === "TOKEN_REFRESHED") return;
+    if (event === "SIGNED_OUT") {
+      navigateTo("/login");
+    }
+  });
+
   // Redirect unauthenticated users to login when accessing protected routes
   if (
     !isAuthenticated &&

@@ -5,13 +5,9 @@
             <USkeleton class="bg-neutral-300 h-8 w-[200px]" />
         </template>
         <template v-else>
-            <h2
-                class="text-[#6B7280] text-sm font-medium uppercase tracking-wider"
-            >
-                Halo
-            </h2>
+            <h2 class="text-sm font-medium uppercase tracking-wider">Halo</h2>
             <h1
-                class="text-3xl font-[800] uppercase tracking-tighter leading-none text-dark"
+                class="text-3xl font-extrabold uppercase tracking-wide leading-none"
             >
                 {{ getFirstWord(getIdentities()?.full_name || "User") }}
             </h1>

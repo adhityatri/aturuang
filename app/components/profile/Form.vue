@@ -4,18 +4,19 @@
         :dismissible="false"
         title="General Setting"
         side="bottom"
+        :ui="{ content: 'bg-white-smooth rounded-t-4xl' }"
     >
         <UButton
             size="xl"
             variant="ghost"
             color="neutral"
             :ui="{
-                base: 'flex justify-between rounded-2xl border-[2px] border-dark bg-white p-4 text-sm font-black text-dark shadow-[3px_3px_0px_#111111] transition hover:bg-neutral-100 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none',
+                base: 'flex justify-between rounded-4xl ring-1 ring-dark bg-white-smooth p-4 text-sm font-black text-dark transition hover:bg-neutral-100 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none',
             }"
         >
             <div class="flex items-center gap-4">
                 <span
-                    class="flex size-12 items-center justify-center rounded-xl bg-accent-blue text-white"
+                    class="flex size-12 items-center justify-center rounded-xl bg-accent-green text-dark"
                 >
                     <UIcon name="solar:settings-linear" class="text-2xl" />
                 </span>
@@ -29,75 +30,41 @@
         <template #header>
             <div class="flex flex-1 items-start justify-between">
                 <div>
-                    <p
-                        class="text-[10px] font-black uppercase tracking-[0.22em] text-primary"
-                    >
-                        Profile
-                    </p>
-                    <h1 class="text-xl font-black uppercase text-dark">
-                        General Setting
-                    </h1>
-                    <p class="mt-1 text-xs font-medium text-secondary">
-                        Atur nama dan avatar profil kamu.
-                    </p>
+                    <h1 class="text-xl font-black uppercase text-dark">General Setting</h1>
+                    <p class="text-xs font-medium text-dark">Atur nama dan avatar profil kamu.</p>
                 </div>
 
-                <UButton
-                    icon="lucide:x"
-                    color="neutral"
-                    variant="ghost"
-                    @click="isOpen = false"
-                />
+                <UButton icon="lucide:x" color="neutral" variant="ghost" @click="isOpen = false" />
             </div>
         </template>
 
         <template #body>
-            <div
-                class="relative overflow-hidden rounded-[2rem] border-[2px] border-dark bg-[#fffaf0] p-4 shadow-[4px_4px_0px_#111111]"
-            >
-                <!-- Bauhaus Decoration -->
-                <div
-                    class="absolute -right-10 -top-10 size-28 rounded-full bg-accent-yellow"
-                />
-                <div
-                    class="absolute -left-10 bottom-0 size-24 rounded-tr-full bg-accent-blue"
-                />
-                <div
-                    class="absolute -bottom-8 right-8 size-20 rounded-full bg-accent-red"
-                />
-
+            <div class="relative overflow-hidden rounded-[2rem] bg-accent-green p-4">
                 <div class="relative z-1">
                     <!-- Current Preview -->
-                    <div
-                        class="flex items-center gap-4 rounded-2xl border-[2px] border-dark bg-white p-4 shadow-[3px_3px_0px_#111111]"
-                    >
+                    <div class="flex mt-4 items-center gap-4 rounded-4xl bg-white-smooth p-4">
                         <div
-                            class="flex size-16 shrink-0 items-center justify-center overflow-hidden rounded-full border-[2px] border-dark bg-white"
+                            class="flex size-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl ring-1 ring-dark bg-white"
                         >
                             <img
                                 :src="selectedAvatarUrl"
-                                :alt="
-                                    state.profile_picture || 'profile-picture'
-                                "
+                                :alt="state.profile_picture || 'profile-picture'"
                                 class="size-full object-cover"
                             />
                         </div>
 
-                        <div class="min-w-0 flex-1">
-                            <p
-                                class="text-[10px] font-black uppercase tracking-[0.2em] text-primary"
+                        <div class="min-w-0 flex-1 relative">
+                            <div
+                                class="absolute -top-9 right-5 bg-dark py-1 px-4 rounded-full text-white-smooth"
                             >
-                                Preview Profil
-                            </p>
+                                <p class="text-[10px] font-black uppercase tracking-[0.2em]">
+                                    Preview
+                                </p>
+                            </div>
                             <h2 class="truncate text-lg font-black text-dark">
-                                {{
-                                    state.full_name ||
-                                    getIdentities()?.full_name
-                                }}
+                                {{ state.full_name || getIdentities()?.full_name }}
                             </h2>
-                            <p
-                                class="truncate text-xs font-medium text-secondary"
-                            >
+                            <p class="truncate text-xs font-medium text-dark">
                                 {{ getIdentities()?.email }}
                             </p>
                         </div>
@@ -105,21 +72,16 @@
 
                     <!-- Avatar Picker -->
                     <div class="mt-6">
-                        <div class="mb-3 flex items-end justify-between">
+                        <div class="mb-3 flex items-start justify-between text-dark">
                             <div>
-                                <h3
-                                    class="text-sm font-black uppercase text-dark"
-                                >
-                                    Pilih Avatar
-                                </h3>
-                                <p class="text-xs text-secondary">
-                                    Tap salah satu avatar untuk mengganti foto
-                                    profil.
+                                <h3 class="text-sm font-black uppercase">Pilih Avatar</h3>
+                                <p class="text-xs">
+                                    Tap salah satu avatar untuk mengganti foto profil.
                                 </p>
                             </div>
 
                             <span
-                                class="rounded-full border-[1.5px] border-dark bg-accent-yellow px-3 py-1 text-[10px] font-black text-dark"
+                                class="rounded-full bg-dark px-3 py-1 text-[10px] font-black text-white-smooth"
                             >
                                 {{ profileIcons.length }} Icon
                             </span>
@@ -130,11 +92,11 @@
                                 v-for="icon in profileIcons"
                                 :key="icon"
                                 type="button"
-                                class="relative overflow-hidden rounded-2xl border-[2px] bg-white p-2 shadow-[2px_2px_0px_#111111] transition active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
+                                class="relative overflow-hidden rounded-4xl ring-2 bg-white p-2 transition active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
                                 :class="
                                     state.profile_picture === icon
-                                        ? 'border-primary bg-blue-50'
-                                        : 'border-dark'
+                                        ? 'ring-dark bg-blue-50'
+                                        : 'ring-accent-green'
                                 "
                                 @click="state.profile_picture = icon"
                             >
@@ -146,12 +108,9 @@
 
                                 <span
                                     v-if="state.profile_picture === icon"
-                                    class="absolute right-1 top-1 flex size-5 items-center justify-center rounded-full border border-dark bg-accent-yellow text-dark"
+                                    class="absolute right-2 top-2 flex size-5 items-center justify-center rounded-full border border-dark bg-accent-green text-dark"
                                 >
-                                    <UIcon
-                                        name="lucide:check"
-                                        class="text-xs"
-                                    />
+                                    <UIcon name="lucide:check" class="text-xs" />
                                 </span>
                             </button>
                         </div>
@@ -164,11 +123,7 @@
                         :state="state"
                         @submit="onSubmit"
                     >
-                        <UFormField
-                            label="Email"
-                            name="email"
-                            class="mb-4 w-full"
-                        >
+                        <UFormField label="Email" name="email" class="mb-4 w-full">
                             <UInput
                                 :value="getIdentities()?.email"
                                 size="xl"
@@ -176,16 +131,12 @@
                                 :disabled="true"
                                 class="w-full"
                                 :ui="{
-                                    base: 'rounded-2xl border-[2px] border-dark bg-neutral-100 px-4 py-4 font-bold text-secondary',
+                                    base: 'rounded-2xl ring-1 ring-dark bg-white-smooth px-4 py-4 font-bold text-dark',
                                 }"
                             />
                         </UFormField>
 
-                        <UFormField
-                            label="Nama Lengkap"
-                            name="full_name"
-                            class="mb-4 w-full"
-                        >
+                        <UFormField label="Nama Lengkap" name="full_name" class="mb-4 w-full">
                             <UInput
                                 v-model="state.full_name"
                                 placeholder="Nama Lengkap"
@@ -193,7 +144,7 @@
                                 type="text"
                                 class="w-full"
                                 :ui="{
-                                    base: 'rounded-2xl border-[2px] border-dark bg-white px-4 py-4 font-bold text-dark shadow-[2px_2px_0px_#111111]',
+                                    base: 'rounded-2xl ring-1 ring-dark bg-white-smooth px-4 py-4 font-bold text-dark',
                                 }"
                             />
                         </UFormField>
@@ -202,9 +153,9 @@
                             block
                             size="xl"
                             type="submit"
-                            :loading="profileStore.isLoading"
+                            :loading="profileStore?.isLoading"
                             :ui="{
-                                base: 'mt-6 rounded-2xl border-[2px] border-dark bg-accent-blue px-6 py-4 text-sm font-black uppercase tracking-wide text-white shadow-[3px_3px_0px_#111111] disabled:bg-neutral-300 disabled:text-secondary',
+                                base: 'mt-6 rounded-2xl ring-1 ring-dark bg-white-smooth px-6 py-4 text-sm font-black uppercase tracking-wide text-dark disabled:bg-neutral-300 disabled:text-secondary',
                             }"
                         >
                             Simpan Perubahan
@@ -238,9 +189,7 @@ const profileIcons = [
 ];
 
 const getAvatarUrl = (icon: string) => {
-    return `${
-        useRuntimeConfig().public.supabaseUrl
-    }/storage/v1/object/public/yothro/${icon}`;
+    return `${useRuntimeConfig().public.supabaseUrl}/storage/v1/object/public/yothro/${icon}`;
 };
 
 const state = reactive({

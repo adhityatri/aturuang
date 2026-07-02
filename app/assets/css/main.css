@@ -33,6 +33,11 @@
     --color-text-secondary: #6b7280;
     --color-border-dark: #111111;
     --color-bg-light: #f8f5ed;
+
+    /*Green Design Colors*/
+    --color-accent-green: #cce831;
+    --color-dark: #161618;
+    --color-white-smooth: #f3f3f3;
 }
 
 #__nuxt {
@@ -76,4 +81,18 @@
 
 .text-main {
     @apply text-neutral-600;
+}
+
+@keyframes progress-pulse {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.animate-progress-pulse {
+    animation: progress-pulse 2s ease-in-out infinite;
 }

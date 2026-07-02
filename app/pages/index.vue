@@ -1,11 +1,9 @@
 <template>
-    <div class="flex flex-1 flex-col p-6 pb-14 bg-light">
+    <div class="flex flex-1 flex-col p-6 pb-14 bg-[#1e1e1e] text-white">
         <div class="mb-8">
-            <p
-                class="text-[12px] font-medium uppercase tracking-[0.2em] text-secondary mb-2"
-            >
+            <!-- <p class="text-[12px] font-medium uppercase tracking-[0.2em] mb-2">
                 {{ currentDate }}
-            </p>
+            </p> -->
             <div class="flex justify-between items-end">
                 <app-greeting :is-loading="isLoading" />
                 <app-hide-show-currency />
@@ -87,12 +85,8 @@ const walletBalance = computed(() =>
     walletStore.wallets.reduce((acc, wallet) => acc + wallet.amount, 0),
 );
 
-const totalIncomes = computed(
-    () => transactionStore.monthlySummary.totalIncomes ?? 0,
-);
-const totalExpenses = computed(
-    () => transactionStore.monthlySummary.totalExpenses ?? 0,
-);
+const totalIncomes = computed(() => transactionStore.monthlySummary.totalIncomes ?? 0);
+const totalExpenses = computed(() => transactionStore.monthlySummary.totalExpenses ?? 0);
 
 const firstBudget = computed(() => budgetStore.budgets?.[0]);
 const budgetAmount = computed(() => firstBudget.value?.amount ?? 0);
@@ -118,22 +112,15 @@ onMounted(() => {
 
     realtimeChannel = supabaseClient
         .channel("public:transactions")
-        .on(
-            "postgres_changes",
-            { event: "*", schema: "public", table: "transactions" },
-            () =>
-                transactionStore.getTransactionsWithCategory({
-                    category_type_filter: "all",
-                }),
+        .on("postgres_changes", { event: "*", schema: "public", table: "transactions" }, () =>
+            transactionStore.getTransactionsWithCategory({ category_type_filter: "all" }),
         )
         .subscribe();
 
     walletRealtimeChannel = supabaseClient
         .channel("public:wallets")
-        .on(
-            "postgres_changes",
-            { event: "*", schema: "public", table: "wallets" },
-            () => walletStore.getWallets(),
+        .on("postgres_changes", { event: "*", schema: "public", table: "wallets" }, () =>
+            walletStore.getWallets(),
         )
         .subscribe();
 });
@@ -142,7 +129,6 @@ onUnmounted(() => {
     if (isDesktop) return;
 
     if (realtimeChannel) supabaseClient.removeChannel(realtimeChannel);
-    if (walletRealtimeChannel)
-        supabaseClient.removeChannel(walletRealtimeChannel);
+    if (walletRealtimeChannel) supabaseClient.removeChannel(walletRealtimeChannel);
 });
 </script>

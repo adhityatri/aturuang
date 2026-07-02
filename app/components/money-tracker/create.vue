@@ -1,26 +1,21 @@
 <template>
-    <UModal fullscreen :open="isOpen" :ui="{ content: 'bg-[#fffaf0]' }">
+    <UModal fullscreen :open="isOpen" :ui="{ content: 'bg-dark' }">
         <template #header>
-            <div
-                class="relative flex w-full items-center justify-between px-1 py-3"
-            >
+            <div class="relative flex w-full items-center justify-between px-1 py-3">
                 <UButton
                     aria-label="Tutup modal transaksi"
                     :ui="{
-                        base: 'flex size-11 items-center justify-center rounded-2xl border-[2px] border-dark bg-accent-red p-0 text-white shadow-[3px_3px_0px_#111111] transition active:translate-x-[2px] active:translate-y-[2px] active:shadow-none',
+                        base: 'flex size-11 items-center justify-center rounded-2xl  bg-white-smooth p-0 text-dark transition active:translate-x-[2px] active:translate-y-[2px] active:shadow-none',
                     }"
                     @click="emits('close')"
                 >
-                    <UIcon
-                        name="material-symbols:close-rounded"
-                        class="text-2xl"
-                    />
+                    <UIcon name="material-symbols:close-rounded" class="text-2xl" />
                 </UButton>
 
                 <div
-                    class="rounded-2xl border-2 border-dark bg-accent-blue px-5 py-3 text-center text-sm font-black uppercase tracking-wide text-white shadow-[3px_3px_0px_#111111]"
+                    class="rounded-2xl bg-accent-green px-5 py-3 text-center text-sm font-black uppercase tracking-wide text-dark"
                 >
-                    Add Transaction
+                    Transaksi Baru
                 </div>
             </div>
         </template>

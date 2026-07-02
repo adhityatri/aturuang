@@ -15,15 +15,13 @@
             </div>
         </template>
         <template v-else>
+            <app-title-page>Kantong</app-title-page>
             <div
+                v-if="isPages"
                 class="flex justify-between items-center mb-4"
                 :class="{ 'mb-0': isPages }"
             >
-                <USlideover
-                    v-model:open="openForm"
-                    :dismissible="true"
-                    side="bottom"
-                >
+                <USlideover v-model:open="openForm" :dismissible="true" side="bottom">
                     <UButton
                         v-if="isPages"
                         icon="solar:add-square-linear"
@@ -44,15 +42,11 @@
                                     Wallet
                                 </p>
 
-                                <h2
-                                    class="text-xl font-black uppercase text-dark"
-                                >
+                                <h2 class="text-xl font-black uppercase text-dark">
                                     {{ selectedWallet?.name || "Kantong Baru" }}
                                 </h2>
 
-                                <p
-                                    class="mt-1 text-xs font-medium text-secondary"
-                                >
+                                <p class="mt-1 text-xs font-medium text-secondary">
                                     {{
                                         selectedWallet
                                             ? "Perbarui nama dan saldo kantong ini."
@@ -101,12 +95,11 @@
                 <wallet-item :list="list" @selected="handleSelected" />
                 <UButton
                     v-if="!isPages"
-                    class="bg-accent-blue text-white border-[1.5px] border-dark shadow-[2px_2px_0px_border-dar] px-4 py-3 rounded-lg flex flex-col items-center justify-center hover:bg-primary transition-colors"
+                    class="bg-white text-dark text-lg px-4 py-3 rounded-2xl flex flex-col items-center justify-center hover:bg-accent-green/90 transition-colors active:bg-accent-green/70"
+                    leading-icon="i-icon-park-solid:more-app"
                     @click="handleWallet()"
                 >
-                    <div class="uppercase tracking-widest font-black text-xs">
-                        Lihat Semua →
-                    </div>
+                    Lihat Semua
                 </UButton>
             </div>
             <div
@@ -117,10 +110,7 @@
                     class="text-secondary tracking-widest text-[10px] font-black uppercase text-center flex flex-col gap-2"
                 >
                     <p>Belum ada kantong</p>
-                    <p
-                        class="text-accent-red cursor-pointer"
-                        @click="() => (openForm = true)"
-                    >
+                    <p class="text-accent-red cursor-pointer" @click="() => (openForm = true)">
                         [ BUAT SEKARANG ]
                     </p>
                 </div>
@@ -163,10 +153,7 @@ const handleSubmit = async (value: { name: string; amount: number }) => {
         return;
     }
 
-    useToast().add({
-        title: "Update Kantong",
-        description: "Kantong berhasil diupdate",
-    });
+    useToast().add({ title: "Update Kantong", description: "Kantong berhasil diupdate" });
 
     closeForm();
 };
