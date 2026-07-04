@@ -1,5 +1,5 @@
 <template>
-    <div class="relative py-8 flex flex-1 flex-col gap-4 overflow-hidden bg-dark">
+    <div class="relative py-8 flex flex-1 flex-col gap-4 overflow-hidden main-bg">
         <div class="px-6 flex flex-col gap-4">
             <app-title-page>Activity</app-title-page>
             <div
@@ -85,7 +85,8 @@ onUnmounted(() => {
     window.removeEventListener("scroll", handleScroll);
 });
 
-await callOnce("transactions-by-month", () => transactionStore.get_transactions_by_month(), {
-    mode: "navigation",
+await useAsyncData("transactions-by-month", () => transactionStore.get_transactions_by_month(), {
+    lazy: true,
+    server: false,
 });
 </script>

@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-1 flex-col p-6 pb-14 bg-[#1e1e1e] text-white">
+    <div class="flex flex-1 flex-col p-6 pb-14 main-bg text-white">
         <div class="mb-8">
             <!-- <p class="text-[12px] font-medium uppercase tracking-[0.2em] mb-2">
                 {{ currentDate }}

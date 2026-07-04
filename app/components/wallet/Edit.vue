@@ -3,6 +3,7 @@
         v-model:open="walletStore.isEditOpen"
         :dismissible="false"
         side="bottom"
+        :ui="{ content: 'rounded-t-4xl bg-white-smooth', header: 'border-0' }"
     >
         <!-- Trigger -->
         <UButton
@@ -10,11 +11,9 @@
                 base: `
           flex items-center gap-2
           rounded-xl
-          border-[1.5px] border-dark
-          bg-white
+          bg-white-smooth
           px-4 py-3
           text-dark
-          shadow-[3px_3px_0px_#111111]
           active:translate-x-[2px]
           active:translate-y-[2px]
           active:shadow-none
@@ -29,83 +28,44 @@
         <!-- Header -->
         <template #header>
             <div class="flex flex-1 items-start justify-between">
-                <div>
-                    <p
-                        class="text-[10px] font-black uppercase tracking-[0.2em] text-accent-blue"
-                    >
-                        Wallet
-                    </p>
+                <div class="text-dark">
+                    <h2 class="text-xl font-black uppercase">Ubah Kantong</h2>
 
-                    <h2 class="text-xl font-black uppercase text-dark">
-                        Ubah Kantong
-                    </h2>
-
-                    <p class="mt-1 text-xs text-secondary">
-                        Perbarui informasi kantong Anda.
-                    </p>
+                    <p class="text-xs">Perbarui informasi kantong Anda.</p>
                 </div>
 
-                <UButton
-                    icon="lucide:x"
-                    variant="ghost"
-                    color="neutral"
-                    @click="closeEdit"
-                />
+                <UButton icon="lucide:x" variant="ghost" color="neutral" @click="closeEdit" />
             </div>
         </template>
 
         <!-- Body -->
         <template #body>
-            <div
-                class="relative overflow-hidden rounded-[2rem] border-[2px] border-dark bg-[#fffaf0] p-4 shadow-[4px_4px_0px_#111111]"
-            >
-                <!-- Decoration -->
-                <div
-                    class="absolute -right-10 -top-10 size-24 rounded-full bg-accent-yellow"
-                />
-
-                <div
-                    class="absolute -left-10 bottom-0 size-20 rounded-tr-full bg-accent-blue"
-                />
-
+            <div class="relative overflow-hidden">
                 <!-- Preview -->
-                <div
-                    class="relative z-1 mb-5 flex items-center gap-4 rounded-2xl border-[2px] border-dark bg-white p-4 shadow-[3px_3px_0px_#111111]"
+                <!-- <div
+                    class="relative z-1 mb-5 flex items-center gap-4 rounded-4xl bg-accent-green p-4"
                 >
-                    <div
-                        class="flex size-14 items-center justify-center rounded-2xl bg-accent-yellow border-[2px] border-dark"
-                    >
-                        <UIcon
-                            name="solar:wallet-money-linear"
-                            class="text-2xl text-dark"
-                        />
+                    <div class="flex size-14 items-center justify-center rounded-3xl bg-dark">
+                        <UIcon name="solar:wallet-money-linear" class="text-2xl text-white" />
                     </div>
 
-                    <div>
-                        <p
-                            class="text-[10px] font-black uppercase tracking-widest text-accent-blue"
-                        >
+                    <div class="text-dark">
+                        <p class="text-[10px] font-black uppercase tracking-widest">
                             Kantong Aktif
                         </p>
 
-                        <h3 class="font-black text-dark">
+                        <h3 class="font-black text-xl text-dark">
                             {{ walletStore.detailWallet?.name }}
                         </h3>
 
-                        <p class="text-xs text-secondary">
-                            {{
-                                useFormatPriceIntl(
-                                    walletStore.detailWallet?.amount || 0,
-                                )
-                            }}
+                        <p class="text-lg">
+                            {{ useFormatPriceIntl(walletStore.detailWallet?.amount || 0) }}
                         </p>
                     </div>
-                </div>
+                </div> -->
 
                 <!-- Form -->
-                <div
-                    class="relative z-1 rounded-2xl border-[2px] border-dark bg-white p-4"
-                >
+                <div class="relative z-1 rounded-4xl bg-accent-green p-4">
                     <wallet-form type="update" @submit="handleSubmit" />
                 </div>
             </div>

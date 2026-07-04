@@ -1,11 +1,9 @@
 <template>
-    <div class="relative flex min-h-dvh flex-1 flex-col overflow-hidden bg-dark">
+    <div class="relative flex min-h-dvh flex-1 flex-col overflow-hidden main-bg">
         <!-- Header -->
         <section
-            class="relative overflow-hidden rounded-b-[2rem] bg-accent-green px-4 pb-10 pt-6 text-dark"
+            class="relative overflow-hidden rounded-b-[4rem] bg-accent-green px-4 pb-10 pt-6 text-dark"
         >
-            <!-- Bauhaus Pattern -->
-
             <div class="relative z-1 flex justify-end">
                 <nuxt-link
                     :to="{ name: 'profile-page' }"

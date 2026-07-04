@@ -1,5 +1,5 @@
 <template>
-    <div class="relative flex min-h-dvh flex-1 flex-col overflow-hidden bg-dark pb-18">
+    <div class="relative flex min-h-dvh flex-1 flex-col overflow-hidden main-bg pb-18">
         <!-- Background -->
         <div class="relative z-1">
             <app-nav-title title="Help us improve!" @close="$router.back()" />

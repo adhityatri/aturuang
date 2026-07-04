@@ -15,6 +15,13 @@ export default defineEventHandler(async (event) => {
   const userName = body.userName;
   const transactions = body.transactions;
 
+  if (!transactions || !Array.isArray(transactions)) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: "Transactions data is required",
+    });
+  }
+
   const recentTransactions = transactions.slice(0, 50);
   const prompt = `
     Analyze the following financial transactions for the user ${userName}.

@@ -1,5 +1,5 @@
 <template>
-    <div class="relative flex min-h-dvh flex-1 flex-col overflow-hidden bg-dark">
+    <div class="relative flex min-h-dvh flex-1 flex-col overflow-hidden main-bg">
         <!-- Background -->
 
         <div class="relative z-1">
@@ -205,10 +205,10 @@ const id = computed(() => route.params.id?.toString());
 
 const transactionsStore = useTransactionsStore();
 
-await callOnce(
-    "transactions-detail",
+await useAsyncData(
+    `transactions-detail-${id.value}`,
     () => transactionsStore.getTransactionsWithCategoryById(id.value || ""),
-    { mode: "navigation" },
+    { lazy: true, server: false },
 );
 
 const detail = computed(() => transactionsStore.transactionDetail);

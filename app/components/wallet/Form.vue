@@ -1,39 +1,24 @@
 <template>
     <div class="flex flex-col gap-5">
         <!-- Wallet Preview -->
-        <div
-            class="relative overflow-hidden rounded-[2rem] border-[2px] border-dark bg-[#fffaf0] p-4 shadow-[4px_4px_0px_#111111]"
-        >
-            <!-- Decoration -->
-            <div
-                class="absolute -right-10 -top-10 size-24 rounded-full bg-accent-yellow"
-            />
-            <div
-                class="absolute -bottom-10 -left-10 size-24 rounded-tr-full bg-accent-blue"
-            />
-            <div
-                class="absolute bottom-4 right-4 size-8 rounded-full bg-accent-red"
-            />
-
-            <div class="relative z-1 flex items-center gap-4">
+        <div class="relative overflow-hidden rounded-4xl bg-white-smooth p-4">
+            <div class="relative z-1 flex items-center gap-4 text-dark">
                 <div
-                    class="flex size-16 shrink-0 items-center justify-center rounded-2xl border-[2px] border-dark bg-accent-yellow text-dark shadow-[2px_2px_0px_#111111]"
+                    class="flex size-16 shrink-0 items-center justify-center rounded-2xl bg-dark text-white"
                 >
                     <UIcon name="solar:wallet-2-bold" class="text-[2rem]" />
                 </div>
 
-                <div class="min-w-0 flex-1">
-                    <p
-                        class="text-[10px] font-black uppercase tracking-[0.22em] text-accent-blue"
-                    >
+                <div class="min-w-0 flex-1 text-dark">
+                    <p class="text-[10px] font-black uppercase tracking-[0.22em]">
                         Preview Kantong
                     </p>
 
-                    <h2 class="mt-1 truncate text-xl font-black text-dark">
+                    <h2 class="mt-1 truncate text-xl font-black">
                         {{ state.name || "No Wallet" }}
                     </h2>
 
-                    <p class="mt-1 text-sm font-black text-accent-blue">
+                    <p class="mt-1 text-sm font-black">
                         {{ useFormatPriceIntl(state.amount || 0) }}
                     </p>
                 </div>
@@ -41,12 +26,7 @@
         </div>
 
         <!-- Form -->
-        <UForm
-            class="w-full"
-            :schema="schema"
-            :state="state"
-            @submit="onSubmit"
-        >
+        <UForm class="w-full" :schema="schema" :state="state" @submit="onSubmit">
             <UFormField label="Nama Kantong" name="name" class="mb-4 w-full">
                 <UInput
                     v-model="state.name"
@@ -55,7 +35,7 @@
                     type="text"
                     class="w-full"
                     :ui="{
-                        base: 'rounded-2xl border-[2px] border-dark bg-white px-4 py-4 font-bold text-dark shadow-[2px_2px_0px_#111111]',
+                        base: 'rounded-2xl ring-1 ring-dark bg-white px-4 py-4 font-bold text-dark ',
                     }"
                 />
             </UFormField>
@@ -76,7 +56,7 @@
                     }"
                     class="w-full"
                     :ui="{
-                        base: 'rounded-2xl border-[2px] border-dark bg-white px-4 py-4 font-bold text-dark shadow-[2px_2px_0px_#111111]',
+                        base: 'rounded-2xl ring-1 ring-dark bg-white px-4 py-4 font-bold text-dark ',
                         increment: 'hidden',
                         decrement: 'hidden',
                     }"
@@ -84,11 +64,11 @@
             </UFormField>
 
             <div
-                class="mt-5 rounded-2xl border-[1.5px] border-dark bg-accent-yellow p-3 text-xs font-bold leading-5 text-dark"
+                class="mt-5 rounded-2xl bg-accent-red/80 p-3 text-xs font-bold leading-5 text-dark"
             >
                 <span class="font-black uppercase">Tips:</span>
-                Gunakan nama kantong yang jelas seperti “Kantong Utama”,
-                “Tabungan”, atau “Dana Darurat”.
+                Gunakan nama kantong yang jelas seperti “Kantong Utama”, “Tabungan”, atau “Dana
+                Darurat”.
             </div>
 
             <UButton
@@ -97,14 +77,10 @@
                 class="mt-6"
                 :disabled="isSubmitDisabled"
                 :ui="{
-                    base: 'rounded-2xl border-[2px] border-dark bg-accent-blue px-6 py-4 text-sm font-black uppercase tracking-wide text-white shadow-[3px_3px_0px_#111111] disabled:bg-neutral-300 disabled:text-secondary',
+                    base: 'rounded-2xl bg-dark px-6 py-4 text-sm  uppercase tracking-wide text-white disabled:bg-neutral-300 disabled:text-secondary',
                 }"
             >
-                {{
-                    props.type === "update"
-                        ? "Update Kantong"
-                        : "Simpan Kantong"
-                }}
+                {{ props.type === "update" ? "Perbarui Kantong" : "Simpan Kantong" }}
             </UButton>
         </UForm>
     </div>
@@ -114,11 +90,7 @@
 import * as valibot from "valibot";
 
 const props = withDefaults(
-    defineProps<{
-        name?: string;
-        amount?: number;
-        type?: "create" | "update";
-    }>(),
+    defineProps<{ name?: string; amount?: number; type?: "create" | "update" }>(),
     { name: "", amount: 0, type: "create" },
 );
 
@@ -130,10 +102,7 @@ const schema = valibot.required(
             valibot.string(),
             valibot.minLength(4, "Nama kantong minimal 4 karakter"),
         ),
-        amount: valibot.pipe(
-            valibot.number(),
-            valibot.minValue(0, "Jumlah tidak boleh negatif"),
-        ),
+        amount: valibot.pipe(valibot.number(), valibot.minValue(0, "Jumlah tidak boleh negatif")),
     }),
 );
 
@@ -146,9 +115,7 @@ const isSubmitDisabled = computed(() => {
     return state.name.trim().length < 4 || state.amount < 0;
 });
 
-const emit = defineEmits<{
-    submit: [value: { name: string; amount: number }];
-}>();
+const emit = defineEmits<{ submit: [value: { name: string; amount: number }] }>();
 
 const onSubmit = () => {
     if (isSubmitDisabled.value) return;

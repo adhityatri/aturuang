@@ -313,12 +313,14 @@ const lastMonthExpenses = computed(() => {
     const start = new Date(now.getFullYear(), now.getMonth() - 1, 1);
     const end = new Date(now.getFullYear(), now.getMonth(), 0, 23, 59, 59);
 
-    return transactionStore.transactions
+    const filteredTransactions = transactionStore.transactions
         .filter((t) => {
             const d = new Date(t.created_at);
             return t.category_type === "expenses" && d >= start && d <= end;
         })
         .reduce((sum, t) => sum + (t.amount || 0), 0);
+
+    return filteredTransactions;
 });
 
 const compareToLastMonth = computed(() => {

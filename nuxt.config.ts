@@ -3,14 +3,10 @@ export default defineNuxtConfig({
   compatibilityDate: "2025-05-15",
   devtools: { enabled: false },
 
-  nitro: {
-    preset: "cloudflare-pages",
-  },
+  nitro: { preset: "cloudflare-pages" },
 
   routeRules: {
-    "/_nuxt/**": {
-      headers: { "cache-control": "public, max-age=31536000, immutable" },
-    },
+    "/_nuxt/**": { headers: { "cache-control": "public, max-age=31536000, immutable" } },
   },
   css: ["~/assets/css/main.css"],
   modules: [
@@ -28,35 +24,18 @@ export default defineNuxtConfig({
   ],
 
   runtimeConfig: {
-    public: {
-      geminiKey: process.env.GEMINI_API_KEY,
-      supabaseUrl: process.env.SUPABASE_URL,
-    },
+    public: { geminiKey: process.env.GEMINI_API_KEY, supabaseUrl: process.env.SUPABASE_URL },
   },
 
-  experimental: {
-    watcher: "parcel",
-    payloadExtraction: true,
-    inlineRouteRules: true,
-  },
+  experimental: { watcher: "parcel", payloadExtraction: true, inlineRouteRules: true },
 
-  plugins: [
-    {
-      src: "~/plugins/apexcharts.client.ts",
-      mode: "client",
-    },
-  ],
+  plugins: [{ src: "~/plugins/apexcharts.client.ts", mode: "client" }],
 
-  ui: {
-    colorMode: false,
-  },
+  ui: { colorMode: false },
 
   supabase: {
     redirect: false,
-    redirectOptions: {
-      login: "/login",
-      callback: "/confirm",
-    },
+    redirectOptions: { login: "/login", callback: "/confirm" },
     types: false,
 
     clientOptions: {
@@ -73,21 +52,11 @@ export default defineNuxtConfig({
     },
   },
 
-  image: {
-    quality: 80,
-  },
+  image: { quality: 80 },
 
-  devServer: {
-    port: 3002,
-    host: "127.0.0.1",
-  },
+  devServer: { port: 3002, host: "127.0.0.1" },
 
-  router: {
-    options: {
-      sensitive: true,
-      scrollBehaviorType: "smooth",
-    },
-  },
+  router: { options: { sensitive: true, scrollBehaviorType: "smooth" } },
 
   vite: {
     cacheDir: ".vite-cache",
@@ -122,29 +91,19 @@ export default defineNuxtConfig({
   },
 
   pwa: {
-    devOptions: {
-      enabled: false,
-    },
+    devOptions: { enabled: false },
     registerType: "autoUpdate",
     manifest: {
       name: "Yotro - Money Management App",
       short_name: "Yotro",
       description:
         "Aplikasi Pencatatan Uang yang membantu pengguna dalam mengelola keuangan mereka dengan lebih mudah.",
-      theme_color: "#0353a4",
-      background_color: "#0353a4",
+      theme_color: "#cce831",
+      background_color: "#cce831",
       categories: ["finance", "productivity"],
       icons: [
-        {
-          src: "/android-chrome-192x192.png",
-          sizes: "192x192",
-          type: "image/png",
-        },
-        {
-          src: "/android-chrome-512x512.png",
-          sizes: "512x512",
-          type: "image/png",
-        },
+        { src: "/android-chrome-192x192.png", sizes: "192x192", type: "image/png" },
+        { src: "/android-chrome-512x512.png", sizes: "512x512", type: "image/png" },
         {
           src: "/android-chrome-192x192.png",
           sizes: "192x192",
@@ -177,9 +136,7 @@ export default defineNuxtConfig({
               maxEntries: 10,
               maxAgeSeconds: 60 * 60 * 24 * 365, // <== 365 days
             },
-            cacheableResponse: {
-              statuses: [0, 200],
-            },
+            cacheableResponse: { statuses: [0, 200] },
           },
         },
         {
@@ -191,9 +148,7 @@ export default defineNuxtConfig({
               maxEntries: 10,
               maxAgeSeconds: 60 * 60 * 24 * 365, // <== 365 days
             },
-            cacheableResponse: {
-              statuses: [0, 200],
-            },
+            cacheableResponse: { statuses: [0, 200] },
           },
         },
       ],
