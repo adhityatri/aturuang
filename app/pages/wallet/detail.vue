@@ -8,9 +8,9 @@
                 <div class="relative overflow-hidden rounded-4xl bg-accent-green p-5">
                     <div class="relative z-1 flex items-start gap-4">
                         <div
-                            class="flex size-24 shrink-0 items-center justify-center rounded-3xl bg-white-smooth text-dark"
+                            class="flex size-24 shrink-0 items-center justify-center rounded-3xl bg-dark text-white"
                         >
-                            <UIcon name="solar:mask-happly-linear" class="text-[3rem]" />
+                            <UIcon name="solar:wallet-linear" class="text-[4rem]" />
                         </div>
 
                         <div class="min-w-0 flex-1">

@@ -6,9 +6,10 @@
         class="group relative overflow-hidden rounded-2xl bg-accent-green p-4 text-left transition hover:bg-neutral-50 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
         @click="emit('selected', wallet)"
     >
+        <UIcon class="size-20 bg-dark/20 absolute -bottom-4 -left-2" name="solar:wallet-linear" />
         <div class="relative z-1 flex flex-col justify-between gap-4">
             <div>
-                <h3 class="line-clamp-2 text-base font-black leading-5 text-dark">
+                <h3 class="line-clamp-2 text-base leading-5 text-dark">
                     {{ wallet.name }}
                 </h3>
             </div>
