@@ -80,10 +80,16 @@ export default defineNuxtConfig({
       },
       rollupOptions: {
         output: {
-          manualChunks: {
-            vendor: ["vue", "vue-router", "pinia"],
-            supabase: ["@supabase/supabase-js"],
-            charts: ["apexcharts"],
+          manualChunks(id) {
+            if (id.includes("node_modules/vue") || id.includes("node_modules/pinia") || id.includes("node_modules/vue-router")) {
+              return "vendor";
+            }
+            if (id.includes("node_modules/@supabase")) {
+              return "supabase";
+            }
+            if (id.includes("node_modules/apexcharts")) {
+              return "charts";
+            }
           },
         },
       },
