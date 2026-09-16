@@ -28,6 +28,7 @@ const navigation = [
     { name: "Home", icon: "solar:home-2-linear", href: "/" },
     { name: "Activity", icon: "solar:wallet-money-linear", href: "/activity" },
     // { name: "Insight", icon: "solar:command-bold-duotone", href: "/insight" },
+    { name: "Todo", icon: "solar:checklist-minimalistic-linear", href: "/todo" },
     { name: "Profile", icon: "solar:user-linear", href: "/profile" },
 ];
 

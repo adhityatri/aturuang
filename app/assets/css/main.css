@@ -84,3 +84,8 @@
 .animate-progress-pulse {
     animation: progress-pulse 2s ease-in-out infinite;
 }
+
+.corner-squircle {
+    border-radius: 60px;
+    corner-shape: squircle;
+}
