@@ -1,11 +1,11 @@
 <template>
-    <UModal fullscreen :open="isOpen" :ui="{ content: 'bg-dark', header: 'border-0' }">
+    <UModal fullscreen :open="isOpen" :ui="{ content: 'main-bg', header: 'border-0' }">
         <template #header>
             <div class="relative flex w-full items-center justify-between px-1 py-3">
                 <UButton
                     aria-label="Tutup modal transaksi"
                     :ui="{
-                        base: 'flex size-11 items-center justify-center rounded-2xl bg-white-smooth p-0 text-dark transition active:translate-x-[2px] active:translate-y-[2px] active:shadow-none',
+                        base: 'flex size-11 items-center justify-center rounded-2xl corner-squircle shadow-lg shadow-base-color bg-white-smooth p-0 text-dark transition active:translate-x-[2px] active:translate-y-[2px] active:shadow-none',
                     }"
                     @click="emits('close')"
                 >
@@ -13,7 +13,7 @@
                 </UButton>
 
                 <div
-                    class="rounded-2xl bg-accent-green px-5 py-3 text-center text-sm font-black uppercase tracking-wide text-dark"
+                    class="rounded-4xl corner-squircle shadow-lg shadow-base-color bg-accent-green px-5 py-3 text-center text-sm font-black tracking-wide text-dark"
                 >
                     Transaksi Baru
                 </div>
@@ -22,9 +22,9 @@
 
         <template #body>
             <div class="relative min-h-full overflow-hidden pb-8">
-                <section class="relative z-1 mt-4">
-                    <money-tracker-form @close-on-submit="emits('close')" />
-                </section>
+                <!-- <section class="relative z-1 mt-4"> -->
+                <money-tracker-form @close-on-submit="emits('close')" />
+                <!-- </section> -->
             </div>
         </template>
     </UModal>

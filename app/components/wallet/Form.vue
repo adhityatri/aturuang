@@ -1,29 +1,32 @@
 <template>
     <div class="flex flex-col gap-5">
         <!-- Wallet Preview -->
-        <div class="relative overflow-hidden rounded-4xl bg-white-smooth p-4">
-            <div class="relative z-1 flex items-center gap-4 text-dark">
-                <div
-                    class="flex size-16 shrink-0 items-center justify-center rounded-2xl bg-dark text-white"
-                >
-                    <UIcon name="solar:wallet-2-bold" class="text-[2rem]" />
-                </div>
+        <!-- <div
+            class="relative overflow-hidden  bg-white p-4"
+        > -->
+        <div
+            class="relative overflow-hidden z-1 rounded-4xl corner-squircle shadow-lg shadow-base-color p-4 flex items-center gap-4 text-dark"
+        >
+            <div class="bg-accent-green absolute top-1 right-4 p-1 px-3 rounded-b-xl">
+                <p class="text-[10px] font-bold">Preview</p>
+            </div>
+            <div
+                class="flex size-16 shrink-0 items-center justify-center rounded-2xl bg-accent-green text-dark"
+            >
+                <UIcon name="solar:wallet-2-bold" class="text-[2rem]" />
+            </div>
 
-                <div class="min-w-0 flex-1 text-dark">
-                    <p class="text-[10px] font-black uppercase tracking-[0.22em]">
-                        Preview Kantong
-                    </p>
+            <div class="min-w-0 flex-1 text-dark">
+                <h2 class="text-lg font-medium">
+                    {{ state.name || "No Wallet" }}
+                </h2>
 
-                    <h2 class="mt-1 truncate text-xl font-black">
-                        {{ state.name || "No Wallet" }}
-                    </h2>
-
-                    <p class="mt-1 text-sm font-black">
-                        {{ useFormatPriceIntl(state.amount || 0) }}
-                    </p>
-                </div>
+                <p class="mt-1 text-md font-black">
+                    {{ useFormatPriceIntl(state.amount || 0) }}
+                </p>
             </div>
         </div>
+        <!-- </div> -->
 
         <!-- Form -->
         <UForm class="w-full" :schema="schema" :state="state" @submit="onSubmit">
@@ -34,9 +37,7 @@
                     size="xl"
                     type="text"
                     class="w-full"
-                    :ui="{
-                        base: 'rounded-2xl ring-1 ring-dark bg-white px-4 py-4 font-bold text-dark ',
-                    }"
+                    :ui="{ base: 'rounded-2xl  bg-white px-4 py-4 font-bold text-dark ' }"
                 />
             </UFormField>
 
@@ -56,16 +57,14 @@
                     }"
                     class="w-full"
                     :ui="{
-                        base: 'rounded-2xl ring-1 ring-dark bg-white px-4 py-4 font-bold text-dark ',
+                        base: 'rounded-2xl ring-1! bg-white px-4 py-4 font-bold text-dark ',
                         increment: 'hidden',
                         decrement: 'hidden',
                     }"
                 />
             </UFormField>
 
-            <div
-                class="mt-5 rounded-2xl bg-accent-red/80 p-3 text-xs font-bold leading-5 text-dark"
-            >
+            <div class="mt-5 rounded-2xl bg-accent-red/40 p-3 text-sm leading-5 text-dark">
                 <span class="font-black uppercase">Tips:</span>
                 Gunakan nama kantong yang jelas seperti “Kantong Utama”, “Tabungan”, atau “Dana
                 Darurat”.
@@ -77,7 +76,7 @@
                 class="mt-6"
                 :disabled="isSubmitDisabled"
                 :ui="{
-                    base: 'rounded-2xl bg-dark px-6 py-4 text-sm  uppercase tracking-wide text-white disabled:bg-neutral-300 disabled:text-secondary',
+                    base: 'rounded-2xl bg-accent-green text-dark px-6 py-4 text-sm  uppercase tracking-wide disabled:bg-neutral-300 disabled:text-secondary',
                 }"
             >
                 {{ props.type === "update" ? "Perbarui Kantong" : "Simpan Kantong" }}

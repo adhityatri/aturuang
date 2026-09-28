@@ -15,6 +15,7 @@ export const useTodos = defineStore("todos-store", () => {
         .from("todos")
         .select("*")
         .eq("user_id", user.value.id)
+        .order("done", { ascending: true })
         .order("created_at", { ascending: false });
 
       if (error) throw error;
@@ -29,9 +30,7 @@ export const useTodos = defineStore("todos-store", () => {
   const addTodo = async (text: string) => {
     if (!user.value?.id) return;
 
-    const { error } = await supabase
-      .from("todos")
-      .insert({ text, user_id: user.value.id });
+    const { error } = await supabase.from("todos").insert({ text, user_id: user.value.id });
 
     if (error) throw error;
     await getTodosByUserId();
@@ -66,12 +65,5 @@ export const useTodos = defineStore("todos-store", () => {
     todos.value = todos.value.filter((t) => t.id !== id);
   };
 
-  return {
-    todos,
-    loading,
-    getTodosByUserId,
-    addTodo,
-    toggleTodo,
-    removeTodo,
-  };
+  return { todos, loading, getTodosByUserId, addTodo, toggleTodo, removeTodo };
 });

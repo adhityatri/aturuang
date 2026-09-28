@@ -1,17 +1,17 @@
 <template>
     <div class="relative py-8 flex flex-1 flex-col gap-4 overflow-hidden main-bg">
         <div class="px-6 flex flex-col gap-4">
-            <app-title-page>Activity</app-title-page>
+            <app-title-page dark>Activity</app-title-page>
             <div
-                class="sticky! overflow-hidden rounded-2xl h-12 mt-6 top-0 grid grid-cols-3 bg-white-smooth"
+                class="sticky! overflow-hidden corner-based h-12 mt-6 top-0 grid grid-cols-3 bg-white shadow-xl shadow-base-color"
             >
                 <button
                     v-for="tab in tabs"
                     :key="tab.value"
-                    class="py-3 text-xs font-black uppercase tracking-wide transition"
+                    class="py-3 text-sm tracking-wide transition"
                     :class="
                         activeTab === tab.value
-                            ? 'bg-accent-green text-black'
+                            ? 'bg-accent-green text-black font-bold'
                             : 'bg-white text-black hover:bg-neutral-100'
                     "
                     @click="selectTab(tab.value as categoryType)"
@@ -23,7 +23,7 @@
 
         <div
             ref="scrollComponent"
-            class="flex-1 rounded-t-4xl bg-white-smooth px-6 py-6 overflow-auto"
+            class="flex-1 rounded-t-4xl corner-squircle bg-dark/4 px-6 py-6 overflow-auto"
         >
             <transactions-item-list />
         </div>

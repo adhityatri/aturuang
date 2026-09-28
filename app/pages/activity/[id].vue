@@ -8,19 +8,11 @@
             <main class="px-4 pb-8 pt-4">
                 <!-- Amount Summary -->
                 <section
-                    class="relative flex flex-col items-center rounded-4xl bg-accent-green py-8 px-6"
+                    class="relative flex flex-col items-center corner-based shadow-xl shadow-base-color bg-accent-green py-8 px-6"
                 >
-                    <!-- <div
-                        class="absolute rounded-lg -top-4 right-10 px-3 py-2 text-[10px] bg-accent-green shadow-sm shadow-dark font-black uppercase"
-                        :class="isExpense ? 'text-accent-red' : 'text-accent-blue'"
-                    >
-                        {{ isExpense ? "Uang Keluar" : "Uang Masuk" }}
-                    </div> -->
                     <div class="relative z-1">
                         <div class="flex flex-col items-center justify-center">
-                            <p class="uppercase text-sm font-bold tracking-wide text-dark">
-                                Total Transaksi
-                            </p>
+                            <p class="text-lg tracking-wide text-dark">Total Transaksi</p>
 
                             <h1 class="text-4xl font-black leading-none text-dark">
                                 {{ isExpense ? "-" : "+" }}
@@ -28,40 +20,22 @@
                             </h1>
 
                             <div
-                                class="mt-4 flex items-center gap-2 rounded-lg px-3 py-2 text-[10px] bg-white-smooth/40 font-black uppercase"
+                                class="mt-4 flex items-center gap-2 rounded-4xl corner-squircle px-3 py-2 text-[10px] bg-white-smooth/40 font-black uppercase"
                                 :class="isExpense ? 'text-accent-red' : 'text-accent-blue'"
                             >
                                 <UIcon :name="transactionIcon" class="text-lg" />
                                 {{ detail?.category_name || "-" }}
-                                <!-- {{ isExpense ? "Uang Keluar" : "Uang Masuk" }} -->
                             </div>
-
-                            <!-- <div
-                                class="flex size-16 shrink-0 items-center bg-dark justify-center rounded-[1.5rem]"
-                                :class="isExpense ? 'text-accent-red' : 'text-accent-green'"
-                            >
-                                <UIcon :name="transactionIcon" class="text-3xl" />
-                            </div> -->
                         </div>
-
-                        <!-- <div class="rounded-[1.5rem] bg-white-smooth py-3 px-4">
-                            <p class="text-xs font-bold uppercase tracking-wider text-dark">
-                                Kategori
-                            </p>
-
-                            <div class="flex items-start justify-between gap-3">
-                                <h2 class="truncate text-lg font-black capitalize text-dark">
-                                    {{ detail?.category_name || "-" }}
-                                </h2>
-                            </div>
-                        </div> -->
                     </div>
                 </section>
 
                 <!-- Detail Info -->
-                <section class="relative overflow-hidden mt-5 rounded-4xl bg-white-smooth p-4">
+                <section
+                    class="relative overflow-hidden mt-5 rounded-4xl shadow-xl shadow-base-color px-4 py-6"
+                >
                     <div class="py-4 mb-4">
-                        <h2 class="text-md font-black uppercase text-dark">Detail Transaksi</h2>
+                        <h2 class="text-md font-black text-dark">Detail Transaksi</h2>
                     </div>
 
                     <div class="flex flex-col divide-y divide-dashed divide-neutral-300">
@@ -139,7 +113,7 @@
                     <UButton
                         block
                         size="lg"
-                        class="mt-5 rounded-2xl bg-accent-red/90 py-4 font-black uppercase text-white hover:bg-accent-red/90"
+                        class="mt-5 rounded-4xl corner-squircle shadow-xl shadow-base-color bg-accent-red/90 py-4 font-black uppercase text-white hover:bg-accent-red/90"
                         @click="isConfirmOpen = true"
                     >
                         Remove

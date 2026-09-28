@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-accent-green rounded-4xl px-4 py-6 text-dark">
+    <div class="rounded-4xl py-6 text-dark">
         <div class="relative z-10 mx-auto max-w-sm">
             <UBanner
                 v-if="!isReady"
@@ -13,7 +13,9 @@
                     root: 'rounded-2xl relative overflow-hidden',
                 }"
             />
-            <div class="grid grid-cols-2 rounded-2xl relative overflow-hidden bg-white-smooth">
+            <div
+                class="grid grid-cols-2 rounded-4xl corner-squircle shadow-lg shadow-base-color relative overflow-hidden bg-white-smooth"
+            >
                 <button
                     v-for="tab in tabs"
                     :key="tab.value"
@@ -37,7 +39,7 @@
             >
                 <UFormField
                     name="amount"
-                    class="rounded-2xl my-6 bg-white-smooth text-dark px-5 py-8 text-center"
+                    class="rounded-4xl corner-squircle shadow-lg shadow-base-color my-6 bg-accent-green text-dark px-5 py-8 text-center"
                 >
                     <UInputNumber
                         v-model="state.amount"
@@ -54,7 +56,7 @@
                             currencySign: 'standard',
                         }"
                         :ui="{
-                            base: 'text-center bg-white-smooth pe-0 px-0 py-0 font-black text-dark shadow-none h-auto text-[2.2rem]',
+                            base: 'text-center bg-transparent pe-0 px-0 py-0 font-black text-dark shadow-none h-auto text-[2.2rem]',
                             increment: 'hidden',
                             decrement: 'hidden',
                         }"
@@ -75,8 +77,8 @@
                         placeholder="Pilih Kategori"
                         class="w-full"
                         :ui="{
-                            base: 'rounded-2xl capitalize  bg-white-smooth px-4 py-3',
-                            content: 'rounded-2xl bg-white capitalize',
+                            base: 'corner-based capitalize  px-4 py-3',
+                            content: 'corner-based bg-white capitalize',
                         }"
                         @update:open="onCategoryOpen"
                     />
@@ -91,8 +93,8 @@
                         placeholder="Pilih kantong"
                         class="w-full"
                         :ui="{
-                            base: 'rounded-2xl ring-1 ring-dark bg-white-smooth px-4 py-3  ',
-                            content: 'rounded-2xl bg-white-smooth ',
+                            base: 'corner-based px-4 py-3  ',
+                            content: 'corner-based bg-white-smooth ',
                         }"
                     />
                 </UFormField>
@@ -111,9 +113,7 @@
                         size="xl"
                         :rows="4"
                         class="w-full"
-                        :ui="{
-                            base: 'ring-1 ring-dark bg-white-smooth px-4 py-4 text-md font-medium text-dark rounded-2xl',
-                        }"
+                        :ui="{ base: 'px-4 py-4 text-md font-medium text-dark corner-based' }"
                     />
                 </UFormField>
 

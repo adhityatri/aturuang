@@ -1,6 +1,6 @@
 <template>
     <div class="flex items-center gap-3 py-3 cursor-pointer hover:bg-neutral-50 transition-colors">
-        <div class="flex items-center justify-center h-12 w-14 rounded-2xl bg-dark">
+        <div class="flex items-center justify-center h-12 w-14 corner-based bg-dark">
             <!-- :class="isExpenses ? 'bg-accent-red' : 'bg-accent-blue'" -->
             <UIcon
                 :name="isExpenses ? 'solar:arrow-right-up-linear' : 'solar:arrow-left-down-linear'"

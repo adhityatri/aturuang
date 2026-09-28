@@ -5,46 +5,37 @@
 
             <!-- Wallet Hero -->
             <section class="px-4 pb-6 pt-4">
-                <div class="relative overflow-hidden rounded-4xl bg-accent-green p-5">
-                    <div class="relative z-1 flex items-start gap-4">
-                        <div
-                            class="flex size-24 shrink-0 items-center justify-center rounded-3xl bg-dark text-white"
-                        >
-                            <UIcon name="solar:wallet-linear" class="text-[4rem]" />
-                        </div>
-
-                        <div class="min-w-0 flex-1">
-                            <p class="text-[10px] font-black uppercase tracking-[0.24em] text-dark">
-                                Kantong
-                            </p>
-
-                            <h1
-                                class="truncate text-lg font-black uppercase leading-tight text-dark"
-                            >
+                <div
+                    class="flex flex-col relative overflow-hidden corner-based bg-accent-green shadow-xl shadow-base-color p-8"
+                >
+                    <div class="flex flex-col">
+                        <div class="flex justify-between">
+                            <p class="truncate text-xl leading-tight text-dark">
                                 {{ walletStore.detailWallet?.name || "Kantong" }}
-                            </h1>
-
-                            <div class="mt-2">
-                                <app-privacy
-                                    v-if="usePrivacyStore.isPrivacyAccepted"
-                                    size="sm"
-                                    color="primary"
-                                />
-
-                                <p v-else class="text-xl font-black leading-none text-dark">
-                                    {{ useFormatPriceIntl(walletStore.detailWallet?.amount || 0) }}
-                                </p>
-                            </div>
+                            </p>
+                            <UIcon name="solar:wallet-linear" class="text-[2rem]" />
                         </div>
-                    </div>
 
-                    <!-- Actions -->
-                    <div class="relative z-1 mt-5 grid grid-cols-2 gap-3">
-                        <wallet-edit @click="handleEditWallet" />
-                        <wallet-move @refresh="handleRefresh" />
+                        <div class="flex-1 mt-2">
+                            <span class="capitalize">saldo</span>
+                            <app-privacy
+                                v-if="usePrivacyStore.isPrivacyAccepted"
+                                size="sm"
+                                color="primary"
+                            />
+
+                            <p v-else class="text-xl font-black leading-none text-dark">
+                                {{ useFormatPriceIntl(walletStore.detailWallet?.amount || 0) }}
+                            </p>
+                        </div>
                     </div>
                 </div>
             </section>
+        </div>
+
+        <div class="mb-4 px-4 flex gap-4">
+            <wallet-edit @click="handleEditWallet" />
+            <wallet-move @refresh="handleRefresh" />
         </div>
 
         <!-- Transactions Panel -->

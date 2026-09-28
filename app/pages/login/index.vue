@@ -5,31 +5,28 @@
         <!-- <div class="rounded-full bg-accent-green absolute -top-50 bottom-[70%] left-0 right-0" /> -->
         <section class="relative z-1 w-full max-w-sm">
             <!-- Brand -->
-            <div class="mb-8 flex flex-col items-center text-center text-white">
+            <div class="mb-8 flex flex-col text-dark">
                 <div
-                    class="mb-5 flex h-24 w-24 items-center justify-center bg-dark rounded-4xl p-4"
+                    class="mb-8 flex h-18 w-20 items-center justify-center bg-accent-green corner-squircle rounded-4xl shadow-2xl shadow-base-color p-4"
                 >
                     <nuxt-img
-                        :src="`${useRuntimeConfig().public.supabaseUrl}/storage/v1/object/public/yothro/brand-light.svg`"
+                        :src="`${useRuntimeConfig().public.supabaseUrl}/storage/v1/object/public/yothro/brand.png`"
                         alt="brand-icon"
                         class="h-full w-full object-contain svg:bg-dark"
                     />
                 </div>
 
-                <p class="text-[10px] font-black uppercase tracking-[0.25em] text-accent-green">
-                    Welcome Back
-                </p>
+                <!-- <p class="text-md font-medium uppercase text-dark/50">Welcome Back</p> -->
+                <h1 class="mt-2 text-3xl uppercase leading-none"><b>Log</b> In</h1>
 
-                <h1 class="mt-2 text-3xl font-black uppercase leading-none">Masuk Akun</h1>
-
-                <p class="mt-3 max-w-[260px] text-sm leading-5 text-white/80">
+                <p class="mt-3 text-lg leading-5">
                     Kelola kantong, budget, dan riwayat transaksi kamu dengan lebih rapi.
                 </p>
             </div>
 
             <!-- Form Card -->
             <UForm
-                class="relative overflow-hidden rounded-4xl bg-white-smooth p-5"
+                class="relative overflow-hidden corder-squircle rounded-4xl shadow-2xl shadow-base-color bg-white p-5"
                 :schema="loginSchema"
                 :state="state"
                 @submit="onSubmit"
@@ -44,7 +41,7 @@
                             type="email"
                             class="w-full"
                             :ui="{
-                                base: 'rounded-2xl ring-1 ring-dark bg-white-smooth px-4 py-4 font-bold text-dark',
+                                base: 'corner-squircle rounded-4xl bg-white px-4 py-4 text-[14px] text-dark',
                             }"
                         />
                     </UFormField>
@@ -59,7 +56,7 @@
                             :type="viewPassword ? 'text' : 'password'"
                             class="w-full"
                             :ui="{
-                                base: 'rounded-2xl bg-white-smooth ring-1 ring-dark px-4 py-4 pr-12 font-bold text-dark',
+                                base: 'corner-squircle rounded-4xl bg-white  px-4 py-4 pr-12 text-[14px] text-dark',
                             }"
                         >
                             <template #trailing>
@@ -80,12 +77,15 @@
                     <UButton
                         block
                         class="mt-7"
+                        :class="{
+                            'bg-accent-green!': !isLoading,
+                            'bg-accent-green/50!': isLoading,
+                        }"
                         icon="solar:login-3-line-duotone"
-                        color="primary"
                         type="submit"
                         :loading="isLoading"
                         :ui="{
-                            base: 'h-[58px] rounded-2xl bg-accent-green text-sm font-black uppercase tracking-wider text-dark transition active:translate-x-[2px] active:translate-y-[2px] active:shadow-none',
+                            base: 'h-[58px] rounded-2xl bg-accent-green text-sm font-black uppercase tracking-wider text-dark transition active:translate-x-[2px] active:translate-y-[2px] active:bg-accent-green/50 active:shadow-none',
                         }"
                     >
                         Masuk
@@ -93,7 +93,7 @@
 
                     <USeparator
                         orientation="horizontal"
-                        class="my-5 *:font-bold *:text-dark/70"
+                        class="my-5 *:font-bold *:text-dark"
                         :ui="{ border: 'border-dark/70' }"
                         label="Atau"
                     />
@@ -103,7 +103,7 @@
                         icon="streamline-logos:google-logo-solid"
                         variant="soft"
                         :ui="{
-                            base: 'h-[58px] rounded-2xl bg-white-smooth ring-1 ring-dark text-sm font-black uppercase tracking-wider text-dark transition hover:bg-neutral-100 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none',
+                            base: 'h-[58px] corner-based bg-white ring-1 ring-dark/20 text-sm font-black uppercase tracking-wider text-dark transition hover:bg-neutral-100 active:translate-x-[2px] active:bg-dark/10 active:translate-y-[2px] active:shadow-none',
                         }"
                         @click="onGoogleLogin"
                     >

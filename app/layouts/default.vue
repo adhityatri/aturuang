@@ -9,7 +9,7 @@
         </UContainer>
         <button
             v-if="canCreate"
-            class="fixed flex flex-col items-center justify-center rounded-2xl size-16 bottom-24 right-5 bg-accent-green text-dark hover:bg-accent-green/90 active:translate-y-1 active:translate-x-1 active:shadow-none transition-all z-50"
+            class="fixed flex flex-col items-center justify-center corner-based size-16 bottom-24 right-5 bg-accent-green text-dark hover:bg-accent-green/90 active:translate-y-1 active:translate-x-1 active:shadow-none transition-all z-50"
             @click="handleCreate(true)"
         >
             <UIcon name="solar:add-square-bold" class="size-6 mb-0.5" />

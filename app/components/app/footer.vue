@@ -1,6 +1,6 @@
 <template>
     <footer
-        class="z-1000 fixed ring-2 ring-accent-green bottom-5 left-[50%] rounded-2xl overflow-hidden translate-x-[-50%] w-[80%] h-15 flex items-stretch"
+        class="z-1000 fixed ring-2 ring-accent-green bottom-5 left-[50%] corner-based overflow-hidden translate-x-[-50%] w-[80%] h-15 flex items-stretch"
     >
         <nuxt-link
             v-for="item in navigation"
@@ -28,7 +28,7 @@ const navigation = [
     { name: "Home", icon: "solar:home-2-linear", href: "/" },
     { name: "Activity", icon: "solar:wallet-money-linear", href: "/activity" },
     // { name: "Insight", icon: "solar:command-bold-duotone", href: "/insight" },
-    { name: "Todo", icon: "solar:checklist-minimalistic-linear", href: "/todo" },
+    // { name: "Todo", icon: "solar:checklist-minimalistic-linear", href: "/todo" },
     { name: "Profile", icon: "solar:user-linear", href: "/profile" },
 ];
 

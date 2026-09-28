@@ -1,22 +1,9 @@
 <template>
     <div class="relative flex min-h-dvh flex-1 flex-col overflow-hidden main-bg">
         <!-- Header -->
-        <section
-            class="relative overflow-hidden rounded-b-[4rem] bg-accent-green px-4 pb-10 pt-6 text-dark"
-        >
-            <div class="relative z-1 flex justify-end">
-                <nuxt-link
-                    :to="{ name: 'profile-page' }"
-                    class="flex items-center gap-2 rounded-full border-[2px] border-dark bg-white px-5 py-2 text-sm font-black text-primary shadow-[3px_3px_0px_#111111] transition active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
-                >
-                    <UIcon name="solar:user-rounded-linear" class="text-lg" />
-                    Profil Saya
-                    <UIcon name="lucide:chevron-right" class="text-lg text-dark" />
-                </nuxt-link>
-            </div>
-
+        <section class="relative overflow-hidden rounded-b-[4rem] px-4 pb-10 pt-6 text-dark">
             <div class="relative z-1 mt-8 flex flex-col items-center justify-center text-center">
-                <div class="rounded-4xl bg-white-smooth p-1 ring-2 ring-dark">
+                <div class="rounded-full shadow-lg shadow-base-color bg-white-smooth p-1">
                     <app-avatar>
                         <img
                             :src="`/images/profile_icon/${identity?.avatar}`"
@@ -39,100 +26,53 @@
         </section>
 
         <!-- Content -->
-        <main class="relative z-1 -mt-5 flex flex-1 flex-col px-4 pb-6">
-            <div class="relative overflow-hidden rounded-4xl bg-white-smooth p-4">
-                <!-- Invite Card -->
-                <button
-                    type="button"
-                    class="relative z-1 flex w-full items-center gap-4 rounded-4xl bg-accent-green p-4 text-left transition active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
-                >
-                    <div
-                        class="flex size-14 shrink-0 items-center justify-center rounded-2xl bg-dark text-white-smooth"
+        <div class="flex flex-1 flex-col px-4 pb-6 gap-4">
+            <profile-form />
+
+            <UButton
+                size="xl"
+                variant="ghost"
+                color="neutral"
+                :ui="{
+                    base: 'flex shadow-lg shadow-base-color justify-between corner-based bg-white p-4 text-sm font-black text-dark transition hover:bg-neutral-100 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none',
+                }"
+                @click="handleImprove"
+            >
+                <div class="flex items-center gap-4">
+                    <span
+                        class="flex size-10 items-center justify-center rounded-xl bg-accent-green text-dark"
                     >
-                        <UIcon name="solar:gift-linear" class="text-3xl" />
-                    </div>
+                        <UIcon name="solar:chat-round-dots-linear" class="text-xl" />
+                    </span>
 
-                    <div class="min-w-0 flex-1">
-                        <h4 class="text-lg font-black text-dark">Invite Friends</h4>
-                        <p class="mt-1 text-sm leading-5 text-dark">
-                            Share your referral link with friends and earn rewards!
-                        </p>
-                    </div>
-
-                    <div
-                        class="flex size-10 shrink-0 items-center justify-center rounded-2xl bg-accent-green text-dark"
-                    >
-                        <UIcon name="lucide:chevron-right" class="text-xl" />
-                    </div>
-                </button>
-
-                <!-- Menu -->
-                <div class="relative z-1 mt-5 flex flex-col gap-4">
-                    <profile-form />
-
-                    <nuxt-link
-                        :to="{ name: 'transactions-page' }"
-                        class="flex ring-1 ring-dark items-center justify-between rounded-4xl bg-white-smooth p-4 text-sm font-black text-dark transition hover:bg-neutral-100 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
-                    >
-                        <div class="flex items-center gap-4">
-                            <span
-                                class="flex size-12 items-center justify-center rounded-xl bg-accent-green text-dark"
-                            >
-                                <UIcon name="solar:history-linear" class="text-2xl" />
-                            </span>
-
-                            <span>History Transactions</span>
-                        </div>
-
-                        <UIcon name="lucide:chevron-right" class="text-xl text-dark" />
-                    </nuxt-link>
-
-                    <UButton
-                        size="xl"
-                        variant="ghost"
-                        color="neutral"
-                        :ui="{
-                            base: 'flex ring-1 ring-dark justify-between rounded-4xl bg-white-smooth p-4 text-sm font-black text-dark transition hover:bg-neutral-100 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none',
-                        }"
-                        @click="handleImprove"
-                    >
-                        <div class="flex items-center gap-4">
-                            <span
-                                class="flex size-12 items-center justify-center rounded-xl bg-accent-green text-dark"
-                            >
-                                <UIcon name="solar:chat-round-dots-linear" class="text-2xl" />
-                            </span>
-
-                            <span>Help us improve!</span>
-                        </div>
-
-                        <UIcon name="lucide:chevron-right" class="text-xl text-dark" />
-                    </UButton>
-
-                    <UButton
-                        size="xl"
-                        variant="ghost"
-                        color="error"
-                        :ui="{
-                            base: 'flex justify-between rounded-4xl ring-1 ring-dark bg-red-50 p-4 text-sm font-black text-red-500 transition active:translate-x-[2px] active:translate-y-[2px] active:shadow-none',
-                        }"
-                        @click="handleLogout"
-                    >
-                        <div class="flex items-center gap-4">
-                            <span
-                                class="flex size-12 items-center justify-center rounded-xl bg-accent-red text-white"
-                            >
-                                <UIcon name="solar:logout-2-linear" class="text-2xl" />
-                            </span>
-
-                            <span>Logout</span>
-                        </div>
-
-                        <UIcon name="lucide:chevron-right" class="text-xl text-accent-red" />
-                    </UButton>
+                    <span>Help us improve!</span>
                 </div>
-            </div>
-        </main>
+
+                <UIcon name="lucide:chevron-right" class="text-xl text-dark" />
+            </UButton>
+
+            <UButton
+                size="xl"
+                variant="ghost"
+                color="error"
+                :ui="{
+                    base: 'flex justify-between rounded-4xl corner-squircle bg-red-50 p-4 text-sm font-black text-red-500 shadow-xl shadow-base-color transition active:translate-x-[2px] active:translate-y-[2px] active:shadow-none',
+                }"
+                @click="handleLogout"
+            >
+                <div class="flex items-center gap-4">
+                    <span
+                        class="flex size-10 items-center justify-center rounded-xl bg-accent-red text-white"
+                    >
+                        <UIcon name="solar:logout-2-linear" class="text-xl" />
+                    </span>
+
+                    <span>Logout</span>
+                </div>
+
+                <UIcon name="lucide:chevron-right" class="text-xl text-accent-red" />
+            </UButton>
+        </div>
     </div>
 </template>
 

@@ -6,7 +6,9 @@
 
             <main class="px-4 pb-6 pt-4">
                 <!-- Hero -->
-                <section class="relative overflow-hidden rounded-4xl bg-accent-green p-4">
+                <section
+                    class="relative overflow-hidden rounded-4xl corner-squircle bg-accent-green p-6 shadow-xl shadow-base-color"
+                >
                     <div class="relative z-1 flex items-center gap-4">
                         <div
                             class="flex size-20 shrink-0 items-center justify-center rounded-3xl bg-dark"
@@ -18,15 +20,9 @@
                         </div>
 
                         <div class="min-w-0 flex-1">
-                            <p class="text-[10px] font-black uppercase tracking-[0.24em]">
-                                Feedback
-                            </p>
+                            <h1 class="text-2xl font-black leading-tight text-dark">Kirim Saran</h1>
 
-                            <h1 class="text-2xl font-black uppercase leading-tight text-dark">
-                                Kirim Saran
-                            </h1>
-
-                            <p class="text-xs font-medium leading-5">
+                            <p class="text-sm font-medium leading-5">
                                 Bantu kami membuat aplikasi ini lebih nyaman dan berguna.
                             </p>
                         </div>
@@ -34,9 +30,9 @@
                 </section>
 
                 <!-- Form -->
-                <section class="mt-5 rounded-4xl bg-white-smooth p-4">
+                <section class="mt-5 rounded-4xl bg-dark/4 shadow-lg shadow-base-color py-6 px-4">
                     <div class="mb-4">
-                        <h2 class="text-lg font-black uppercase text-dark">Saran dan Masukan</h2>
+                        <h2 class="text-lg font-black text-dark">Saran dan Masukan</h2>
                     </div>
 
                     <UForm class="w-full" :schema="schema" :state="state" @submit="onSubmit">
@@ -48,8 +44,9 @@
                                 class="w-full capitalize"
                                 placeholder="Pilih jenis masukan"
                                 :ui="{
-                                    base: 'rounded-2xl ring-1 ring-dark bg-white-smooth px-4 py-4 font-bold text-dark ',
-                                    content: 'rounded-2xl ring-1 ring-dark bg-white-smooth ',
+                                    base: 'rounded-4xl corner-squircle bg-white-smooth px-4 py-4 font-bold text-dark ',
+                                    content:
+                                        'rounded-4xl corner-squircle ring-1 capitalize ring-dark/10 bg-white-smooth ',
                                 }"
                             />
                         </UFormField>
@@ -62,7 +59,7 @@
                                 :rows="5"
                                 :ui="{
                                     root: 'w-full',
-                                    base: 'rounded-2xl ring-1 ring-dark bg-white-smooth px-4 py-4 text-md font-medium text-dark',
+                                    base: 'rounded-4xl corner-squircle  bg-white-smooth px-4 py-4 text-md font-medium text-dark',
                                 }"
                             />
                         </UFormField>
@@ -83,7 +80,7 @@
                             type="submit"
                             :disabled="!isReady"
                             :ui="{
-                                base: 'rounded-2xl bg-accent-green px-6 py-4 text-sm font-black uppercase tracking-wide text-dark disabled:bg-neutral-300 disabled:bg-accent-green/40',
+                                base: 'rounded-2xl bg-accent-green px-6 py-4 text-sm font-black uppercase tracking-wide text-dark disabled:bg-neutral-300 disabled:bg-accent-green/40 active:bg-accent-green/60',
                             }"
                         >
                             Kirim

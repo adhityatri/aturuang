@@ -81,7 +81,11 @@ export default defineNuxtConfig({
       rollupOptions: {
         output: {
           manualChunks(id) {
-            if (id.includes("node_modules/vue") || id.includes("node_modules/pinia") || id.includes("node_modules/vue-router")) {
+            if (
+              id.includes("node_modules/vue") ||
+              id.includes("node_modules/pinia") ||
+              id.includes("node_modules/vue-router")
+            ) {
               return "vendor";
             }
             if (id.includes("node_modules/@supabase")) {
@@ -163,4 +167,5 @@ export default defineNuxtConfig({
   features: {
     devLogs: false, //nonaktifkan log dari server ke client
   },
+  googleFonts: { families: { "Mona Sans": ["300", "400", "500", "600", "700", "800", "900"] } },
 });

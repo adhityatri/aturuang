@@ -4,21 +4,21 @@
         :dismissible="false"
         title="General Setting"
         side="bottom"
-        :ui="{ content: 'bg-white-smooth rounded-t-4xl' }"
+        :ui="{ content: 'main-bg rounded-t-4xl corner-squircle' }"
     >
         <UButton
             size="xl"
             variant="ghost"
             color="neutral"
             :ui="{
-                base: 'flex justify-between rounded-4xl ring-1 ring-dark bg-white-smooth p-4 text-sm font-black text-dark transition hover:bg-neutral-100 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none',
+                base: 'flex justify-between corner-based shadow-lg shadow-base-color bg-white p-4 text-sm font-black text-dark transition hover:bg-neutral-100 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none',
             }"
         >
             <div class="flex items-center gap-4">
                 <span
-                    class="flex size-12 items-center justify-center rounded-xl bg-accent-green text-dark"
+                    class="flex size-10 items-center justify-center rounded-xl bg-accent-green text-dark"
                 >
-                    <UIcon name="solar:settings-linear" class="text-2xl" />
+                    <UIcon name="solar:settings-linear" class="text-xl" />
                 </span>
 
                 <span>General Setting</span>
@@ -28,10 +28,10 @@
         </UButton>
 
         <template #header>
-            <div class="flex flex-1 items-start justify-between">
+            <div class="flex flex-1 items-start justify-between mt-2">
                 <div>
-                    <h1 class="text-xl font-black uppercase text-dark">General Setting</h1>
-                    <p class="text-xs font-medium text-dark">Atur nama dan avatar profil kamu.</p>
+                    <h1 class="text-xl text-dark">General Setting</h1>
+                    <p class="text-lg text-dark/70">Atur nama dan avatar profil kamu.</p>
                 </div>
 
                 <UButton icon="lucide:x" color="neutral" variant="ghost" @click="isOpen = false" />
@@ -39,7 +39,7 @@
         </template>
 
         <template #body>
-            <div class="relative overflow-hidden rounded-[2rem] bg-accent-green p-4">
+            <div class="relative overflow-hidden">
                 <div class="relative z-1">
                     <!-- Current Preview -->
                     <div class="flex mt-4 items-center gap-4 rounded-4xl bg-white-smooth p-4">
@@ -87,12 +87,12 @@
                             </span>
                         </div>
 
-                        <div class="grid grid-cols-4 gap-3">
+                        <div class="grid grid-cols-4 gap-3 px-2">
                             <button
                                 v-for="icon in profileIcons"
                                 :key="icon"
                                 type="button"
-                                class="relative overflow-hidden rounded-4xl ring-2 bg-white p-2 transition active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
+                                class="relative overflow-hidden rounded-4xl corner-squircle ring-2 bg-white p-2 transition active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
                                 :class="
                                     state.profile_picture === icon
                                         ? 'ring-dark bg-blue-50'
@@ -131,7 +131,7 @@
                                 :disabled="true"
                                 class="w-full"
                                 :ui="{
-                                    base: 'rounded-2xl ring-1 ring-dark bg-white-smooth px-4 py-4 font-bold text-dark',
+                                    base: 'rounded-4xl corner-squircle bg-white-smooth px-4 py-4 font-bold text-dark',
                                 }"
                             />
                         </UFormField>
@@ -144,7 +144,7 @@
                                 type="text"
                                 class="w-full"
                                 :ui="{
-                                    base: 'rounded-2xl ring-1 ring-dark bg-white-smooth px-4 py-4 font-bold text-dark',
+                                    base: 'rounded-2xl bg-white-smooth px-4 py-4 font-bold text-dark',
                                 }"
                             />
                         </UFormField>
@@ -155,7 +155,7 @@
                             type="submit"
                             :loading="profileStore?.isLoading"
                             :ui="{
-                                base: 'mt-6 rounded-2xl ring-1 ring-dark bg-white-smooth px-6 py-4 text-sm font-black uppercase tracking-wide text-dark disabled:bg-neutral-300 disabled:text-secondary',
+                                base: 'mt-6 rounded-4xl corner-squircle bg-white-smooth px-6 py-4 text-sm font-black tracking-wide text-dark disabled:bg-neutral-300 disabled:text-secondary',
                             }"
                         >
                             Simpan Perubahan

@@ -3,10 +3,10 @@
         <main class="flex flex-1 flex-col pt-6">
             <!-- Header -->
             <div class="mb-6 px-6">
-                <app-title-page>
+                <app-title-page dark>
                     Todo
                     <template #subtitle>
-                        <span class="text-white text-md">{{ todos.length }} tugas tercatat</span>
+                        <span class="text-md">{{ todos.length }} tugas tercatat</span>
                     </template>
                 </app-title-page>
             </div>
@@ -19,23 +19,21 @@
                         placeholder="Tulis todo baru..."
                         size="xl"
                         class="w-full"
-                        :ui="{
-                            base: 'corner-squircle! rounded-xl! px-4 py-3 text-dark font-medium',
-                        }"
+                        :ui="{ base: 'corner-based rounded-xl px-4 py-3 text-dark font-medium' }"
                         @keyup.enter="addTodo"
                     />
                 </div>
                 <UButton
                     size="xl"
                     :loading="isAdding"
-                    class="corner-squircle bg-accent-green px-6 font-black uppercase text-dark hover:bg-accent-green/90 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
+                    class="corner-based bg-accent-green px-6 font-black uppercase text-dark hover:bg-accent-green/90 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
                     icon="solar:add-circle-bold"
                     @click="addTodo"
                 />
             </div>
 
             <!-- Tabs -->
-            <div class="my-6 mx-6">
+            <div class="m-6 shadow-xl shadow-base-color">
                 <todo-tabs v-model="activeTab" :tabs="tabs" :counts="tabCounts" />
             </div>
 

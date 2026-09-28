@@ -3,7 +3,7 @@
         <!-- Header -->
         <div class="mb-4 flex items-center justify-between">
             <div>
-                <app-title-page>
+                <app-title-page dark>
                     {{ props.title }}
                     <template #subtitle> {{ source.length }} transaksi tercatat </template>
                 </app-title-page>
@@ -12,7 +12,7 @@
             <nuxt-link
                 v-if="!isAll"
                 to="/activity"
-                class="flex size-12 items-center justify-center rounded-2xl bg-accent-green text-dark transition hover:bg-accent-green/90 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
+                class="flex size-12 shadow-xl shadow-base-color items-center justify-center corner-based bg-accent-green text-dark transition hover:bg-accent-green/90 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
                 aria-label="Lihat semua transaksi"
             >
                 <UIcon name="material-symbols-light:grid-view-rounded" class="text-2xl" />
@@ -20,18 +20,21 @@
         </div>
 
         <!-- Card -->
-        <UCard class="relative overflow-hidden rounded-2xl bg-white" :ui="{ body: 'p-4' }">
+        <UCard
+            class="relative overflow-hidden corner-based bg-white ring-0 shadow-xl shadow-base-color"
+            :ui="{ body: 'p-4' }"
+        >
             <template v-if="isLoading">
                 <div class="relative z-1 flex items-center justify-between">
-                    <USkeleton class="h-5 w-40 rounded-xl bg-neutral-300" />
-                    <USkeleton class="h-7 w-20 rounded-full bg-neutral-300" />
+                    <USkeleton class="h-5 w-40 corner-based bg-neutral-300" />
+                    <USkeleton class="h-7 w-20 corner-based bg-neutral-300" />
                 </div>
 
                 <div class="relative z-1 mt-5 flex flex-col gap-3">
                     <USkeleton
                         v-for="i in 5"
                         :key="i"
-                        class="h-16 w-full rounded-2xl bg-neutral-300"
+                        class="h-16 w-full corner-based bg-neutral-300"
                     />
                 </div>
             </template>
@@ -40,7 +43,7 @@
                 <!-- Summary -->
                 <div
                     v-if="isAll"
-                    class="relative z-1 mb-4 flex items-center justify-between rounded-2xl bg-white p-3"
+                    class="relative z-1 mb-4 flex items-center justify-between corner-based bg-white p-3"
                 >
                     <div>
                         <small
@@ -53,7 +56,7 @@
                     </div>
 
                     <span
-                        class="rounded-full border-[1.5px] border-dark bg-accent-blue px-3 py-1 text-xs font-black text-white"
+                        class="corner-based border-[1.5px] border-dark bg-accent-blue px-3 py-1 text-xs font-black text-white"
                     >
                         {{ source.length }} item
                     </span>
@@ -65,7 +68,7 @@
                     class="relative z-1 flex flex-col items-center justify-center rounded-2xl border-[1.5px] border-dashed border-dark bg-neutral-50 px-4 py-8 text-center"
                 >
                     <div
-                        class="mb-3 flex size-14 items-center justify-center rounded-full bg-accent-yellow text-dark"
+                        class="mb-3 flex size-14 items-center justify-center corner-based bg-accent-yellow text-dark"
                     >
                         <UIcon name="solar:receipt-linear" class="text-2xl" />
                     </div>

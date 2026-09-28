@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-1 flex-col p-6 pb-14 main-bg text-white">
+    <div class="flex flex-1 flex-col p-6 pb-30 main-bg text-white">
         <div class="mb-8">
             <!-- <p class="text-[12px] font-medium uppercase tracking-[0.2em] mb-2">
                 {{ currentDate }}
@@ -21,15 +21,15 @@
             @submit-budget="handleSubmitBudget"
         />
 
+        <app-menu-widget />
+
+        <wallet-list class="py-5" :is-loading="isLoading" />
+
         <transactions-list
             :source="transactionsSource"
             :is-loading="isLoading"
             class="rounded-lg"
         />
-
-        <div class="my-10">
-            <wallet-list :is-loading="isLoading" />
-        </div>
     </div>
 </template>
 

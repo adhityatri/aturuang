@@ -13,11 +13,11 @@
             >
                 <USkeleton
                     v-if="isLoading"
-                    class="relative overflow-hidden h-55 bg-neutral-300 rounded-[1.4rem] border-[1.5px] border-border-dark shadow-[4px_4px_0px_#111111] flex flex-col items-start justify-end px-4 py-2"
+                    class="relative overflow-hidden h-55 bg-neutral-300 corner-based border-[1.5px] border-border-dark shadow-[4px_4px_0px_#111111] flex flex-col items-start justify-end px-4 py-2"
                 />
-                <div v-else class="rounded-[1.4rem]">
+                <div v-else class="corner-based">
                     <div
-                        class="relative overflow-hidden h-55 bg-accent-green rounded-[2em] flex flex-col items-start justify-between p-6 text-text-dark"
+                        class="relative overflow-hidden h-55 bg-accent-green corner-based flex flex-col items-start justify-between p-6 text-text-dark"
                     >
                         <div class="relative z-10 flex flex-col justify-center flex-1 w-full">
                             <p class="text-xs font-bold uppercase">Saldo Saat Ini</p>
@@ -85,13 +85,15 @@
         </div>
 
         <!-- Indicators -->
-        <div class="flex justify-center gap-3 mt-4">
+        <div class="flex justify-center gap-1 mt-4">
             <button
                 v-for="index in 2"
                 :key="index"
-                class="w-6 h-3 transition-all duration-200 rounded-xl"
+                class="w-8 h-3 transition-all duration-200 rounde-4xl corner-based"
                 :class="[
-                    activeIndex === index - 1 ? 'bg-accent-green' : 'bg-white hover:bg-neutral-100',
+                    activeIndex === index - 1
+                        ? 'bg-accent-green'
+                        : 'bg-dark/10 hover:bg-neutral-100',
                 ]"
                 @click="scrollToSlide(index - 1)"
             />
