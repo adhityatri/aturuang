@@ -4,4 +4,5 @@ export interface iTodo {
   text: string;
   done: boolean;
   created_at: string;
+  is_monthly: boolean;
 }

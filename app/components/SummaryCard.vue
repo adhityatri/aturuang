@@ -13,7 +13,7 @@
             >
                 <USkeleton
                     v-if="isLoading"
-                    class="relative overflow-hidden h-55 bg-neutral-300 corner-based border-[1.5px] border-border-dark shadow-[4px_4px_0px_#111111] flex flex-col items-start justify-end px-4 py-2"
+                    class="relative overflow-hidden h-55 bg-neutral-300 corner-based flex flex-col items-start justify-end px-4 py-2"
                 />
                 <div v-else class="corner-based">
                     <div
@@ -85,11 +85,11 @@
         </div>
 
         <!-- Indicators -->
-        <div class="flex justify-center gap-1 mt-4">
+        <div class="flex justify-center gap-1">
             <button
                 v-for="index in 2"
                 :key="index"
-                class="w-8 h-3 transition-all duration-200 rounde-4xl corner-based"
+                class="w-6 h-3 transition-all duration-200 rounded-full"
                 :class="[
                     activeIndex === index - 1
                         ? 'bg-accent-green'

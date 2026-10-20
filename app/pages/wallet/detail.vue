@@ -39,7 +39,9 @@
         </div>
 
         <!-- Transactions Panel -->
-        <main class="relative z-1 flex flex-1 flex-col rounded-t-[2rem] bg-white-smooth p-4">
+        <main
+            class="relative z-1 flex flex-1 flex-col border-t-2 border-dark/10 rounded-t-[2rem] bg-dark/4 p-4"
+        >
             <div class="mb-4 flex items-center justify-between">
                 <h2 class="text-lg font-black uppercase text-dark">Riwayat Transaksi</h2>
 

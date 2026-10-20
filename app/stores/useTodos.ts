@@ -27,10 +27,12 @@ export const useTodos = defineStore("todos-store", () => {
     }
   };
 
-  const addTodo = async (text: string) => {
+  const addTodo = async (text: string, isMonthly: boolean) => {
     if (!user.value?.id) return;
 
-    const { error } = await supabase.from("todos").insert({ text, user_id: user.value.id });
+    const { error } = await supabase
+      .from("todos")
+      .insert({ text, is_monthly: isMonthly, user_id: user.value.id });
 
     if (error) throw error;
     await getTodosByUserId();

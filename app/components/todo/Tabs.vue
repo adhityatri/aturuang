@@ -1,26 +1,17 @@
 <template>
-    <div class="grid grid-cols-3 bg-white corner-based overflow-hidden">
+    <div class="flex justify-end gap-2 bg-white overflow-hidden py-4 px-4">
         <button
             v-for="tab in tabs"
             :key="tab.value"
-            class="py-4 text-xs font-black uppercase tracking-wide transition"
+            class="py-1 px-3 text-xs corner-based font-black transition"
             :class="
                 modelValue === tab.value
-                    ? 'bg-[#FFD21E] text-dark'
-                    : 'bg-white text-dark hover:bg-neutral-100'
+                    ? 'bg-accent-green/50 text-dark'
+                    : 'bg-white-smooth text-dark hover:bg-neutral-100'
             "
             @click="$emit('update:modelValue', tab.value)"
         >
             {{ tab.label }}
-            <span
-                v-if="counts[tab.value] > 0"
-                class="ml-1 inline-flex size-5 items-center justify-center rounded-full text-[10px]"
-                :class="
-                    modelValue === tab.value ? 'bg-dark text-white' : 'bg-neutral-200 text-dark'
-                "
-            >
-                {{ counts[tab.value] }}
-            </span>
         </button>
     </div>
 </template>

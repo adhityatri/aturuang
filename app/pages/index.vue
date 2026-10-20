@@ -1,17 +1,12 @@
 <template>
     <div class="flex flex-1 flex-col p-6 pb-30 main-bg text-white">
-        <div class="mb-8">
-            <!-- <p class="text-[12px] font-medium uppercase tracking-[0.2em] mb-2">
-                {{ currentDate }}
-            </p> -->
-            <div class="flex justify-between items-end">
-                <app-greeting :is-loading="isLoading" />
-                <app-hide-show-currency />
-            </div>
+        <div class="mb-8 flex justify-between items-end">
+            <app-greeting :is-loading="isLoading" />
+            <app-hide-show-currency />
         </div>
 
         <summary-card
-            :is-loading="isLoading"
+            :is-loading="walletStore.isFetching"
             :current-balance="walletBalance"
             :income="totalIncomes"
             :expenses="totalExpenses"
@@ -23,7 +18,7 @@
 
         <app-menu-widget />
 
-        <wallet-list class="py-5" :is-loading="isLoading" />
+        <wallet-list class="py-5" :is-loading="walletStore.isFetching" />
 
         <transactions-list
             :source="transactionsSource"
@@ -44,19 +39,7 @@ const walletStore = useWallets();
 const budgetStore = useBudgets();
 const { isDesktop } = useDevice();
 
-const currentDate = computed(() => {
-    return new Date()
-        .toLocaleDateString("id-ID", {
-            weekday: "long",
-            day: "numeric",
-            month: "long",
-            year: "numeric",
-        })
-        .toUpperCase();
-});
-
 let realtimeChannel: RealtimeChannel | null = null;
-let walletRealtimeChannel: RealtimeChannel | null = null;
 
 const { status: statusTransactions } = await useAsyncData(
     "transactions-data",
@@ -110,18 +93,13 @@ onMounted(() => {
         )
         .subscribe();
 
-    walletRealtimeChannel = supabaseClient
-        .channel("public:wallets")
-        .on("postgres_changes", { event: "*", schema: "public", table: "wallets" }, () =>
-            walletStore.getWallets(),
-        )
-        .subscribe();
+    walletStore.initialize();
 });
 
 onUnmounted(() => {
     if (isDesktop) return;
 
     if (realtimeChannel) supabaseClient.removeChannel(realtimeChannel);
-    if (walletRealtimeChannel) supabaseClient.removeChannel(walletRealtimeChannel);
+    walletStore.teardownRealtime();
 });
 </script>

@@ -2,44 +2,51 @@
 @import "@nuxt/ui";
 
 :root {
-    --ui-bg: #fafcff;
-    --ui-primary: #cce831;
-    --ui-primary-darken: #a6c015;
+    --ui-bg: oklch(0.9904 0.0045 258.32);
+    --ui-primary: oklch(0.8807 0.1935 118.52);
+    --ui-primary-darken: oklch(0.7616 0.1751 119.17);
     --ui-container: 1366px;
 }
 
 @theme {
     --font-sans: "Mona Sans", sans-serif;
-    --color-primary: #0353a4;
-    --color-primary-50: #f0f3ff;
-    --color-primary-100: #e0e8ff;
-    --color-primary-200: #c0d1ff;
-    --color-primary-300: #9ebbff;
-    --color-primary-400: #78a5fe;
-    --color-primary-500: #458ffe;
-    --color-primary-600: #077aec;
-    --color-primary-700: #0567c8;
-    --color-primary-800: #0353a4;
-    --color-primary-900: #012b5b;
-    --color-primary-950: #00193a;
 
-    --color-accent-blue: #064eaf;
-    --color-accent-red: #ef2b24;
-    --color-accent-yellow: #ffd21e;
-    --color-accent-red-dark: #d6231d;
-    --color-accent-red-darker: #b91d19;
-    --color-accent-yellow-light: #ffe066;
+    --color-primary: oklch(0.4689 0.1776 255.43);
+    --color-primary-50: oklch(0.9687 0.0144 270.62);
+    --color-primary-100: oklch(0.9301 0.0295 269.67);
+    --color-primary-200: oklch(0.8577 0.0578 268.03);
+    --color-primary-300: oklch(0.7849 0.0902 264.89);
+    --color-primary-400: oklch(0.7068 0.1265 260.71);
+    --color-primary-500: oklch(0.6434 0.1772 255.06);
+    --color-primary-600: oklch(0.5693 0.1916 248.81);
+    --color-primary-700: oklch(0.514 0.1727 249.92);
+    --color-primary-800: oklch(0.4689 0.1776 255.43);
+    --color-primary-900: oklch(0.3193 0.1191 258.18);
+    --color-primary-950: oklch(0.2251 0.0801 258.37);
 
-    --color-text-dark: #0a0a0a;
-    --color-text-secondary: #6b7280;
-    --color-border-dark: #111111;
-    /*--color-bg-light: #f8f5ed;*/
-    --color-bg-light: #fafcff;
+    --color-accent-blue: oklch(0.4476 0.1678 258.97);
 
-    /*Green Design Colors*/
-    --color-accent-green: #cce831;
-    --color-dark: #161618;
-    --color-white-smooth: #f3f3f3;
+    --color-accent-red: oklch(0.6349 0.2336 27.81);
+    --color-accent-yellow: oklch(0.8907 0.1789 95.76);
+
+    --color-accent-red-dark: oklch(0.5797 0.2128 27.52);
+    --color-accent-red-darker: oklch(0.5288 0.1935 27.93);
+
+    --color-accent-yellow-light: oklch(0.9248 0.1174 95.41);
+
+    --color-text-dark: oklch(0.1452 0 0);
+    --color-text-secondary: oklch(0.5518 0.0163 257.08);
+
+    --color-border-dark: oklch(0.1732 0 0);
+
+    --color-bg-light: oklch(0.9883 0.0039 247.84);
+
+    /* Green Design Colors */
+    --color-accent-green: oklch(0.8851 0.1926 118.71);
+
+    --color-dark: oklch(0.2211 0.0078 286.34);
+
+    --color-white-smooth: oklch(0.9618 0 0);
 }
 
 #__nuxt {
@@ -70,7 +77,6 @@
 @layer utilities {
     .main-bg {
         background-color: var(--color-bg-light);
-        /*@apply bg-[radial-gradient(circle_at_top_right,#1a2e1a_30%,#0d1a0d_70%)];*/
     }
 
     .bg-gradient {

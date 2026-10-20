@@ -25,6 +25,7 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: { geminiKey: process.env.GEMINI_API_KEY, supabaseUrl: process.env.SUPABASE_URL },
+    secret: { binanceKey: process.env.BINANCE_API, binanceSecret: process.env.BINANCE_SECRET },
   },
 
   experimental: { watcher: "parcel", payloadExtraction: true, inlineRouteRules: true },

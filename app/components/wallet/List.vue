@@ -75,8 +75,6 @@
                 class="overflow-x-auto pb-4 px-2"
                 :class="{ 'overflow-x-hidden': isPages }"
             >
-                <!-- class="grid grid-cols-4 gap-4 max-h-80 pb-4 overflow-x-hidden overflow-y-auto"
-                :class="{ 'max-h-screen': isPages }" -->
                 <div class="flex gap-4 min-w-max pb-4" :class="{ 'grid grid-cols-2': isPages }">
                     <wallet-item :list="list" @selected="handleSelected" />
                     <UButton
@@ -114,8 +112,12 @@ const props = defineProps({
 const walletStore = useWallets();
 const openForm = shallowRef<boolean>(false);
 
+onMounted(() => {
+    walletStore.initialize();
+});
+
 const list = computed(() =>
-    props.isPages ? walletStore.wallets : walletStore.wallets.slice(0, 3),
+    props.isPages ? walletStore.wallets : walletStore.wallets.slice(0, 2),
 );
 
 const selectedWallet = shallowRef<iWallets | null>(null);

@@ -96,7 +96,14 @@
                             base: 'corner-based px-4 py-3  ',
                             content: 'corner-based bg-white-smooth ',
                         }"
-                    />
+                    >
+                        <template #item-label="{ item }">
+                            <div class="flex justify-between">
+                                <span class="text-md font-normal">{{ item.label }}</span>
+                                <span class="text-sm font-bold">{{ item.amount }}</span>
+                            </div>
+                        </template>
+                    </USelect>
                 </UFormField>
 
                 <div
@@ -157,6 +164,7 @@ const walletList = computed(() => {
     return Array.isArray(walletStore.wallets)
         ? walletStore.wallets.map((wallet: iWallets) => ({
               label: useCapitalize(wallet.name),
+              amount: useFormatPriceIntl(wallet.amount),
               value: wallet.id,
           }))
         : [];

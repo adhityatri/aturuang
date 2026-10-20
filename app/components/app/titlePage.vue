@@ -8,11 +8,11 @@ const hasSubtitle = !!slot.subtitle;
 <template>
     <div class="relative z-10 flex flex-col gap-4">
         <div
-            class="flex gap-3"
+            class="flex items-start gap-3"
             :class="{ 'items-center': !hasSubtitle, 'items-start': hasSubtitle }"
         >
             <div
-                class="size-4 mt-2 rounded-md"
+                class="size-3 mt-2 rounded-md"
                 :class="{ 'bg-dark': dark, 'bg-accent-green': !dark }"
             />
 

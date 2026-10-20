@@ -3,5 +3,5 @@ definePageMeta({ name: "journal-trade-page" });
 </script>
 
 <template>
-    <div>Journal Trade</div>
+    <div class="flex flex-1 main-bg">Journal Trade</div>
 </template>
