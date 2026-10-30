@@ -18,7 +18,7 @@
 
         <app-menu-widget />
 
-        <wallet-list class="py-5" :is-loading="walletStore.isFetching" />
+        <wallet-list class="py-5" :is-loading="isLoading" />
 
         <transactions-list
             :source="transactionsSource"
@@ -41,40 +41,38 @@ const { isDesktop } = useDevice();
 
 let realtimeChannel: RealtimeChannel | null = null;
 
-const { status: statusTransactions } = await useAsyncData(
-    "transactions-data",
-    () =>
-        transactionStore
-            .getTransactionsWithCategory({ category_type_filter: "all" })
-            .then((result) => (Array.isArray(result) ? result : []))
-            .catch(() => []),
-    { default: () => [], lazy: true, dedupe: "defer", server: true },
+const transactionsAsync = useLazyAsyncData<Transaction[]>(
+    "transactions:all",
+    () => transactionStore.getTransactionsWithCategory({ category_type_filter: "all" }),
+    { default: () => [], server: false },
 );
 
-await useAsyncData("wallets-data", () => walletStore.getWallets(), {
-    lazy: true,
-    dedupe: "defer",
-    server: true,
+const walletsAsync = useLazyAsyncData<Wallet[]>("wallets", () => walletStore.getWallets(), {
+    default: () => [],
 });
 
-const walletBalance = computed(() =>
-    walletStore.wallets.reduce((acc, wallet) => acc + wallet.amount, 0),
+const { status: statusTransactions } = transactionsAsync;
+const { status: statusWallets } = walletsAsync;
+
+const isLoading = computed(
+    () => statusTransactions.value === "pending" || statusWallets.value === "pending",
 );
 
-const totalIncomes = computed(() => transactionStore.monthlySummary.totalIncomes ?? 0);
-const totalExpenses = computed(() => transactionStore.monthlySummary.totalExpenses ?? 0);
+const walletBalance = computed(() =>
+    (walletStore.wallets ?? []).reduce((acc, wallet) => acc + Number(wallet.amount ?? 0), 0),
+);
 
-const firstBudget = computed(() => budgetStore.budgets?.[0]);
+const totalIncomes = computed(() => transactionStore.monthlySummary?.totalIncomes ?? 0);
+const totalExpenses = computed(() => transactionStore.monthlySummary?.totalExpenses ?? 0);
+
+const firstBudget = computed(() => budgetStore.budgets?.[0] ?? null);
 const budgetAmount = computed(() => firstBudget.value?.amount ?? 0);
 const budgetResetDate = computed(() => firstBudget.value?.monthly_start ?? "1");
 
-const transactionsSource = computed(() =>
-    transactionStore.todayTransactions.length > 0
-        ? transactionStore.todayTransactions
-        : transactionStore.recentTransactions,
-);
-
-const isLoading = computed(() => statusTransactions.value !== "success");
+const transactionsSource = computed(() => {
+    const today = transactionStore.todayTransactions ?? [];
+    return today.length > 0 ? today : (transactionStore.recentTransactions ?? []);
+});
 
 const handleSubmitBudget = async (payload: { amount: number }) => {
     const response = await budgetStore.update(payload);

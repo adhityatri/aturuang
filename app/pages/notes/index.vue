@@ -1,17 +1,52 @@
 <template>
     <div class="flex flex-1 flex-col relative main-bg overflow-hidden">
-        <div class="p-6 sticky top-0 main-bg">
+        <div class="p-6 main-bg">
             <app-title-page dark>
-                Catatan Kita
-                <template #subtitle>
-                    <span class="text-md">{{ todos.length }} tugas tercatat</span>
-                </template>
+                <p class="font-bold">Notes & Plan</p>
+                <template #subtitle> Catat hari ini, rencanakan esok </template>
             </app-title-page>
         </div>
 
-        <todo-tabs v-model="activeTab" :tabs="tabs" :counts="tabCounts" />
+        <div class="p-6 grid grid-cols-2 gap-2">
+            <button
+                class="all:unset active:bg-accent-green/80 active:scale-99 transition-all rounded-xl corner-based w-full flex flex-col justify-end items-start p-4 bg-accent-green border-r-4"
+                :class="
+                activeTab == 'all' ?  'border-gray-500' : 'border-t-0 border-transparent'
+"
+                @click="setActiveTabs('all')"
+            >
+                <UIcon name="solar:copy-check-line-duotone" class="mb-3 text-[2.5rem]" />
 
-        <div class="flex h-[80dvh] overflow-y-auto pb-60">
+                <p class="font-medium text-sm">Total Catatan</p>
+                <h2 class="text-3xl">{{ todos.length }}</h2>
+            </BUtton>
+            <div class="grid grid-col-2 gap-2">
+                <button
+                    class="all:unset active:bg-gray-100 active:scale-99 transition-all rounded-xl corner-based w-full h-full flex flex-col justify-end items-start p-4 shadow-xl shadow-base-color ring-1 ring-dark/6 border-r-4"
+                    :class="
+                    activeTab == 'progress' ?  'border-accent-green' : 'border-t-0 border-transparent'
+    "
+                    @click="setActiveTabs('progress')"
+                >
+                    <p class="font-medium text-sm">Sedang Berjalan</p>
+                    <h2 class="text-3xl">{{ tabCounts.progress }}</h2>
+                </button>
+                <button
+                    class="all:unset active:bg-gray-100 active:scale-99 transition-all rounded-xl corner-based w-full h-full flex flex-col justify-end items-start p-4 shadow-xl shadow-base-color ring-1 ring-dark/6 border-r-4"
+                    :class="
+                    activeTab == 'monthly' ?  'border-accent-green' : 'border-t-0 border-transparent'
+    "
+                    @click="setActiveTabs('monthly')"
+                    >
+                    <p class="font-medium text-sm">Bulanan</p>
+                    <h2 class="text-3xl">{{ tabCounts.monthly }}</h2>
+                </button>
+            </div>
+        </div>
+
+        <!-- Todos -->
+        <!-- <todo-tabs v-model="activeTab" :tabs="tabs" :counts="tabCounts" /> -->
+        <div class="flex flex-1 overflow-y-auto pb-22">
             <todo-list
                 ref="scrollComponent"
                 :todos="filteredTodos"
@@ -19,13 +54,12 @@
                 :empty-icon="emptyIcon"
                 :empty-title="emptyTitle"
                 :empty-desc="emptyDesc"
-                class="rounded-b-4xl corner-squircle shadow-sm shadow-base-color"
                 @toggle="toggleTodo"
                 @remove="removeTodo"
             />
         </div>
 
-        <div
+         <!-- <div
             class="fixed bg-white bottom-[100px] left-6 right-6 rounded-4xl corner-squircle p-4 shadow-xl shadow-base-color ring-1 ring-dark/6 flex flex-col gap-4"
         >
             <UInput
@@ -55,7 +89,7 @@
                     label="Simpan"
                 />
             </div>
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -107,6 +141,10 @@ const emptyDesc = computed(() => {
     if (activeTab.value === "progress") return "Semua tugasmu sudah selesai!";
     return "Tulis todo baru di atas untuk memulai";
 });
+
+const setActiveTabs = (value: any) => {
+    activeTab.value = value;
+};
 
 const addTodo = async () => {
     const text = newTodo.value.trim();

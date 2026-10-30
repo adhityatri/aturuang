@@ -60,6 +60,7 @@ export default defineNuxtConfig({
 
   vite: {
     cacheDir: ".vite-cache",
+    optimizeDeps: { include: ["vue3-apexcharts", "valibot"] },
     build: {
       sourcemap: false,
       chunkSizeWarningLimit: 1200,
