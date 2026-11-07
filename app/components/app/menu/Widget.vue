@@ -1,9 +1,9 @@
 <script setup lang="ts">
 const items = [
     // { name: "journal-trade-page", icon: "solar:notebook-outline", label: "Journal" },
-    { name: "transactions-page", icon: "solar:history-linear", label: "History" },
+    { name: "transactions-page", icon: "solar:history-linear", label: "Riwayat" },
     { name: "improve-page", icon: "solar:chat-round-dots-linear", label: "Feedback" },
-    { name: "note-page", icon: "solar:checklist-minimalistic-linear", label: "Notes" },
+    { name: "note-page", icon: "solar:checklist-minimalistic-linear", label: "Catatan" },
 ];
 </script>
 

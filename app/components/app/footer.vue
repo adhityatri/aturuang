@@ -25,11 +25,11 @@
 
 <script setup lang="ts">
 const navigation = [
-    { name: "Home", icon: "solar:home-2-linear", href: "/" },
-    { name: "Activity", icon: "solar:wallet-money-linear", href: "/activity" },
+    { name: "Beranda", icon: "solar:home-2-linear", href: "/" },
+    { name: "Aktivitas", icon: "solar:wallet-money-linear", href: "/activity" },
     // { name: "Insight", icon: "solar:command-bold-duotone", href: "/insight" },
     // { name: "Todo", icon: "solar:checklist-minimalistic-linear", href: "/todo" },
-    { name: "Profile", icon: "solar:user-linear", href: "/profile" },
+    { name: "Profil", icon: "solar:user-linear", href: "/profile" },
 ];
 
 const router = useRouter();

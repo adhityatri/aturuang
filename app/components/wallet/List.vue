@@ -11,7 +11,19 @@
             </div>
         </template>
         <template v-else>
-            <app-title-page dark>Kantong</app-title-page>
+            <div class="flex justify-between">
+                <app-title-page dark>Kantong</app-title-page>
+                <nuxt-link class="flex text-sm text-dark" @click="handleWallet()">
+                    Lihat Semua
+                </nuxt-link>
+                <!-- <UButton
+                    v-if="!isPages"
+                    variant="link"
+                    class="text-dark text-sm flex flex-col items-center justify-center"
+                    label="Lihat Semua"
+                    @click="handleWallet()"
+                /> -->
+            </div>
             <div
                 v-if="isPages"
                 class="flex justify-between items-center mb-4"
@@ -77,14 +89,14 @@
             >
                 <div class="flex gap-4 min-w-max pb-4" :class="{ 'grid grid-cols-2': isPages }">
                     <wallet-item :list="list" @selected="handleSelected" />
-                    <UButton
+                    <!-- <UButton
                         v-if="!isPages"
                         class="shadow-2xl shadow-base-color bg-accent-green text-dark text-sm px-4 py-3 corner-based flex flex-col items-center justify-center hover:bg-accent-green/90 transition-colors active:bg-accent-green/70"
                         leading-icon="i-icon-park-solid:more-app"
                         @click="handleWallet()"
                     >
                         Lihat Semua
-                    </UButton>
+                    </UButton> -->
                 </div>
             </div>
             <div v-else class="bg-white rounded-xl corner-squircle py-12">
@@ -117,7 +129,7 @@ onMounted(() => {
 });
 
 const list = computed(() =>
-    props.isPages ? walletStore.wallets : walletStore.wallets.slice(0, 2),
+    props.isPages ? walletStore.wallets : walletStore.wallets.slice(0, 3),
 );
 
 const selectedWallet = shallowRef<iWallets | null>(null);
