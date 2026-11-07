@@ -9,13 +9,8 @@
                 </app-title-page>
             </div>
 
-            <nuxt-link
-                v-if="!isAll"
-                to="/activity"
-                class="flex size-12 shadow-xl shadow-base-color items-center justify-center corner-based bg-accent-green text-dark transition hover:bg-accent-green/90 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
-                aria-label="Lihat semua transaksi"
-            >
-                <UIcon name="material-symbols-light:grid-view-rounded" class="text-2xl" />
+            <nuxt-link v-if="!isAll" to="/activity" class="flex text-sm text-dark">
+                Lihat Semua
             </nuxt-link>
         </div>
 

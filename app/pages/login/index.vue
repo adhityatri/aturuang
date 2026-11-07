@@ -40,9 +40,7 @@
                             size="xl"
                             type="email"
                             class="w-full"
-                            :ui="{
-                                base: 'corner-squircle rounded-4xl bg-white px-4 py-4 text-[14px] text-dark',
-                            }"
+                            :ui="{ base: 'bg-white text-[14px] text-dark' }"
                         />
                     </UFormField>
 
@@ -55,9 +53,7 @@
                             size="xl"
                             :type="viewPassword ? 'text' : 'password'"
                             class="w-full"
-                            :ui="{
-                                base: 'corner-squircle rounded-4xl bg-white  px-4 py-4 pr-12 text-[14px] text-dark',
-                            }"
+                            :ui="{ base: 'bg-white pr-12 text-[14px] text-dark' }"
                         >
                             <template #trailing>
                                 <UButton
@@ -91,14 +87,14 @@
                         Masuk
                     </UButton>
 
-                    <USeparator
+                    <!-- <USeparator
                         orientation="horizontal"
                         class="my-5 *:font-bold *:text-dark"
                         :ui="{ border: 'border-dark/70' }"
                         label="Atau"
-                    />
+                    /> -->
 
-                    <UButton
+                    <!-- <UButton
                         block
                         icon="streamline-logos:google-logo-solid"
                         variant="soft"
@@ -108,7 +104,7 @@
                         @click="onGoogleLogin"
                     >
                         Masuk dengan Google
-                    </UButton>
+                    </UButton> -->
                 </div>
             </UForm>
         </section>

@@ -6,3 +6,5 @@ export interface iTodo {
   created_at: string;
   is_monthly: boolean;
 }
+
+export type todoType = "todo" | "plan";
