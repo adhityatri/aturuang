@@ -1,6 +1,6 @@
 <template>
     <div v-for="(item, index) in transactionStore.groupedTransactions" :key="index">
-        <small class="uppercase text-neutral-400">
+        <small class="uppercase text-xs text-neutral-400">
             {{ item.title }}
         </small>
 
@@ -8,7 +8,9 @@
             <div
                 class="flex items-center gap-3 pt-3 pb-6 cursor-pointer hover:bg-neutral-50 transition-colors"
             >
-                <div class="flex items-center justify-center h-12 w-14 corner-based bg-dark">
+                <div
+                    class="flex items-center justify-center h-12 w-14 corner-based bg-white shadow-xl shadow-base-color ring-2 ring-dark/2"
+                >
                     <UIcon
                         :name="
                             data?.category_type === 'expenses'
@@ -28,7 +30,7 @@
                         <h3 class="capitalize font-bold text-dark text-sm tracking-wide">
                             {{ data?.notes || data?.categories?.name || data?.category_name }}
                         </h3>
-                        <small class="text-dark text-[12px] tracking-widest mt-0.5">
+                        <small class="text-dark text-xs tracking-widest mt-0.5">
                             {{
                                 useDateFormat(data?.created_at, "DD MMM YYYY | HH:mm", {
                                     locales: "id-ID",

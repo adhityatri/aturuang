@@ -79,7 +79,6 @@
                     :budget="budget"
                     :reset-date="resetDate"
                     :expenses="expenses"
-                    @submit="$emit('submit-budget', $event)"
                 />
             </div>
         </div>

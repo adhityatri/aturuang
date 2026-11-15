@@ -46,6 +46,13 @@ definePageMeta({
 });
 
 const transactionsStore = useTransactionsStore();
+
+// Pastikan data periode berjalan tersedia sebelum menyusun insight
+await useAsyncData("insight:current-month", () => transactionsStore.getTransactionsCurrentMonth(), {
+  default: () => [],
+  server: false,
+});
+
 const isNotEmpty = computed(
   () => transactionsStore.monthlySummary?.filteredData?.length !== 0
 );

@@ -23,10 +23,7 @@ export const useBudgets = defineStore("budgets-store", () => {
   };
 
   const insertBudget = async (budget: iBudgetCreate) => {
-    const { data, error } = await supabase
-      .from("budgets")
-      .insert([budget])
-      .select();
+    const { data, error } = await supabase.from("budgets").insert([budget]).select();
 
     if (error) {
       throw error;
@@ -41,10 +38,7 @@ export const useBudgets = defineStore("budgets-store", () => {
       return;
     }
 
-    const dataPayload = {
-      monthly_start: payload.reset_date,
-      amount: payload.amount,
-    };
+    const dataPayload = { monthly_start: payload.reset_date, amount: payload.amount };
 
     const { data, error } = await supabase
       .from("budgets")
@@ -61,16 +55,16 @@ export const useBudgets = defineStore("budgets-store", () => {
       throw error;
     }
 
-    useToast().add({
-      title: "Success",
-      description: "Budget berhasil diupdate",
-      color: "success",
-    });
+    useToast().add({ title: "Success", description: "Budget berhasil diupdate", color: "success" });
     await getBudgetsByUserId();
     return { data, error };
   };
 
   const isBudgetOpen = shallowRef<boolean>(false);
+
+  const firstBudget = computed(() => budgets?.value?.[0] ?? null);
+  const budgetAmount = computed(() => firstBudget.value?.amount ?? 0);
+  const budgetResetDate = computed(() => firstBudget.value?.monthly_start ?? "1");
 
   return {
     budgets,
@@ -78,5 +72,7 @@ export const useBudgets = defineStore("budgets-store", () => {
     getBudgetsByUserId,
     insertBudget,
     update,
+    budgetAmount,
+    budgetResetDate,
   };
 });

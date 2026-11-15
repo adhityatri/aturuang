@@ -8,10 +8,10 @@
         <summary-card
             :is-loading="walletStore.isFetching"
             :current-balance="walletBalance"
-            :income="totalIncomes"
-            :expenses="totalExpenses"
-            :reset-date="budgetResetDate"
-            :budget="budgetAmount"
+            :income="transactionStore?.totalIncomes"
+            :expenses="transactionStore?.totalExpenses"
+            :reset-date="budgetStore?.budgetResetDate"
+            :budget="budgetStore?.budgetAmount"
             class="mb-10"
             @submit-budget="handleSubmitBudget"
         />
@@ -51,6 +51,20 @@ const walletsAsync = useLazyAsyncData<Wallet[]>("wallets", () => walletStore.get
     default: () => [],
 });
 
+// Sumber data monthlySummary (total income/expenses periode berjalan)
+// + periode sebelumnya untuk perbandingan "Bulan lalu"
+useLazyAsyncData(
+    "transactions:current-month",
+    async () => {
+        await Promise.all([
+            transactionStore.getTransactionsCurrentMonth(),
+            transactionStore.getPreviousMonthTransactions(),
+        ]);
+        return true;
+    },
+    { server: false },
+);
+
 const { status: statusTransactions } = transactionsAsync;
 const { status: statusWallets } = walletsAsync;
 
@@ -62,12 +76,12 @@ const walletBalance = computed(() =>
     (walletStore.wallets ?? []).reduce((acc, wallet) => acc + Number(wallet.amount ?? 0), 0),
 );
 
-const totalIncomes = computed(() => transactionStore.monthlySummary?.totalIncomes ?? 0);
-const totalExpenses = computed(() => transactionStore.monthlySummary?.totalExpenses ?? 0);
+// const totalIncomes = computed(() => transactionStore.monthlySummary?.totalIncomes ?? 0);
+// const totalExpenses = computed(() => transactionStore.monthlySummary?.totalExpenses ?? 0);
 
-const firstBudget = computed(() => budgetStore.budgets?.[0] ?? null);
-const budgetAmount = computed(() => firstBudget.value?.amount ?? 0);
-const budgetResetDate = computed(() => firstBudget.value?.monthly_start ?? "1");
+// const firstBudget = computed(() => budgetStore.budgets?.[0] ?? null);
+// const budgetAmount = computed(() => firstBudget.value?.amount ?? 0);
+// const budgetResetDate = computed(() => firstBudget.value?.monthly_start ?? "1");
 
 const transactionsSource = computed(() => {
     const today = transactionStore.todayTransactions ?? [];
@@ -86,9 +100,11 @@ onMounted(() => {
 
     realtimeChannel = supabaseClient
         .channel("public:transactions")
-        .on("postgres_changes", { event: "*", schema: "public", table: "transactions" }, () =>
-            transactionStore.getTransactionsWithCategory({ category_type_filter: "all" }),
-        )
+        .on("postgres_changes", { event: "*", schema: "public", table: "transactions" }, () => {
+            transactionStore.getTransactionsWithCategory({ category_type_filter: "all" });
+            transactionStore.getTransactionsCurrentMonth();
+            transactionStore.getPreviousMonthTransactions();
+        })
         .subscribe();
 
     walletStore.initialize();
