@@ -44,12 +44,6 @@
                 <transactions-item-list />
             </div>
         </div>
-
-        <!-- Transaction Summary Charts -->
-        <!-- <activity-transaction-summary-charts
-            :category-data="categorySummary"
-            :monthly-data="monthlySummary"
-        /> -->
     </div>
 </template>
 
