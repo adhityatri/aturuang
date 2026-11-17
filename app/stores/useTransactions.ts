@@ -1,8 +1,4 @@
-import type {
-  aiReceiptResponse,
-  iSumTransactionByMonth,
-  iTransaction,
-} from "~/types/transactions";
+import type { aiReceiptResponse, iSumTransactionByMonth, iTransaction } from "~/types/transactions";
 
 // Kategori pemindahan dana antar dompet (lihat app/components/wallet/Move.vue).
 // Tidak boleh dihitung sebagai pemasukan/pengeluaran.
@@ -37,18 +33,12 @@ const useTransactionsStore = defineStore("transactions-store", () => {
   // Base totals
   const income = computed(() => {
     const data = filterByType("income");
-    return {
-      transactions: data,
-      total: data.reduce((s, t) => s + (t.amount || 0), 0),
-    };
+    return { transactions: data, total: data.reduce((s, t) => s + (t.amount || 0), 0) };
   });
 
   const expenses = computed(() => {
     const data = filterByType("expenses");
-    return {
-      transactions: data,
-      total: data.reduce((s, t) => s + (t.amount || 0), 0),
-    };
+    return { transactions: data, total: data.reduce((s, t) => s + (t.amount || 0), 0) };
   });
 
   const balance = computed(() => income.value.total - expenses.value.total);
@@ -58,8 +48,7 @@ const useTransactionsStore = defineStore("transactions-store", () => {
     if (!raw) return 1;
 
     const asNumber = Number(raw);
-    if (Number.isInteger(asNumber) && asNumber >= 1 && asNumber <= 31)
-      return asNumber;
+    if (Number.isInteger(asNumber) && asNumber >= 1 && asNumber <= 31) return asNumber;
 
     const asDate = new Date(raw);
     return isNaN(asDate.getTime()) ? 1 : asDate.getDate();
@@ -75,15 +64,7 @@ const useTransactionsStore = defineStore("transactions-store", () => {
       const now = new Date();
       return {
         start: new Date(now.getFullYear(), now.getMonth(), 1),
-        end: new Date(
-          now.getFullYear(),
-          now.getMonth() + 1,
-          0,
-          23,
-          59,
-          59,
-          999,
-        ),
+        end: new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999),
       };
     }
 
@@ -94,11 +75,7 @@ const useTransactionsStore = defineStore("transactions-store", () => {
   // (mis. 31 Mar digeser ke Februari jadi 28/29 Feb, bukan 3 Mar).
   const shiftMonthClamped = (date: Date, delta: number) => {
     const target = new Date(date.getFullYear(), date.getMonth() + delta, 1);
-    const daysInTarget = new Date(
-      target.getFullYear(),
-      target.getMonth() + 1,
-      0,
-    ).getDate();
+    const daysInTarget = new Date(target.getFullYear(), target.getMonth() + 1, 0).getDate();
 
     return new Date(
       target.getFullYear(),
@@ -115,10 +92,7 @@ const useTransactionsStore = defineStore("transactions-store", () => {
   const previousPeriod = computed(() => {
     const { start } = currentPeriod.value;
 
-    return {
-      start: shiftMonthClamped(start, -1),
-      end: new Date(start.getTime() - 1),
-    };
+    return { start: shiftMonthClamped(start, -1), end: new Date(start.getTime() - 1) };
   });
 
   // Monthly breakdown
@@ -180,21 +154,13 @@ const useTransactionsStore = defineStore("transactions-store", () => {
       .sort((a, b) => {
         if (a.title === "today") return -1;
         if (b.title === "today") return 1;
-        const timeA =
-          a.title === "yesterday"
-            ? Date.now() - 86400000
-            : new Date(a.title).getTime();
-        const timeB =
-          b.title === "yesterday"
-            ? Date.now() - 86400000
-            : new Date(b.title).getTime();
+        const timeA = a.title === "yesterday" ? Date.now() - 86400000 : new Date(a.title).getTime();
+        const timeB = b.title === "yesterday" ? Date.now() - 86400000 : new Date(b.title).getTime();
         return timeB - timeA;
       });
   };
 
-  const groupedTransactions = computed(() =>
-    groupTransactionsByDate(transactionsList.value),
-  );
+  const groupedTransactions = computed(() => groupTransactionsByDate(transactionsList.value));
 
   // Data periode sebelumnya (sumber untuk perbandingan bulan lalu)
   const lastMonthTransactions = computed(() =>
@@ -231,8 +197,7 @@ const useTransactionsStore = defineStore("transactions-store", () => {
       if (error) throw error;
 
       const transactions = (data?.data || []).sort(
-        (a: any, b: any) =>
-          new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+        (a: any, b: any) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
       );
 
       transactionsList.value = transactions;
@@ -256,9 +221,7 @@ const useTransactionsStore = defineStore("transactions-store", () => {
 
   const get_transactions_by_month = async () => {
     if (!user.value) return;
-    const { data, error } = await supabaseClient.rpc(
-      "monthly_transaction_sums_all",
-    );
+    const { data, error } = await supabaseClient.rpc("monthly_transaction_sums_all");
     if (!error) {
       transactionByMonth.value = (data || []).map((m: any) => ({
         ...m,
@@ -283,10 +246,7 @@ const useTransactionsStore = defineStore("transactions-store", () => {
         .select("type")
         .eq("id", tx.category_id)
         .single();
-      const { error: delErr } = await supabaseClient
-        .from("transactions")
-        .delete()
-        .eq("id", id);
+      const { error: delErr } = await supabaseClient.from("transactions").delete().eq("id", id);
       if (delErr) throw delErr;
 
       if (tx.wallet_id) {
@@ -303,9 +263,7 @@ const useTransactionsStore = defineStore("transactions-store", () => {
             .eq("id", tx.wallet_id);
         }
       }
-      transactionsList.value = transactionsList.value.filter(
-        (t) => String(t.id) !== String(id),
-      );
+      transactionsList.value = transactionsList.value.filter((t) => String(t.id) !== String(id));
       summaryTransactions.value = summaryTransactions.value.filter(
         (t) => String(t.id) !== String(id),
       );
@@ -315,10 +273,7 @@ const useTransactionsStore = defineStore("transactions-store", () => {
     }
   };
 
-  const fetchTransactionsByPeriod = async (period: {
-    start: Date;
-    end: Date;
-  }) => {
+  const fetchTransactionsByPeriod = async (period: { start: Date; end: Date }) => {
     const { data, error } = await supabaseClient
       .from("transactions")
       .select("*, categories(name, type, icon)")
@@ -343,18 +298,14 @@ const useTransactionsStore = defineStore("transactions-store", () => {
   const getTransactionsCurrentMonth = async () => {
     if (!user.value) return [];
 
-    currentMonthData.value = await fetchTransactionsByPeriod(
-      currentPeriod.value,
-    );
+    currentMonthData.value = await fetchTransactionsByPeriod(currentPeriod.value);
     return currentMonthData.value;
   };
 
   const getPreviousMonthTransactions = async () => {
     if (!user.value) return [];
 
-    previousMonthData.value = await fetchTransactionsByPeriod(
-      previousPeriod.value,
-    );
+    previousMonthData.value = await fetchTransactionsByPeriod(previousPeriod.value);
     return previousMonthData.value;
   };
 
@@ -369,30 +320,19 @@ const useTransactionsStore = defineStore("transactions-store", () => {
     }
 
     try {
-      const { data, error } = await supabaseClient.rpc(
-        "insert_transaction_and_update_wallet",
-        {
-          p_user_id: user.value.id,
-          p_wallet_id: transactionData.wallet_id,
-          p_category_id: transactionData.category_id,
-          p_amount: transactionData.amount,
-          p_notes: transactionData.notes || null,
-        },
-      );
+      const { data, error } = await supabaseClient.rpc("insert_transaction_and_update_wallet", {
+        p_user_id: user.value.id,
+        p_wallet_id: transactionData.wallet_id,
+        p_category_id: transactionData.category_id,
+        p_amount: transactionData.amount,
+        p_notes: transactionData.notes || null,
+      });
 
       if (error) throw error;
 
-      return {
-        success: true,
-        transactionId: data,
-        message: "Transaction added successfully",
-      };
+      return { success: true, transactionId: data, message: "Transaction added successfully" };
     } catch (err: any) {
-      return {
-        success: false,
-        error: err.message,
-        message: "Failed to add transaction",
-      };
+      return { success: false, error: err.message, message: "Failed to add transaction" };
     }
   };
 
@@ -400,10 +340,9 @@ const useTransactionsStore = defineStore("transactions-store", () => {
     if (!user.value) return;
 
     try {
-      const { data, error } = await supabaseClient.rpc(
-        "get_transactions_by_id",
-        { p_transactions_id: id },
-      );
+      const { data, error } = await supabaseClient.rpc("get_transactions_by_id", {
+        p_transactions_id: id,
+      });
 
       if (error) {
         console.error("Error fetching transactions with categories:", error);
@@ -418,9 +357,30 @@ const useTransactionsStore = defineStore("transactions-store", () => {
   };
 
   const filterTransactionsByType = (type: "income" | "expenses" | "all") => {
-    return transactionsList.value.filter(
-      (item) => item?.category_type === type,
-    );
+    return transactionsList.value.filter((item) => item?.category_type === type);
+  };
+
+  const getTransactionsByWalletId = async (walletId: string) => {
+    if (!user.value) return;
+
+    try {
+      const { data, error } = await supabaseClient
+        .from("transactions")
+        .select("*, categories(type)")
+        .eq("wallet_id", walletId)
+        .order("created_at", { ascending: false });
+
+      if (error) throw error;
+      const result = groupTransactionsByDate(data || []);
+      walletTransactions.value = result || [];
+      return result;
+    } catch (err: any) {
+      return {
+        success: false,
+        error: err.message,
+        message: "Failed to get transactions by wallet id",
+      };
+    }
   };
 
   return {
@@ -453,6 +413,7 @@ const useTransactionsStore = defineStore("transactions-store", () => {
     getPreviousMonthTransactions,
     addTransactions,
     getTransactionsWithCategoryById,
+    getTransactionsByWalletId,
     filterTransactionsByType,
     currentMonthData,
     previousMonthData,
