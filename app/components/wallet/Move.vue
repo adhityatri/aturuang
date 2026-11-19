@@ -8,9 +8,9 @@
         <!-- Trigger -->
         <UButton
             :ui="{
-                base: `h-20 w-25 place-content-center bg-transparent text-dark ring-1 ring-dark/40 rounded-[3rem] corner-squircle flex flex-col active:translate-x-[2px]
-            active:translate-y-[2px]
-            active:shadow-none active:bg-dark/5`,
+                base: `shadow-xl shadow-base-color h-15 place-content-center bg-transparent text-dark  rounded-4xl corner-squircle flex active:translate-x-[2px]
+                active:translate-y-[2px]
+                active:shadow-none active:bg-dark/5`,
             }"
             @click="handleClick"
         >

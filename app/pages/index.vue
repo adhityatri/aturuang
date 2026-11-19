@@ -18,7 +18,7 @@
 
         <app-menu-widget />
 
-        <wallet-list class="py-5" :is-loading="isLoading" />
+        <!-- <wallet-list class="py-5" :is-loading="isLoading" /> -->
 
         <transactions-list
             :source="transactionsSource"

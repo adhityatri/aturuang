@@ -4,20 +4,6 @@
             <app-title-page dark>
                 <p class="font-bold">Catatan</p>
                 <template #subtitle> Catat hari ini, rencanakan esok </template>
-                <template #extra>
-                    <UButton
-                        :ui="{
-                            base: 'rounded-4xl corner-squircle shadow-xl shadow-base-color bg-accent-green text-dark text-sm p-2 active:bg-accent-green/50',
-                        }"
-                        leading-icon="solar:add-square-bold"
-                        @click="openCreate = true"
-                    />
-                    <notes-create
-                        v-model:open="openCreate"
-                        :is-adding="isAdding"
-                        @submit="addTodo"
-                    />
-                </template>
             </app-title-page>
         </div>
 
@@ -76,6 +62,15 @@
                 @remove="removeTodo"
             />
         </div>
+
+        <UButton
+            class="fixed bottom-24 right-6 z-50 p-4 rounded-4xl corner-squircle shadow-xl bg-accent-green text-dark hover:scale-105 active:bg-accent-green/70 active:translate-y-0.5 active:translate-x-0.5 active:shadow-none transition-all"
+            icon="solar:add-square-bold"
+            aria-label="Tambah catatan"
+            @click="openCreate = true"
+        />
+
+        <notes-create v-model:open="openCreate" :is-adding="isAdding" @submit="addTodo" />
     </div>
 </template>
 

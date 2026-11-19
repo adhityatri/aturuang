@@ -10,7 +10,7 @@ defineProps<{
     emptyDesc: string;
 }>();
 
-defineEmits<{ pay: [debt: iDebt]; remove: [debt: iDebt] }>();
+const emit = defineEmits<{ pay: [debt: iDebt]; remove: [debt: iDebt] }>();
 
 const formatDate = (dateStr: string) => {
     return useDateFormat(dateStr, "DD MMM YYYY", { locales: "id-ID" });
@@ -62,39 +62,31 @@ const progress = (debt: iDebt) => {
                 :class="debt.status === 'paid' ? 'opacity-60' : ''"
             >
                 <div class="flex items-start gap-3">
-                    <div
-                        class="flex size-10 shrink-0 items-center justify-center corner-based"
-                        :class="
-                            debt.type === 'debt'
-                                ? 'bg-accent-red/15 text-accent-red'
-                                : 'bg-accent-green text-dark'
-                        "
-                    >
-                        <UIcon
-                            :name="
-                                debt.type === 'debt'
-                                    ? 'solar:arrow-left-down-linear'
-                                    : 'solar:arrow-right-up-linear'
-                            "
-                            class="text-lg"
-                        />
-                    </div>
-
                     <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="truncate text-sm font-bold text-dark">
-                                {{ debt.counterparty }}
-                            </p>
-                            <UBadge
+                        <UBadge
+                            size="sm"
+                            variant="soft"
+                            class="mb-1"
+                            :ui="{ base: 'px-2 rounded-xl corner-squircle' }"
+                            :color="debt.type === 'debt' ? 'error' : 'success'"
+                        >
+                            {{ debtTypeLabel[debt.type] }}
+                        </UBadge>
+                        <!-- <div class="flex items-center gap-2"> -->
+                        <p class="truncate text-sm font-bold text-dark">
+                            {{ debt.counterparty }}
+                        </p>
+                        <!-- <UBadge
                                 size="sm"
                                 variant="subtle"
                                 :color="debt.type === 'debt' ? 'error' : 'success'"
                             >
                                 {{ debtTypeLabel[debt.type] }}
-                            </UBadge>
-                        </div>
+                            </UBadge> -->
+                        <!-- </div> -->
                         <p class="mt-0.5 text-[10px] font-medium text-neutral-400">
-                            {{ debtStatusLabel[debt.status] }} • {{ formatDate(debt.created_at) }}
+                            {{ debtStatusLabel[debt.status] }} •
+                            {{ formatDate(debt.created_at) }}
                         </p>
                         <p v-if="debt.note" class="mt-1 truncate text-[11px] text-neutral-500">
                             {{ debt.note }}

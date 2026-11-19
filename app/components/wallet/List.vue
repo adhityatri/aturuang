@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full flex flex-col gap-4 mb-4 overflow-hidden">
+    <div class="flex flex-col mb-4 overflow-hidden">
         <template v-if="isLoading">
             <div class="flex justify-between items-center">
                 <USkeleton class="h-4 w-37.5 bg-neutral-300 corner-based" />
@@ -11,36 +11,14 @@
             </div>
         </template>
         <template v-else>
-            <div class="flex justify-between">
+            <div v-if="!isPages" class="flex justify-between">
                 <app-title-page dark>Kantong</app-title-page>
                 <nuxt-link class="flex text-sm text-dark" @click="handleWallet()">
                     Lihat Semua
                 </nuxt-link>
-                <!-- <UButton
-                    v-if="!isPages"
-                    variant="link"
-                    class="text-dark text-sm flex flex-col items-center justify-center"
-                    label="Lihat Semua"
-                    @click="handleWallet()"
-                /> -->
             </div>
-            <div
-                v-if="isPages"
-                class="flex justify-between items-center mb-4"
-                :class="{ 'mb-0': isPages }"
-            >
+            <div v-if="isPages">
                 <USlideover v-model:open="openForm" :dismissible="true" side="bottom">
-                    <UButton
-                        v-if="isPages"
-                        icon="solar:add-square-linear"
-                        aria-label="Tambah kantong"
-                        :ui="{
-                            base: 'flex flex-1 size-14 items-center justify-center corner-based  bg-accent-green p-0 text-dark shadow-xl shadow-base-color transition hover:bg-yellow-300 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none',
-                        }"
-                    >
-                        <span>Tambah Kantong</span>
-                    </UButton>
-
                     <template #header>
                         <div class="flex flex-1 items-start justify-between">
                             <div>
@@ -67,9 +45,6 @@
                     </template>
 
                     <template #body>
-                        <!-- <div
-                            class="relative overflow-hidden corner-based bg-white p-4 shadow-xl shadow-base-color"
-                        > -->
                         <div class="relative z-1">
                             <wallet-form
                                 :name="selectedWallet?.name"
@@ -78,25 +53,29 @@
                                 @submit="handleSubmit"
                             />
                         </div>
-                        <!-- </div> -->
                     </template>
                 </USlideover>
+
+                <!-- Floating Button -->
+                <UButton
+                    class="fixed bottom-24 right-6 z-50 p-4 rounded-4xl corner-squircle shadow-xl bg-accent-green text-dark hover:scale-105 transition-transform"
+                    icon="solar:add-square-linear"
+                    aria-label="Tambah kantong"
+                    @click="openForm = true"
+                />
             </div>
+
+            <!-- list -->
             <div
                 v-if="list.length > 0"
-                class="overflow-x-auto pb-4 px-2"
+                class="overflow-x-auto pb-4 px-1"
                 :class="{ 'overflow-x-hidden': isPages }"
             >
-                <div class="flex gap-4 min-w-max pb-4" :class="{ 'grid grid-cols-2': isPages }">
+                <div
+                    class="gap-4 pb-12"
+                    :class="{ 'grid grid-cols-2': isPages, 'flex min-w-max': !isPages }"
+                >
                     <wallet-item :list="list" @selected="handleSelected" />
-                    <!-- <UButton
-                        v-if="!isPages"
-                        class="shadow-2xl shadow-base-color bg-accent-green text-dark text-sm px-4 py-3 corner-based flex flex-col items-center justify-center hover:bg-accent-green/90 transition-colors active:bg-accent-green/70"
-                        leading-icon="i-icon-park-solid:more-app"
-                        @click="handleWallet()"
-                    >
-                        Lihat Semua
-                    </UButton> -->
                 </div>
             </div>
             <div v-else class="bg-white rounded-xl corner-squircle py-12">

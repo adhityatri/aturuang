@@ -7,14 +7,13 @@
                 @close="handleCreate(false)"
             />
         </UContainer>
-        <button
+
+        <UButton
             v-if="canCreate"
-            class="fixed flex flex-col items-center justify-center corner-based size-16 bottom-24 right-5 bg-accent-green text-dark hover:bg-accent-green/90 active:translate-y-1 active:translate-x-1 active:shadow-none transition-all z-50"
+            class="fixed bottom-24 right-6 z-50 p-4 rounded-4xl corner-squircle shadow-xl bg-accent-green text-dark hover:scale-105 active:bg-accent-green/70 active:translate-y-0.5 active:translate-x-0.5 active:shadow-none transition-all"
+            icon="solar:add-square-bold"
             @click="handleCreate(true)"
-        >
-            <UIcon name="solar:add-square-bold" class="size-6 mb-0.5" />
-            <span class="text-[10px] font-black uppercase tracking-wide leading-none"> Baru </span>
-        </button>
+        />
         <app-footer v-if="!isDesktop" />
     </div>
 </template>
@@ -27,7 +26,7 @@ const currentRouter = computed(() => {
     return router.currentRoute.value.path;
 });
 const canCreate = computed(() => {
-    return currentRouter.value === "/";
+    return currentRouter.value === "/" || currentRouter.value === "/activity";
 });
 
 const transaction = useTransactionsStore();

@@ -1,10 +1,10 @@
 <template>
-    <!-- class="min-w-37.5 group relative overflow-hidden corner-based p-4 text-left shadow-xl shadow-base-color transition hover:bg-neutral-50 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none" -->
     <button
         v-for="wallet in props.list"
         :key="wallet.id"
         type="button"
-        class="min-w-37.5 group relative overflow-hidden corner-based p-4 text-left border-t-2 border-dark/5 shadow-xl shadow-base-color transition hover:bg-neutral-50 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
+        class="min-w-37.5 group relative overflow-hidden corner-based p-4 text-left border-t-4 border-gray-400/5 shadow-xl shadow-base-color transition hover:bg-neutral-50 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
+        :class="{ 'bg-gray-100': wallet.amount === 0 }"
         @click="emit('selected', wallet)"
     >
         <!-- <UIcon class="size-10 bg-dark/20 absolute bottom-4 right-2" name="solar:wallet-linear" /> -->

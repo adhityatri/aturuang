@@ -9,23 +9,17 @@
                         Catatan
                     </span>
                 </template>
-                <template #extra>
-                    <UButton
-                        :ui="{
-                            base: 'p-4! rounded-4xl corner-squircle shadow-xl shadow-base-color bg-accent-green text-dark text-sm p-2 active:bg-accent-green/50',
-                        }"
-                        icon="solar:add-square-bold"
-                        aria-label="Tambah catatan utang piutang"
-                        @click="openCreate = true"
-                    />
-                    <debt-create
-                        v-model:open="openCreate"
-                        :is-saving="isSaving"
-                        @submit="handleCreate"
-                    />
-                </template>
             </app-title-page>
         </div>
+
+        <!-- Floating Button -->
+        <UButton
+            class="fixed bottom-24 right-6 z-50 p-4 rounded-4xl corner-squircle shadow-xl bg-accent-green text-dark hover:scale-105 active:bg-accent-green/70 active:translate-y-0.5 active:translate-x-0.5 active:shadow-none transition-all"
+            icon="solar:add-square-bold"
+            aria-label="Tambah catatan"
+            @click="openCreate = true"
+        />
+        <debt-create v-model:open="openCreate" :is-saving="isSaving" @submit="handleCreate" />
 
         <div class="grid grid-cols-2 my-4 gap-4 px-6 py-4">
             <debt-summary-card
@@ -44,20 +38,7 @@
             />
         </div>
 
-        <div class="flex items-center gap-2 overflow-x-auto px-4 pb-2">
-            <button
-                v-for="tab in filters"
-                :key="tab.value"
-                type="button"
-                class="corner-based shrink-0 px-3 py-1.5 text-[10px] font-black uppercase transition-all active:scale-95"
-                :class="activeFilter === tab.value ? 'bg-dark text-white' : 'bg-white text-dark/60'"
-                @click="activeFilter = tab.value"
-            >
-                {{ tab.label }}
-            </button>
-        </div>
-
-        <div class="w-full px-4 pb-2">
+        <div class="w-full px-4 pb-2 mb-2">
             <UInput
                 v-model="search"
                 icon="i-lucide-search"
@@ -81,6 +62,19 @@
                     />
                 </template>
             </UInput>
+        </div>
+
+        <div class="flex items-center gap-2 overflow-x-auto px-4 py-2">
+            <button
+                v-for="tab in filters"
+                :key="tab.value"
+                type="button"
+                class="corner-based shadow-xl shadow-base-color ring-1 ring-dark/4 shrink-0 px-3 py-2 text-[10px] font-black uppercase transition-all active:scale-95"
+                :class="activeFilter === tab.value ? 'bg-dark text-white' : 'bg-white text-dark/60'"
+                @click="activeFilter = tab.value"
+            >
+                {{ tab.label }}
+            </button>
         </div>
 
         <div class="flex flex-1 overflow-y-auto pb-22">
@@ -277,9 +271,9 @@ const submitPayment = async (payload: iDebtPaymentCreate) => {
         const result = await debtStore.addPayment(debt.id, payload);
         openPayment.value = false;
         useToast().add({
-            title: result?.debt.status === "paid" ? "Lunas" : "Tersimpan",
+            title: result?.debt?.status === "paid" ? "Lunas" : "Tersimpan",
             description:
-                result?.debt.status === "paid"
+                result?.debt?.status === "paid"
                     ? `Catatan ${debt.counterparty} sudah lunas`
                     : `${useFormatPriceIntl(payload.amount)} tercatat untuk ${debt.counterparty}`,
             color: "success",

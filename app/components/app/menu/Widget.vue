@@ -4,6 +4,7 @@ const items = [
     { name: "transactions-page", icon: "solar:history-linear", label: "Riwayat" },
     { name: "improve-page", icon: "solar:chat-round-dots-linear", label: "Feedback" },
     { name: "note-page", icon: "solar:checklist-minimalistic-linear", label: "Catatan" },
+    { name: "wallets", icon: "solar:wallet-2-bold", label: "kantong" },
 ];
 </script>
 
@@ -11,14 +12,14 @@ const items = [
     <div class="flex flex-col gap-4">
         <app-title-page dark>Menu</app-title-page>
 
-        <div class="flex flex-wrap flex-1 gap-2">
-            <div v-for="item in items" :key="item.name" class="w-20% h-full flex flex-col flex-1">
+        <div class="grid grid-cols-4 gap-2">
+            <div v-for="item in items" :key="item.name" class="min-h-[6em] flex flex-col flex-1">
                 <nuxt-link
                     :to="{ name: item.name }"
-                    class="flex flex-col items-center gap-2 h-full"
+                    class="flex flex-col p-2 items-center gap-2 h-full"
                 >
                     <div
-                        class="h-1/2 p-2 bg-accent-green corner-based shadow-lg shadow-based-color w-fit flex"
+                        class="p-2 bg-accent-green corner-based shadow-lg shadow-based-color w-fit flex"
                     >
                         <UIcon
                             :name="item.icon"

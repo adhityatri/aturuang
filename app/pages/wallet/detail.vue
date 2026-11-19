@@ -33,7 +33,7 @@
             </section>
         </div>
 
-        <div class="mb-4 px-4 flex gap-4">
+        <div class="mb-4 px-4 grid grid-cols-2 gap-4">
             <wallet-edit @click="handleEditWallet" />
             <wallet-move @refresh="handleRefresh" />
         </div>
@@ -43,7 +43,7 @@
             class="relative z-1 flex flex-1 flex-col border-t-2 border-dark/10 rounded-t-[2rem] bg-dark/4 p-4"
         >
             <div class="mb-4 flex items-center justify-between">
-                <h2 class="text-lg font-black uppercase text-dark">Riwayat Transaksi</h2>
+                <h2 class="text-lg font-black text-dark">Riwayat Transaksi</h2>
 
                 <UButton
                     icon="solar:refresh-linear"

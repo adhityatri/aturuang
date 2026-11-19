@@ -3,9 +3,7 @@
         <UButton
             type="button"
             :aria-label="ariaLabel"
-            :ui="{
-                base: 'flex size-11 items-center justify-center corner-based shadow-xl shadow-base-color bg-accent-green p-0 text-dark transition active:translate-x-[2px] active:translate-y-[2px] active:shadow-none',
-            }"
+            class="flex size-11 items-center justify-center corner-based shadow-xl shadow-base-color bg-white p-0 text-dark active:bg-accent-green/70 active:translate-y-0.5 active:translate-x-0.5 active:shadow-none transition-all active:shadow-none',"
             @click="emit('close')"
         >
             <UIcon :name="icon" class="text-2xl" />
