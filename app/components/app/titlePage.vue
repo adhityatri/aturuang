@@ -1,5 +1,5 @@
 <script setup lang="ts">
-defineProps({ dark: { type: Boolean, default: false } });
+defineProps({ dark: { type: Boolean, default: false }, back: { type: Boolean, default: false } });
 const slot = useSlots();
 
 const hasSubtitle = !!slot.subtitle;
@@ -18,14 +18,29 @@ const hasExtra = !!slot.extra;
             }"
         >
             <div
-                class="flex flex-col items-start"
-                :class="{ 'text-dark': dark, 'text-white': !dark }"
+                class="flex"
+                :class="{
+                    'text-dark': dark,
+                    'text-white': !dark,
+                    'flex-col items-start': !back,
+                    'gap-2 items-center': back,
+                }"
             >
-                <h1 class="font-medium text-xl capitalize">
-                    <slot />
-                </h1>
-                <div v-if="hasSubtitle" class="text-sm font-bold text-dark/50">
-                    <slot name="subtitle" />
+                <UButton
+                    v-if="back"
+                    variant="ghost"
+                    class="text-dark shadow-xl shadow-based-color corner-based ring-1 ring-dark/2"
+                    icon="solar:alt-arrow-left-linear"
+                    size="xl"
+                    @click="useRouter().back()"
+                />
+                <div class="flex flex-col">
+                    <h1 class="font-medium text-xl capitalize">
+                        <slot />
+                    </h1>
+                    <div v-if="hasSubtitle" class="text-sm font-bold text-dark/50">
+                        <slot name="subtitle" />
+                    </div>
                 </div>
             </div>
 

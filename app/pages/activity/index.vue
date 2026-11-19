@@ -4,7 +4,7 @@
             <app-title-page dark> Aktivitas </app-title-page>
         </div>
 
-        <div class="px-4 h-[25dvh]">
+        <div class="px-4 mt-4 h-[25dvh]">
             <money-tracker-budget
                 :is-loading="activeTab === 'all' ? isLoading : false"
                 :budget="useBudgets()?.budgetAmount"
