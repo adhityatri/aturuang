@@ -3,17 +3,14 @@ import type { categoryType, iCategory } from "~/types/category";
 export const useCategory = defineStore("category-store", () => {
   const categories = ref<iCategory[]>([]);
   const supabase = useSupabaseClient();
+  const user = useSupabaseUser();
 
   const isLoading = ref(false);
   const getCategoryByType = async (type: categoryType) => {
     try {
       isLoading.value = true;
 
-      let query = supabase
-        .from("categories")
-        .select()
-        .neq("id", "23")
-        .neq("id", "24");
+      let query = supabase.from("categories").select().neq("id", "23").neq("id", "24");
 
       if (type === "all") {
         query = query.in("type", ["income", "expenses"]);
@@ -44,11 +41,18 @@ export const useCategory = defineStore("category-store", () => {
       // return { label: item.name, value: item.id };
     }),
   );
-  return {
-    categories,
-    itemList,
-    isLoading,
-    getCategoryByType,
-    selectedCategory,
+  // ... di dalam return useCategory
+  const insert = async (item: { name: string; type: categoryType; icon: string }) => {
+    try {
+      const payload = { ...item, created_by: user.value };
+      const { data, error } = await supabase.from("categories").insert(payload).select().single();
+      if (error) throw error;
+      categories.value.unshift(data);
+      return { data, error: null };
+    } catch (error: any) {
+      return { data: null, error };
+    }
   };
+
+  return { categories, itemList, isLoading, getCategoryByType, selectedCategory, insert };
 });

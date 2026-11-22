@@ -131,7 +131,7 @@ const progress = (debt: iDebt) => {
                             v-if="debt.status !== 'paid'"
                             size="xs"
                             :label="debt.type === 'debt' ? 'Bayar' : 'Terima'"
-                            icon="solar:wad-of-money-bold"
+                            icon="solar:wallet-2-bold"
                             class="corner-based px-2.5 text-[10px] font-black uppercase"
                             :ui="{ base: 'bg-dark text-white' }"
                             @click="$emit('pay', debt)"

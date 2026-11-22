@@ -27,7 +27,7 @@
 
         <div v-if="filteredTransactions.length === 0"
             class="rounded-2xl border-[2px] border-dashed border-dark bg-neutral-50 p-8 text-center">
-            <UIcon name="solar:receipt-linear" class="mx-auto text-3xl text-accent-blue" />
+            <UIcon name="solar:banknote-linear" class="mx-auto text-3xl text-accent-blue" />
             <p class="mt-3 text-sm font-black uppercase text-dark">
                 Belum Ada Transaksi
             </p>

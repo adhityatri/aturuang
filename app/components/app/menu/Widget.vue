@@ -5,6 +5,7 @@ const items = [
     { name: "improve-page", icon: "solar:chat-round-dots-linear", label: "Feedback" },
     { name: "note-page", icon: "solar:checklist-minimalistic-linear", label: "Catatan" },
     { name: "wallets", icon: "solar:wallet-2-bold", label: "kantong" },
+    { name: "category-page", icon: "icon-park-solid:category-management", label: "Kategori" },
 ];
 </script>
 

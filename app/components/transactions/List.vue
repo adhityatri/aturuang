@@ -65,7 +65,7 @@
                     <div
                         class="mb-3 flex size-14 items-center justify-center corner-based bg-accent-yellow text-dark"
                     >
-                        <UIcon name="solar:receipt-linear" class="text-2xl" />
+                        <UIcon name="solar:banknote-linear" class="text-2xl" />
                     </div>
 
                     <h3 class="text-sm font-black uppercase text-dark">Belum Ada Transaksi</h3>
