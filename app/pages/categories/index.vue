@@ -38,14 +38,14 @@ watch(categoryType, () => {
 
 <template>
     <div class="flex flex-1 flex-col relative main-bg overflow-hidden">
-        <div class="p-6 pb-4 main-bg">
-            <app-title-page dark>
-                <p class="font-bold">Kategori</p>
-            </app-title-page>
-        </div>
+        <app-nav-title
+            title="Kategori"
+            icon="solar:alt-arrow-left-line-duotone"
+            @close="$router.back()"
+        />
 
         <!-- Banner -->
-        <div class="px-6 mb-4">
+        <div class="px-6 my-4">
             <div
                 class="rounded-4xl corner-squircle bg-dark px-6 py-10 shadow-xl shadow-base-color flex items-center justify-between relative overflow-hidden"
             >

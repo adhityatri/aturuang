@@ -1,11 +1,11 @@
 <template>
     <div class="flex flex-1 flex-col relative main-bg overflow-hidden">
-        <div class="p-6 main-bg">
-            <app-title-page dark>
-                <p class="font-bold">Catatan</p>
-                <template #subtitle> Catat hari ini, rencanakan esok </template>
-            </app-title-page>
-        </div>
+        <app-nav-title
+            title="Catatan"
+            subtitle="Catat hari ini, rencanakan esok"
+            icon="solar:alt-arrow-left-line-duotone"
+            @close="$router.back()"
+        />
 
         <div class="p-6 grid grid-cols-2 gap-2">
             <todo-summary-card

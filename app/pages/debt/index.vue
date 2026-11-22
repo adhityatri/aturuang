@@ -1,7 +1,12 @@
 <template>
     <div class="flex flex-1 flex-col relative main-bg overflow-hidden">
-        <div class="p-6 pb-4 main-bg">
-            <app-title-page dark>
+        <app-nav-title
+            title="Utang Piutang"
+            icon="solar:alt-arrow-left-line-duotone"
+            @close="$router.back()"
+        />
+        <!-- <div class="main-bg">
+             <app-title-page dark>
                 <p class="font-bold">Utang Piutang</p>
                 <template #subtitle>
                     <span class="text-dark/40">
@@ -10,7 +15,7 @@
                     </span>
                 </template>
             </app-title-page>
-        </div>
+        </div> -->
 
         <!-- Floating Button -->
         <UButton

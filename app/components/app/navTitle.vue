@@ -1,5 +1,8 @@
 <template>
-    <header class="relative z-10 flex items-center justify-between p-4 pt-6">
+    <header
+        class="relative z-10 flex items-center justify-between p-4 pt-6"
+        :class="{ '': subtitle !== '' }"
+    >
         <UButton
             type="button"
             :aria-label="ariaLabel"
@@ -9,12 +12,11 @@
             <UIcon :name="icon" class="text-2xl" />
         </UButton>
 
-        <div
-            class="max-w-[70%] corner-based bg-accent-green px-5 py-3 text-center shadow-xl shadow-base-color"
-        >
-            <h3 class="truncate text-sm font-black capitalize text-dark">
+        <div class="max-w-[70%] px-2 text-center" :class="{ 'text-end': subtitle !== '' }">
+            <h3 class="truncate text-lg font-black capitalize text-dark">
                 {{ title }}
             </h3>
+            <p v-if="subtitle !== ''" class="text-xs">{{ subtitle }}</p>
         </div>
     </header>
 </template>
@@ -22,9 +24,8 @@
 <script setup lang="ts">
 const emit = defineEmits<{ close: [] }>();
 
-withDefaults(defineProps<{ title?: string; icon?: string; ariaLabel?: string }>(), {
-    title: "Page Title",
-    icon: "solar:alt-arrow-left-line-duotone",
-    ariaLabel: "Kembali",
-});
+withDefaults(
+    defineProps<{ title?: string; icon?: string; ariaLabel?: string; subtitle?: string }>(),
+    { title: "Page Title", icon: "solar:alt-arrow-left-line-duotone", ariaLabel: "Kembali" },
+);
 </script>

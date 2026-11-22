@@ -1,7 +1,11 @@
 <template>
-    <div class="relative py-8 flex flex-1 flex-col gap-4 main-bg">
-        <div class="px-6 flex flex-col gap-4">
-            <app-title-page dark> Aktivitas </app-title-page>
+    <div class="relative pb-8 flex flex-1 flex-col gap-4 main-bg">
+        <div class="">
+            <app-nav-title
+                title="Aktivitas"
+                icon="solar:alt-arrow-left-line-duotone"
+                @close="$router.back()"
+            />
         </div>
 
         <div class="px-4 mt-4 h-[25dvh]">
@@ -13,7 +17,7 @@
             />
         </div>
 
-        <div class="relative">
+        <div class="relative flex-1">
             <div
                 ref="tabContainer"
                 class="h-12 grid grid-cols-3 bg-white shadow-xl shadow-base-color relative"
