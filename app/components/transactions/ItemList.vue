@@ -30,6 +30,7 @@
                         <h3 class="capitalize font-bold text-dark text-sm tracking-wide">
                             {{ data?.notes || data?.categories?.name || data?.category_name }}
                         </h3>
+                        <small class="text-dark">{{ data?.creator_name }}</small>
                         <small class="text-dark text-xs tracking-widest mt-0.5">
                             {{
                                 useDateFormat(data?.created_at, "DD MMM YYYY | HH:mm", {

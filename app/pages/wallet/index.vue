@@ -15,6 +15,7 @@
                         setiap kali mencatat transaksi.
                     </p>
                 </div>
+
                 <wallet-list :is-pages="true" />
             </section>
         </div>

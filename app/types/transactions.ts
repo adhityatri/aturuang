@@ -15,6 +15,7 @@ export interface iTransaction {
   category_type?: string;
   wallet_id?: string;
   wallet_name?: string;
+  creator_name?: string; // pembuat transaksi (owner/anggota wallet)
 }
 
 export interface iGroupedTransaction {

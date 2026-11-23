@@ -8,14 +8,14 @@
         <!-- Trigger -->
         <UButton
             :ui="{
-                base: `shadow-xl shadow-base-color h-15 place-content-center bg-transparent text-dark  rounded-4xl corner-squircle flex active:translate-x-[2px]
+                base: `shadow-xl shadow-base-color px-6 h-15 place-content-center bg-transparent text-dark  rounded-4xl corner-squircle flex active:translate-x-[2px]
                 active:translate-y-[2px]
                 active:shadow-none active:bg-dark/5`,
             }"
             @click="handleClick"
         >
             <UIcon name="solar:move-to-folder-linear" class="text-2xl text-dark/80" />
-            <span class="text-md font-black">Pindah</span>
+            <span class="text-md font-black">Pindahkan</span>
         </UButton>
 
         <!-- Header -->

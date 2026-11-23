@@ -6,18 +6,41 @@
             <!-- Wallet Hero -->
             <section class="px-4 pb-6 pt-4">
                 <div
-                    class="flex flex-col relative overflow-hidden corner-based bg-accent-green shadow-xl shadow-base-color p-8"
+                    class="flex flex-col relative overflow-hidden shadow-xl shadow-base-color corner-based bg-accent-green min-h-50"
                 >
-                    <div class="flex flex-col">
-                        <div class="flex justify-between">
-                            <p class="truncate text-xl leading-tight text-dark">
-                                {{ walletStore.detailWallet?.name || "Kantong" }}
-                            </p>
-                            <UIcon name="solar:wallet-linear" class="text-[2rem]" />
+                    <div class="flex justify-end bg-dark/15 p-4">
+                        <div class="flex items-center -space-x-1.5">
+                            <template v-if="walletStore.members?.length">
+                                <UAvatar alt="Owner" size="md" class="ring-4 ring-accent-green" />
+                                <template
+                                    v-for="member in walletStore?.members?.slice(0, 3)"
+                                    :key="member.id"
+                                >
+                                    <UAvatar
+                                        :alt="member.email"
+                                        size="md"
+                                        class="ring-4 ring-accent-green"
+                                    />
+                                </template>
+                                <div
+                                    v-if="walletStore.members.length > 3"
+                                    class="relative flex size-8 items-center justify-center rounded-full bg-dark text-[10px] font-bold text-white ring-4 ring-accent-green"
+                                >
+                                    +{{ walletStore.members.length - 3 }}
+                                </div>
+                            </template>
+
+                            <wallet-member class="z-2" />
                         </div>
+                    </div>
+
+                    <div class="flex flex-col p-6">
+                        <p class="truncate text-xl font-black leading-tight text-dark">
+                            {{ walletStore.detailWallet?.name || "Kantong" }}
+                        </p>
 
                         <div class="flex-1 mt-2">
-                            <span class="capitalize">saldo</span>
+                            <p class="capitalize">saldo</p>
                             <app-privacy
                                 v-if="usePrivacyStore.isPrivacyAccepted"
                                 size="sm"
@@ -30,12 +53,59 @@
                         </div>
                     </div>
                 </div>
-            </section>
-        </div>
 
-        <div class="mb-4 px-4 grid grid-cols-2 gap-4">
-            <wallet-edit @click="handleEditWallet" />
-            <wallet-move @refresh="handleRefresh" />
+                <div class="my-2 flex items-center gap-4">
+                    <wallet-edit @click="handleEditWallet" />
+                    <wallet-move @refresh="handleRefresh" />
+                </div>
+                <!-- <div
+                    class="flex flex-col relative overflow-hidden corner-based bg-accent-green shadow-xl shadow-base-color px-4"
+                >
+                    <div class="flex flex-col py-6">
+                        <div class="flex justify-between items-center">
+                            <div class="flex flex-col gap-1">
+                                <p class="truncate text-xl font-black leading-tight text-dark">
+                                    {{ walletStore.detailWallet?.name || "Kantong" }}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex-1 mt-2">
+                            <p class="capitalize">saldo</p>
+                            <app-privacy
+                                v-if="usePrivacyStore.isPrivacyAccepted"
+                                size="sm"
+                                color="primary"
+                            />
+
+                            <p v-else class="text-xl font-black leading-none text-dark">
+                                {{ useFormatPriceIntl(walletStore.detailWallet?.amount || 0) }}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="mb-4 flex items-center gap-4">
+                        <wallet-edit @click="handleEditWallet" />
+                        <wallet-move @refresh="handleRefresh" />
+                        <div class="flex items-center -space-x-1.5">
+                            <template v-if="walletStore.members?.length">
+                                <UAvatar alt="Owner" size="xl" class="ring-2 ring-accent-green" />
+                                <template
+                                    v-for="member in walletStore?.members?.slice(0, 3)"
+                                    :key="member.id"
+                                >
+                                    <UAvatar
+                                        :alt="member.email"
+                                        size="xl"
+                                        class="ring-2 ring-accent-green"
+                                    />
+                                </template>
+                            </template>
+
+                            <wallet-member />
+                        </div>
+                    </div>
+                </div> -->
+            </section>
         </div>
 
         <!-- Transactions Panel -->
@@ -119,6 +189,21 @@ const { navigateToTransactionDetail } = useTransactionNavigation();
 const walletStore = useWallets();
 const usePrivacyStore = usePrivacy();
 
+useAsyncData("fetch-wallet-member", () => walletStore.getMembers(id.value?.toString() ?? ""), {
+    dedupe: "defer",
+    server: true,
+    lazy: true,
+});
+
+const handleEditWallet = () => {
+    walletStore.isEditOpen = true;
+};
+
+const handleMemberClick = () => {
+    walletStore.isMemberOpen = true;
+    walletStore.getMembers(id.value as string);
+};
+
 const { refresh: refreshWallet } = useAsyncData(
     "detail-wallet-page",
     () => walletStore.getWalletById(id.value as string),
@@ -136,9 +221,5 @@ const { refresh: refreshTransactions } = useAsyncData(
 const handleRefresh = () => {
     refreshWallet();
     refreshTransactions();
-};
-
-const handleEditWallet = () => {
-    walletStore.isEditOpen = true;
 };
 </script>

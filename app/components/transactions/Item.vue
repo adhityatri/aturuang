@@ -1,5 +1,7 @@
 <template>
-    <div class="flex items-center gap-3 py-3 cursor-pointer hover:bg-neutral-50 transition-colors">
+    <div
+        class="flex items-center overflow-auto gap-3 py-3 cursor-pointer hover:bg-neutral-50 transition-colors"
+    >
         <div class="flex items-center justify-center h-12 w-14 corner-based bg-dark">
             <!-- :class="isExpenses ? 'bg-accent-red' : 'bg-accent-blue'" -->
             <UIcon
@@ -16,6 +18,7 @@
                         props.transaction?.category_name
                     }}
                 </h3>
+                <small class="text-dark">{{ props.transaction?.creator_name }}</small>
                 <small class="text-dark text-[12px] tracking-widest mt-0.5">{{
                     useDateFormat(props.transaction?.created_at, "DD MMM YYYY | HH:mm", {
                         locales: "id-ID",

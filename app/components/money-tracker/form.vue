@@ -220,6 +220,7 @@ const onSubmit = async (event: FormSubmitEvent<TrackerSchema>) => {
     if (isSubmitDisabled.value) return;
     const { amount, notes } = event.data;
     const transactionStore = useTransactionsStore();
+
     const response = await transactionStore.addTransactions({
         wallet_id: state.wallet_id,
         category_id: Number(state?.category),

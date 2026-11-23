@@ -186,17 +186,15 @@ const useTransactionsStore = defineStore("transactions-store", () => {
   }) => {
     if (!user.value) return;
     try {
-      const { data, error } = await supabaseClient.rpc(
-        "get_transactions_with_categories_and_count",
-        {
-          category_type_filter: params.category_type_filter,
-          p_user_id: user.value.id,
-          ...(params.page_limit && { page_limit: params.page_limit }),
-        },
-      );
+      // gunakan RPC baru: fetch across personal & shared wallets + creator info
+      const { data, error } = await supabaseClient.rpc("get_all_transactions_for_user", {
+        p_user_id: user.value.id,
+        p_category_type_filter: params.category_type_filter,
+        ...(params.page_limit && { p_page_limit: params.page_limit }),
+      });
       if (error) throw error;
 
-      const transactions = (data?.data || []).sort(
+      const transactions = (data || []).sort(
         (a: any, b: any) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
       );
 
@@ -206,7 +204,7 @@ const useTransactionsStore = defineStore("transactions-store", () => {
         summaryTransactions.value = transactions;
       }
 
-      return data;
+      return { data: transactions };
     } catch (err) {
       return err;
     }
@@ -329,6 +327,9 @@ const useTransactionsStore = defineStore("transactions-store", () => {
       });
 
       if (error) throw error;
+
+      await getTransactionsCurrentMonth();
+      await getPreviousMonthTransactions();
 
       return { success: true, transactionId: data, message: "Transaction added successfully" };
     } catch (err: any) {

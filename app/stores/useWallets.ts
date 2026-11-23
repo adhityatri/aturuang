@@ -1,4 +1,4 @@
-import type { iWallets } from "~/types/wallets";
+import type { iWallets, iWalletMember, WalletMemberRole } from "~/types/wallets";
 
 const useWallets = defineStore("wallets-store", () => {
   const client = useSupabaseClient();
@@ -24,10 +24,20 @@ const useWallets = defineStore("wallets-store", () => {
 
     isFetching.value = true;
     try {
-      const { data, error } = await client
-        .from("wallets")
-        .select("*")
-        .eq("created_by", user.value.id)
+      const { data: memberRows, error: memberError } = await client
+        .from("wallet_member")
+        .select("wallet_id")
+        .eq("user_id", user.value.id);
+      if (memberError) throw memberError;
+
+      const memberIds = [...new Set((memberRows || []).map((r: any) => r.wallet_id))];
+      let query = client.from("wallets").select("*");
+      query =
+        memberIds.length > 0
+          ? query.or(`created_by.eq.${user.value.id},id.in.(${memberIds.join(",")})`)
+          : query.eq("created_by", user.value.id);
+
+      const { data, error } = await query
         .order("amount", { ascending: false })
         .order("created_at", { ascending: true });
 
@@ -131,6 +141,79 @@ const useWallets = defineStore("wallets-store", () => {
   };
 
   const isEditOpen = shallowRef<boolean>(false);
+  const isMemberOpen = shallowRef<boolean>(false);
+
+  const members = ref<iWalletMember[]>([]);
+  const isMemberLoading = ref<boolean>(false);
+
+  const getMembers = async (walletId: string) => {
+    isMemberLoading.value = true;
+    try {
+      const { data, error } = await client.rpc("get_wallet_members", {
+        p_wallet_id: walletId,
+      });
+      if (error) throw error;
+      members.value = (data as iWalletMember[]) || [];
+      return { data: members.value, error: null };
+    } catch (error: any) {
+      return { data: null, error };
+    } finally {
+      isMemberLoading.value = false;
+    }
+  };
+
+  const addMember = async (walletId: string, email: string, role: WalletMemberRole) => {
+    try {
+      const { data: found, error: findError } = await client.rpc("find_user_by_email", {
+        p_email: email.trim().toLowerCase(),
+      });
+      if (findError) throw findError;
+
+      const user = Array.isArray(found) ? found[0] : found;
+      if (!user?.id) {
+        return { data: null, error: { message: "Email tidak ditemukan" } };
+      }
+
+      const { data, error } = await client
+        .from("wallet_member")
+        .insert({ wallet_id: walletId, user_id: user.id, role })
+        .select()
+        .single();
+
+      if (error) throw error;
+      await getMembers(walletId);
+      return { data, error: null };
+    } catch (error: any) {
+      return { data: null, error };
+    }
+  };
+
+  const updateMemberRole = async (memberId: string, walletId: string, role: WalletMemberRole) => {
+    try {
+      const { data, error } = await client
+        .from("wallet_member")
+        .update({ role })
+        .eq("id", memberId)
+        .select()
+        .single();
+      if (error) throw error;
+      await getMembers(walletId);
+      return { data, error: null };
+    } catch (error: any) {
+      return { data: null, error };
+    }
+  };
+
+  const removeMember = async (memberId: string, walletId: string) => {
+    try {
+      const { error } = await client.from("wallet_member").delete().eq("id", memberId);
+      if (error) throw error;
+      await getMembers(walletId);
+      return { error: null };
+    } catch (error: any) {
+      return { error };
+    }
+  };
 
   // lifeCycle hooks
   const initialize = async () => {
@@ -142,10 +225,17 @@ const useWallets = defineStore("wallets-store", () => {
     wallets,
     detailWallet,
     isEditOpen,
+    isMemberOpen,
+    members,
+    isMemberLoading,
     getWallets,
     updateWallet,
     insert,
     getWalletById,
+    getMembers,
+    addMember,
+    updateMemberRole,
+    removeMember,
     initialize,
     isFetching,
     lastFetched,

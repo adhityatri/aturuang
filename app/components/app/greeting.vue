@@ -6,7 +6,7 @@
         </template>
         <template v-else>
             <h2 class="text-sm font-medium tracking-wider">Halo,</h2>
-            <h1 class="text-3xl font-extrabold tracking-wide leading-none">
+            <h1 class="capitalize text-3xl font-extrabold tracking-wide leading-none">
                 {{ getFirstWord(identity?.full_name || "User") }}
             </h1>
         </template>
