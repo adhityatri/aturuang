@@ -199,7 +199,7 @@ const filteredDebts = computed(() => {
         );
     }
 
-    return [...result].sort((a, b) => {
+    return result.toSorted((a, b) => {
         const aPaid = a.status === "paid" ? 1 : 0;
         const bPaid = b.status === "paid" ? 1 : 0;
         if (aPaid !== bPaid) return aPaid - bPaid;

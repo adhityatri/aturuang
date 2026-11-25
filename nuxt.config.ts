@@ -112,6 +112,8 @@ export default defineNuxtConfig({
       theme_color: "#cce831",
       background_color: "#cce831",
       categories: ["finance", "productivity"],
+      start_url: "/",
+      display: "standalone",
       icons: [
         { src: "/android-chrome-192x192.png", sizes: "192x192", type: "image/png" },
         { src: "/android-chrome-512x512.png", sizes: "512x512", type: "image/png" },
@@ -124,16 +126,16 @@ export default defineNuxtConfig({
       ],
     },
     workbox: {
-      globPatterns: ["**/*.{js,css,png,svg,ico,woff2}"],
+      globPatterns: ["**/*.{js,css,html,json,png,svg,ico,woff2}"],
       navigateFallback: null,
       runtimeCaching: [
         {
           urlPattern: /\.(?:png|jpg|jpeg|svg|gif)$/,
-          handler: "CacheFirst", // Cache images first
+          handler: "CacheFirst",
           options: {
             cacheName: "images",
             expiration: {
-              maxEntries: 10,
+              maxEntries: 50,
               maxAgeSeconds: 30 * 24 * 60 * 60, // 30 Days
             },
           },
@@ -145,7 +147,7 @@ export default defineNuxtConfig({
             cacheName: "google-fonts-cache",
             expiration: {
               maxEntries: 10,
-              maxAgeSeconds: 60 * 60 * 24 * 365, // <== 365 days
+              maxAgeSeconds: 60 * 60 * 24 * 365,
             },
             cacheableResponse: { statuses: [0, 200] },
           },
@@ -157,8 +159,48 @@ export default defineNuxtConfig({
             cacheName: "gstatic-fonts-cache",
             expiration: {
               maxEntries: 10,
-              maxAgeSeconds: 60 * 60 * 24 * 365, // <== 365 days
+              maxAgeSeconds: 60 * 60 * 24 * 365,
             },
+            cacheableResponse: { statuses: [0, 200] },
+          },
+        },
+        // Cache API responses (Supabase, AI, etc.) - NetworkFirst for fresh data
+        {
+          urlPattern: /^https:\/\/.+\.supabase\.co\/rest\/v1\/.*/,
+          handler: "NetworkFirst",
+          options: {
+            cacheName: "api-supabase",
+            expiration: {
+              maxEntries: 100,
+              maxAgeSeconds: 5 * 60, // 5 minutes
+            },
+            networkTimeoutSeconds: 10,
+            cacheableResponse: { statuses: [0, 200] },
+          },
+        },
+        // Cache Nuxt payloads (_payload.json) - StaleWhileRevalidate for fast navigation
+        {
+          urlPattern: /_payload\.json$/,
+          handler: "StaleWhileRevalidate",
+          options: {
+            cacheName: "nuxt-payload",
+            expiration: {
+              maxEntries: 50,
+              maxAgeSeconds: 60 * 60, // 1 hour
+            },
+          },
+        },
+        // Cache API routes (your /api/* endpoints)
+        {
+          urlPattern: /\/api\/.*/,
+          handler: "NetworkFirst",
+          options: {
+            cacheName: "api-local",
+            expiration: {
+              maxEntries: 50,
+              maxAgeSeconds: 2 * 60, // 2 minutes
+            },
+            networkTimeoutSeconds: 8,
             cacheableResponse: { statuses: [0, 200] },
           },
         },

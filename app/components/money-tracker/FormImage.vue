@@ -45,7 +45,7 @@ const handleUpload = async (data: any) => {
       },
     });
 
-    transaction.aiResponse = JSON.parse(JSON.stringify(response));
+    transaction.aiResponse = structuredClone(response);
     return response;
   } catch (error) {
     console.log("ini error : ", error);
