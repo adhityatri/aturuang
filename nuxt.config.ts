@@ -1,5 +1,36 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  app: {
+    head: {
+      htmlAttrs: { lang: "id" },
+      meta: [
+        {
+          name: "viewport",
+          content: "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0",
+        },
+        {
+          name: "description",
+          content:
+            "Yotro - Aplikasi pengelola keuangan pribadi (PWA). Catat transaksi, atur budget keluarga",
+        },
+        { name: "format-detection", content: "telephone=no" },
+        { property: "og:type", content: "website" },
+        { property: "og:title", content: "Yotro - Money Management App" },
+        {
+          property: "og:description",
+          content: "Atur uang lebih mudah dengan Yotro. Aplikasi manajemen keuangan keluarga kamu.",
+        },
+        { property: "og:image", content: "/Yotro-brand.png" },
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "geo.region", content: "ID" },
+        { name: "geo.placename", content: "Indonesia" },
+      ],
+      link: [
+        { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+        { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
+      ],
+    },
+  },
   compatibilityDate: "2025-05-15",
   devtools: { enabled: false },
 
@@ -115,14 +146,12 @@ export default defineNuxtConfig({
       start_url: "/",
       display: "standalone",
       icons: [
-        { src: "/android-chrome-192x192.png", sizes: "192x192", type: "image/png" },
-        { src: "/android-chrome-512x512.png", sizes: "512x512", type: "image/png" },
-        {
-          src: "/android-chrome-192x192.png",
-          sizes: "192x192",
-          type: "image/png",
-          purpose: "any maskable",
-        },
+        { src: "/pwa-64x64.png", sizes: "64x64", type: "image/png" },
+        { src: "/pwa-192x192.png", sizes: "192x192", type: "image/png" },
+        { src: "/pwa-512x512.png", sizes: "512x512", type: "image/png", purpose: "any maskable" },
+      ],
+      screenshots: [
+        { src: "/screenshot-mobile.png", sizes: "750x1334", type: "image/png", form_factor: "narrow" }
       ],
     },
     workbox: {
@@ -145,10 +174,7 @@ export default defineNuxtConfig({
           handler: "CacheFirst",
           options: {
             cacheName: "google-fonts-cache",
-            expiration: {
-              maxEntries: 10,
-              maxAgeSeconds: 60 * 60 * 24 * 365,
-            },
+            expiration: { maxEntries: 10, maxAgeSeconds: 60 * 60 * 24 * 365 },
             cacheableResponse: { statuses: [0, 200] },
           },
         },
@@ -157,10 +183,7 @@ export default defineNuxtConfig({
           handler: "CacheFirst",
           options: {
             cacheName: "gstatic-fonts-cache",
-            expiration: {
-              maxEntries: 10,
-              maxAgeSeconds: 60 * 60 * 24 * 365,
-            },
+            expiration: { maxEntries: 10, maxAgeSeconds: 60 * 60 * 24 * 365 },
             cacheableResponse: { statuses: [0, 200] },
           },
         },
