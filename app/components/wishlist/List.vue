@@ -1,13 +1,20 @@
 <template>
     <div class="flex flex-col gap-4">
-        <div v-if="wishlists.length === 0" class="bg-white rounded-xl corner-squircle py-12">
-            <div class="flex flex-col items-center text-center gap-2 p-4">
-                <UIcon name="solar:heart-pulse-linear" class="text-4xl text-accent-red" />
-                <p class="text-secondary text-sm font-bold uppercase tracking-widest">
-                    Belum ada impian
+        <div
+            v-if="wishlists.length === 0 && !hideEmpty"
+            class="bg-white rounded-xl corner-squircle py-6 shadow-xl shadow-base-color"
+        >
+            <div class="flex flex-col items-center text-center gap-1 p-4">
+                <div
+                    class="bg-accent-green size-12 flex justify-center items-center rounded-4xl corner-squircle mb-4"
+                >
+                    <UIcon name="solar:heart-pulse-linear" class="text-2xl text-dark" />
+                </div>
+                <p class="text-dark text-sm font-bold uppercase">
+                    {{ emptyTitle || "Belum ada impian" }}
                 </p>
                 <p class="text-xs font-medium text-neutral-400">
-                    Buat impian untuk mimpi & tujuan dana Anda.
+                    {{ emptyDesc || "Buat impian untuk mimpi & tujuan dana Anda." }}
                 </p>
             </div>
         </div>
@@ -16,7 +23,7 @@
             <div
                 v-for="item in wishlists"
                 :key="item.id"
-                class="group relative flex flex-col gap-3 rounded-3xl bg-white p-4 shadow-sm cursor-pointer active:scale-[0.98] transition-all border border-dark/5"
+                class="group relative flex flex-col gap-3 rounded-3xl p-4 shadow-sm cursor-pointer active:scale-[0.98] transition-all border border-dark/5"
                 @click="navigateTo(`/wishlist/${item.id}`)"
             >
                 <div class="flex items-center justify-between px-1">
@@ -65,10 +72,17 @@
 <script setup lang="ts">
 import type { iWishlist } from "~/types/wishlist";
 
+const props = defineProps<{
+    items?: iWishlist[];
+    emptyTitle?: string;
+    emptyDesc?: string;
+    hideEmpty?: boolean;
+}>();
+
 const wishlistStore = useWishlist();
 const walletStore = useWallets();
 
-const wishlists = computed(() => wishlistStore.wishlists);
+const wishlists = computed(() => props.items ?? wishlistStore.wishlists);
 
 const walletList = computed(() => {
     return walletStore.wallets.map((wallet) => ({

@@ -1,4 +1,4 @@
-import type { iWishlist, iWishlistContribution } from "~/types/wishlist";
+import type { iWishlist, iWishlistContribution, iWishlistMember } from "~/types/wishlist";
 
 const useWishlist = defineStore("wishlist-store", () => {
     const client = useSupabaseClient();
@@ -7,11 +7,55 @@ const useWishlist = defineStore("wishlist-store", () => {
     const wishlists = ref<iWishlist[]>([]);
     const detailWishlist = ref<iWishlist | null>(null);
     const contributions = ref<iWishlistContribution[]>([]);
+    const wishlistMembers = ref<iWishlistMember[]>([]);
+
+    const getWishlistMembers = async (wishlistId: string) => {
+        try {
+            const { data, error } = await client.rpc("get_wishlist_members", { p_wishlist_id: wishlistId });
+            if (error) throw error;
+            wishlistMembers.value = (data as iWishlistMember[]) || [];
+            return wishlistMembers.value;
+        } catch (err) {
+            console.error("Error fetching members:", err);
+            return [];
+        }
+    };
+
+
+
+    const addWishlistMember = async (wishlistId: string, email: string) => {
+        try {
+            const { data: found, error: findError } = await client.rpc("find_user_by_email", { p_email: email.trim().toLowerCase() });
+            if (findError) throw findError;
+            
+            const user = Array.isArray(found) ? found[0] : found;
+            if (!user?.id) return { error: { message: "Email tidak ditemukan" } };
+
+            const { error } = await client.from("wishlist_member").insert({ wishlist_id: wishlistId, user_id: user.id });
+            if (error) throw error;
+
+            await getWishlistMembers(wishlistId);
+            return { error: null };
+        } catch (err: any) {
+            return { error: err };
+        }
+    };
+
+    const removeWishlistMember = async (memberId: string, wishlistId: string) => {
+        try {
+            const { error } = await client.from("wishlist_member").delete().eq("id", memberId);
+            if (error) throw error;
+            await getWishlistMembers(wishlistId);
+            return { error: null };
+        } catch (err: any) {
+            return { error: err };
+        }
+    };
 
     const getWishlists = async () => {
         if (!user.value?.id) return [];
         try {
-            const { data, error } = await client.from("wishlist").select("*").eq("user_id", user.value.id);
+            const { data, error } = await client.from("wishlist").select("*").order("created_at", { ascending: false });
             if (error) throw error;
             wishlists.value = (data as iWishlist[]) || [];
             return wishlists.value;
@@ -53,15 +97,12 @@ const useWishlist = defineStore("wishlist-store", () => {
 
     const getContributions = async (wishlistId: string) => {
         try {
-            const { data, error } = await client
-                .from("wishlist_contributions")
-                .select("*")
-                .eq("wishlist_id", wishlistId)
-                .order("created_at", { ascending: false });
+            const { data, error } = await client.rpc("get_wishlist_contributions_with_user", { p_wishlist_id: wishlistId });
             if (error) throw error;
-            contributions.value = (data as iWishlistContribution[]) || [];
+            contributions.value = (data as any[]) || [];
             return contributions.value;
         } catch (err) {
+            console.error("Error fetching contributions:", err);
             return [];
         }
     };
@@ -140,14 +181,18 @@ const useWishlist = defineStore("wishlist-store", () => {
         wishlists,
         detailWishlist,
         contributions,
+        wishlistMembers,
         getWishlists,
         getWishlistById,
         getContributions,
+        getWishlistMembers,
         addWishlist,
         updateWishlist,
         addContribution,
         deleteContribution,
         updateContribution,
+        addWishlistMember,
+        removeWishlistMember,
     };
 });
 

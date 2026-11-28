@@ -23,6 +23,7 @@
                 />
 
                 <button
+                    v-if="isOwner"
                     type="button"
                     class="flex items-center justify-between rounded-2xl bg-white px-4 py-3 ring-1 ring-dark/10"
                     @click="openEdit = true"
@@ -46,6 +47,25 @@
                     <span class="text-xs font-bold text-dark shrink-0">
                         {{ wishlistStore.detailWishlist?.wallet_id ? "Ubah" : "Tambah" }}
                     </span>
+                </button>
+                <button
+                    v-if="isOwner"
+                    type="button"
+                    class="flex items-center justify-between rounded-2xl bg-white px-4 py-3 ring-1 ring-dark/10"
+                    @click="openShared()"
+                >
+                    <div class="flex items-center gap-2 min-w-0">
+                        <div class="rounded-full bg-accent-green size-8 place-content-center">
+                            <UIcon name="solar:share-linear" class="text-md text-dark shrink-0" />
+                        </div>
+                        <div class="min-w-0 text-left">
+                            <p class="text-[10px] font-bold uppercase tracking-widest text-dark">
+                                Bagikan
+                            </p>
+                            <p class="text-xs text-dark/60 truncate">Undang teman ke impian ini</p>
+                        </div>
+                    </div>
+                    <span class="text-xs font-bold text-accent-green shrink-0">Share</span>
                 </button>
             </section>
         </div>
@@ -83,15 +103,23 @@
                     class="flex items-center justify-between gap-3 rounded-2xl bg-white p-4 ring-1 ring-dark/10"
                 >
                     <div class="min-w-0 flex-1">
-                        <p class="text-sm font-black text-dark">
-                            +{{ useFormatPriceIntl(c.amount) }}
-                        </p>
+                        <div class="flex items-center gap-2">
+                            <p class="text-sm font-black text-dark">
+                                +{{ useFormatPriceIntl(c.amount) }}
+                            </p>
+                            <span
+                                v-if="c.creator_name"
+                                class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-dark/5 text-dark/40 uppercase tracking-tighter"
+                            >
+                                {{ c.creator_name }}
+                            </span>
+                        </div>
                         <p v-if="c.note" class="text-xs text-secondary truncate">{{ c.note }}</p>
                         <p class="text-[10px] font-bold text-dark/60 mt-1">
                             {{ new Date(c.created_at).toLocaleDateString("id-ID") }}
                         </p>
                     </div>
-                    <div class="flex items-center gap-1 shrink-0">
+                    <div v-if="c.user_id === user?.id" class="flex items-center gap-1 shrink-0">
                         <UButton
                             icon="solar:pen-linear"
                             color="neutral"
@@ -286,6 +314,79 @@
                 </div>
             </template>
         </USlideover>
+
+        <USlideover
+            v-model:open="openShare"
+            :dismissible="true"
+            side="bottom"
+            :ui="{ content: 'rounded-t-2xl' }"
+        >
+            <template #header>
+                <div class="flex flex-1 items-start justify-between">
+                    <div>
+                        <h2 class="text-xl font-black text-dark">Bagikan Impian</h2>
+                        <p class="mt-1 text-sm font-medium text-dark/70">
+                            Undang teman untuk melihat & menabung bersama.
+                        </p>
+                    </div>
+                    <UButton
+                        icon="lucide:x"
+                        color="neutral"
+                        variant="ghost"
+                        @click="openShare = false"
+                    />
+                </div>
+            </template>
+            <template #body>
+                <div class="flex flex-col gap-4">
+                    <UForm class="flex flex-col gap-3" :state="shareState" @submit="handleShareAdd">
+                        <UFormField label="Email Teman" name="email">
+                            <UInput
+                                v-model="shareState.email"
+                                type="email"
+                                size="xl"
+                                placeholder="nama@email.com"
+                                class="w-full"
+                                :ui="{
+                                    base: 'rounded-2xl bg-white px-4 py-4 font-bold text-dark ring-1 ring-dark',
+                                }"
+                            />
+                        </UFormField>
+                        <UButton
+                            block
+                            size="xl"
+                            color="primary"
+                            type="submit"
+                            :loading="isAddingMember"
+                            class="corner-based bg-accent-green px-6 text-dark hover:bg-accent-green/90"
+                            :ui="{ base: 'py-4' }"
+                        >
+                            Undang
+                        </UButton>
+                    </UForm>
+
+                    <USeparator label="Daftar Anggota" />
+
+                    <div class="flex flex-col gap-2">
+                        <div
+                            v-for="member in wishlistStore.wishlistMembers"
+                            :key="member.id"
+                            class="flex items-center justify-between rounded-2xl bg-white p-3 ring-1 ring-dark/10"
+                        >
+                            <span class="text-sm font-bold text-dark">{{ member.email }}</span>
+                            <UButton
+                                icon="solar:trash-bin-trash-linear"
+                                color="error"
+                                variant="ghost"
+                                size="sm"
+                                :loading="removingMemberId === member.id"
+                                @click="handleShareRemove(member.id)"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </USlideover>
     </div>
 </template>
 
@@ -298,12 +399,17 @@ const route = useRoute();
 const id = computed(() => route.params.id as string);
 const wishlistStore = useWishlist();
 const walletStore = useWallets();
+const user = useSupabaseUser();
+const isOwner = computed(() => wishlistStore.detailWishlist?.user_id === user.value?.id);
 
 const openAdd = ref(false);
 const openEdit = ref(false);
 const openEditContribution = ref(false);
+const openShare = ref(false);
 const isSubmitting = ref(false);
 const isUpdating = ref(false);
+const isAddingMember = ref(false);
+const removingMemberId = ref<string | null>(null);
 const editingContribution = ref<{ id: string; amount: number } | null>(null);
 
 const schema = valibot.required(
@@ -316,6 +422,7 @@ const schema = valibot.required(
 const state = reactive({ amount: 0, note: "" });
 const editState = reactive({ wallet_id: "" });
 const editContributionState = reactive({ amount: 0 });
+const shareState = reactive({ email: "" });
 
 const walletList = computed(() =>
     walletStore.wallets.map((w) => ({ label: useCapitalize(w.name), value: w.id })),
@@ -366,6 +473,51 @@ const handleUpdateWallet = async () => {
         openEdit.value = false;
     } finally {
         isUpdating.value = false;
+    }
+};
+
+const openShared = async () => {
+    shareState.email = "";
+    openShare.value = true;
+    await wishlistStore.getWishlistMembers(id.value);
+};
+
+const handleShareAdd = async () => {
+    if (isAddingMember.value) return;
+    isAddingMember.value = true;
+    try {
+        const res = await wishlistStore.addWishlistMember(id.value, shareState.email);
+        if (res.error) {
+            const msg =
+                (res.error as any)?.code === "23505"
+                    ? "Anggota sudah ada di impian ini"
+                    : (res.error as any)?.message;
+            useToast().add({ title: "Impian", description: msg, color: "error" });
+            return;
+        }
+        useToast().add({
+            title: "Impian",
+            description: "Anggota berhasil ditambahkan",
+            color: "success",
+        });
+        shareState.email = "";
+        await wishlistStore.getWishlistMembers(id.value);
+    } finally {
+        isAddingMember.value = false;
+    }
+};
+
+const handleShareRemove = async (memberId: string) => {
+    removingMemberId.value = memberId;
+    try {
+        const res = await wishlistStore.removeWishlistMember(memberId, id.value);
+        if (res.error) {
+            useToast().add({ title: "Impian", description: res.error.message, color: "error" });
+            return;
+        }
+        await wishlistStore.getWishlistMembers(id.value);
+    } finally {
+        removingMemberId.value = null;
     }
 };
 

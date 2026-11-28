@@ -18,3 +18,11 @@ export interface iWishlistContribution {
     note?: string;
     created_at: string;
 }
+
+export interface iWishlistMember {
+    id: string;
+    wishlist_id: string;
+    user_id: string;
+    email: string;
+    created_at: string;
+}

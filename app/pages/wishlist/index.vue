@@ -3,8 +3,8 @@
         <div class="relative z-1">
             <app-nav-title title="Impian" @close="$router.back()" />
 
-            <section class="px-4 pt-4">
-                <div class="flex flex-col gap-2 pb-6">
+            <section class="px-4 pt-4 flex flex-col gap-8">
+                <div class="flex flex-col gap-2 pb-2">
                     <h2 class="font-bold">Impian & Target Dana</h2>
                     <p class="text-sm">
                         Simpan mimpi & target finansial kamu di sini. Tambahkan progres dana saat
@@ -12,7 +12,15 @@
                     </p>
                 </div>
 
-                <wishlist-list :is-pages="true" />
+                <div class="flex flex-col gap-4">
+                    <h3 class="font-black text-dark px-1">Milik Saya</h3>
+                    <wishlist-list :items="myWishlists" />
+                </div>
+
+                <div v-if="sharedWishlists.length > 0" class="flex flex-col gap-4 pb-12">
+                    <h3 class="font-black text-dark px-1">Dibagikan ke Saya</h3>
+                    <wishlist-list :items="sharedWishlists" hide-empty />
+                </div>
             </section>
 
             <wishlist-add v-model:open="openAdd" />
@@ -36,6 +44,14 @@ const openAdd = shallowRef(false);
 
 const wishlistStore = useWishlist();
 const walletStore = useWallets();
+const user = useSupabaseUser();
+
+const myWishlists = computed(() =>
+    wishlistStore.wishlists.filter((w) => w.user_id === user.value?.id),
+);
+const sharedWishlists = computed(() =>
+    wishlistStore.wishlists.filter((w) => w.user_id !== user.value?.id),
+);
 
 await useAsyncData(
     "wishlist-data-page",
